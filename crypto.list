@@ -44,6 +44,7 @@ DOMAIN-SUFFIX,token.im
 DOMAIN-SUFFIX,trustwallet.com
 DOMAIN-SUFFIX,uniswap.org
 DOMAIN-SUFFIX,zksync.io
+DOMAIN-SUFFIX,coinglass.com
 PROCESS-NAME,Binance.exe
 PROCESS-NAME,Huobi.exe
 PROCESS-NAME,OKX.exe
