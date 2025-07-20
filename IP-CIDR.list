@@ -1,0 +1,6 @@
+# IP段匹配
+IP-CIDR,38.246.112.104/32,no-resolve
+IP-CIDR,72.67.205.47/32,no-resolve
+IP-CIDR,52.57.97.56/32,no-resolve
+IP-CIDR,52.41.75.47/32,no-resolve
+IP-CIDR,172.104.89.111/32,no-resolve
