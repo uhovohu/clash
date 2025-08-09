@@ -1,4 +1,5 @@
 # ByteDance 分流规则
+DOMAIN,v5-gzb2-x-hl-qn.douyinvod.com
 DOMAIN-SUFFIX,2333333333333.com
 DOMAIN-SUFFIX,365yg.com
 DOMAIN-SUFFIX,activitybyte.com
@@ -64,6 +65,7 @@ DOMAIN-SUFFIX,dongchediapp.com
 DOMAIN-SUFFIX,doubao.cn
 DOMAIN-SUFFIX,doubao.com
 DOMAIN-SUFFIX,douyin.com
+DOMAIN-SUFFIX,douyinvod.com
 DOMAIN-SUFFIX,douyinact.com
 DOMAIN-SUFFIX,douyinact.net
 DOMAIN-SUFFIX,douyinclips.com
@@ -313,3 +315,4 @@ DOMAIN-SUFFIX,pstatp.com
 DOMAIN-SUFFIX,toutiao.com
 IP-CIDR,114.246.10.65/32,no-resolve
 PROCESS-NAME,com.zhiliaoapp.musically
+
