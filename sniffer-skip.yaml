@@ -1,0 +1,59 @@
+ skip-domain:
+    # ── LAN / 私有域名 ──
+    - +.lan
+    - +.local
+    - +.localdomain
+    - +.localhost
+    - +.test
+    - +.example
+    - +.invalid
+    - +.bogon
+    - +.internal
+    - +.direct
+    - +.home.arpa
+    - +.in-addr.arpa        # 覆盖所有 RFC 1918 / RFC 6598 反向 DNS
+    - +.ip6.arpa            # 覆盖所有 IPv6 反向 DNS
+
+    # ── WPAD / mDNS 服务发现 ──
+    - +.wpad
+    - +.wpad.local
+    - +.wpad.lan
+    - +._tcp.local
+    - +._udp.local
+    - +._dns.resolver.arpa
+    - +._dns-sd._udp.local
+    - +._dns-sd._udp.lan
+    - +._googlecast._tcp.local
+    - +._apple-mobdev2._tcp.local
+    - +._universal-control._tcp.local
+    - +._sleep-proxy._udp.local
+
+    # ── 音乐平台（私有流媒体协议，嗅探易误判）──
+    - +.music.163.com
+    - +.126.net
+    - musicapi.taihe.com
+    - music.taihe.com
+    - songsearch.kugou.com
+    - trackercdn.kugou.com
+    - +.kuwo.cn
+    - api-jooxtt.sanook.com
+    - api.joox.com
+    - joox.com
+    - +.y.qq.com
+    - streamoc.music.tc.qq.com
+    - mobileoc.music.tc.qq.com
+    - isure.stream.qqmusic.qq.com
+    - dl.stream.qqmusic.qq.com
+    - aqqmusic.tc.qq.com
+    - amobile.music.tc.qq.com
+    - +.xiami.com
+    - +.music.migu.cn
+
+    # ── Windows 连通性检测（专用 HTTP 探测，嗅探会破坏结果）──
+    - +.msftconnecttest.com
+    - +.msftncsi.com
+
+
+    # ── 自用 ──
+    - rules.uhovohu.com
+    - sub.uhovohu.com
