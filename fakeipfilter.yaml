@@ -1,0 +1,216 @@
+payload:
+
+  # ── LAN / 私有域名 ──
+  - +.lan
+  - +.local
+  - +.localdomain
+  - +.localhost
+  - +.test
+  - +.example
+  - +.invalid
+  - +.bogon
+  - +.internal
+  - +.direct
+  - +.home.arpa
+  - +.in-addr.arpa      # 覆盖所有 RFC 1918 / RFC 6598 反向 DNS
+  - +.ip6.arpa          # 覆盖所有 IPv6 反向 DNS
+
+  # ── WPAD / mDNS 服务发现 ──
+  - +.wpad
+  - +.wpad.local
+  - +.wpad.lan
+  - +._dns.resolver.arpa
+  - +._dns-sd._udp.local
+  - +._dns-sd._udp.lan
+  - +._googlecast._tcp.local
+  - +._apple-mobdev2._tcp.local
+  - +._universal-control._tcp.local
+  - +._sleep-proxy._udp.local
+
+  # ── NTP 时间服务 ──
+  # time.*.com → 枚举主流服务商（中间通配无法直接表达）
+  - time.cloudflare.com
+  - time.google.com
+  - time.windows.com
+  - time.apple.com
+  - time.aliyun.com
+  - time.tencent.com
+  - time.amazonaws.com
+  - time.izatcloud.net
+  - time-ios.apple.com
+  - time.nist.gov
+  - +.time.edu.cn
+  - +.time.apple.com
+  # time1-7 / ntp1-7 → 枚举常见服务商
+  - time1.aliyun.com
+  - time2.aliyun.com
+  - time3.aliyun.com
+  - time4.aliyun.com
+  - time5.aliyun.com
+  - time6.aliyun.com
+  - time7.aliyun.com
+  - time1.cloud.tencent.com
+  - time2.cloud.tencent.com
+  - time3.cloud.tencent.com
+  - ntp.aliyun.com
+  - ntp1.aliyun.com
+  - ntp2.aliyun.com
+  - ntp3.aliyun.com
+  - ntp4.aliyun.com
+  - ntp5.aliyun.com
+  - ntp6.aliyun.com
+  - ntp7.aliyun.com
+  - ntp.tencent.com
+  - ntp1.tencent.com
+  - ntp2.tencent.com
+  - ntp3.tencent.com
+  - ntp4.tencent.com
+  - ntp5.tencent.com
+  - +.ntp.org.cn
+  - +.pool.ntp.org
+
+  # ── 音乐平台 ──
+  # 网易云音乐
+  - +.music.163.com
+  - +.126.net
+  # 百度音乐
+  - musicapi.taihe.com
+  - music.taihe.com
+  # 酷狗音乐
+  - songsearch.kugou.com
+  - trackercdn.kugou.com
+  # 酷我音乐
+  - +.kuwo.cn
+  # JOOX
+  - api-jooxtt.sanook.com
+  - api.joox.com
+  - joox.com
+  # QQ音乐
+  - +.y.qq.com
+  - streamoc.music.tc.qq.com
+  - mobileoc.music.tc.qq.com
+  - isure.stream.qqmusic.qq.com
+  - dl.stream.qqmusic.qq.com
+  - aqqmusic.tc.qq.com
+  - amobile.music.tc.qq.com
+  # 虾米音乐
+  - +.xiami.com
+  # 咪咕音乐
+  - +.music.migu.cn
+
+  # ── Windows 连通性检测 ──
+  - +.msftconnecttest.com
+  - +.msftncsi.com
+
+  # ── QQ / 微信登录 ──
+  - localhost.ptlogin2.qq.com
+  - localhost.sec.qq.com
+  - +.weixin.qq.com
+  - +.kk-rays.com
+
+  # ── 游戏平台 ──
+  # Steam
+  - +.steamcontent.com
+  # Nintendo Switch
+  - +.srv.nintendo.net
+  - +.cdn.nintendo.net
+  # Microsoft Xbox
+  - +.xboxlive.com
+  - +.xbox.microsoft.com
+  - xnotify.xboxlive.com
+  # Wargaming
+  - +.battle.net
+  - +.battlenet.com.cn
+  - +.wotgame.cn
+  - +.wggames.cn
+  - +.wowsgame.cn
+  - +.wargaming.net
+
+  # ── Golang ──
+  - proxy.golang.org
+
+  # ── STUN（枚举主流服务器）──
+  - +.stun.l.google.com
+  - +.stun.cloudflare.com
+  - +.stun.nextcloud.com
+  - +.stun.ekiga.net
+  - +.stun.twilio.com
+  - +.stun.relay.metered.ca
+  - +.stun.stunprotocol.org
+  - +.stun.sipgate.net
+  - +.stun.counterpath.com
+  - +.stun.1und1.de
+
+  # ── 路由器 ──
+  - heartbeat.belkin.com
+  - +.linksys.com
+  - +.linksyssmartwifi.com
+  - +.router.asus.com
+
+  # ── Apple 软件更新 ──
+  - mesu.apple.com
+  - swscan.apple.com
+  - swquery.apple.com
+  - swdownload.apple.com
+  - swcdn.apple.com
+  - swdist.apple.com
+
+  # ── Google ──
+  - lens.l.google.com
+  - na.b.g-tun.com
+
+  # ── Final Fantasy XIV ──
+  - +.square-enix.com
+  - +.finalfantasyxiv.com
+  - +.ffxiv.com
+  - +.ff14.sdo.com
+  - ff.dorado.sdo.com
+
+  # ── Bilibili ──
+  - +.mcdn.bilivideo.cn
+
+  # ── Disney+ ──
+  - +.media.dssott.com
+
+  # ── shark007 Codecs ──
+  - shark007.net
+
+  # ── Xiaomi ──
+  - +.market.xiaomi.com
+
+  # ── 招商银行 ──
+  - +.cmbchina.com
+  - +.cmbimg.com
+
+  # ── AdGuard ──
+  - adguardteam.github.io
+  - adrules.top
+  - anti-ad.net
+  - local.adguard.org
+  - static.adtidy.org
+
+  # ── 迅雷 ──
+  - +.sandai.net
+  - +.n0808.com
+
+  # ── 运营商 Wifi Calling ──
+  - +.3gppnetwork.org
+
+  # ── UU 加速器 ──
+  - +.uu.163.com
+  - ps.res.netease.com
+
+  # ── 向日葵远程控制 ──
+  - +.oray.com
+  - +.orayimg.com
+
+  # ── LOL 语音 ──
+  - +.gcloudcs.com
+  - +.gcloudsdk.com
+
+  # ── DDNS ──
+  - +.dynv6.net
+
+  # ── 自用 ──
+  - rules.uhovohu.com
+  - sub.uhovohu.com
