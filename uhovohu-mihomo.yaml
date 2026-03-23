@@ -215,57 +215,23 @@ dns:
     "rule-set:R-securities-cn": system       # 国内证券 → 系统 DNS
     "rule-set:R-finance-cn": system          # 国内金融 → 系统 DNS
     "rule-set:R-ntp-cn": system
-    "rule-set:R-tencent":
-      - 223.5.5.5
-      - 119.29.29.29
-    "rule-set:R-tendcloud":
-      - 223.5.5.5
-      - 119.29.29.29
-    "rule-set:R-tencent-dev":
-      - 223.5.5.5
-      - 119.29.29.29
-    "rule-set:R-tencent-games":
-      - 223.5.5.5
-      - 119.29.29.29
-    "rule-set:R-aliyun":
-      - 223.5.5.5
-      - 119.29.29.29
-    "rule-set:R-aliyun-drive":
-      - 223.5.5.5
-      - 119.29.29.29
-    "rule-set:R-alibaba":
-      - 223.5.5.5
-      - 119.29.29.29
-    "rule-set:R-alibabacloud":
-      - 223.5.5.5
-      - 119.29.29.29
-    "rule-set:R-jingdong":
-      - 223.5.5.5
-      - 119.29.29.29
-    "rule-set:R-meituan": 
-      - 223.5.5.5
-      - 119.29.29.29
-    "rule-set:R-icloud-cn":
-      - 223.5.5.5
-      - 119.29.29.29
-    "rule-set:R-itunes-cn":
-      - 223.5.5.5
-      - 119.29.29.29
-    "rule-set:R-apple-update":
-      - 223.5.5.5
-      - 119.29.29.29
-    "rule-set:R-apple-cn":
-      - 223.5.5.5
-      - 119.29.29.29
-    "rule-set:R-apple-at-cn":
-      - 223.5.5.5
-      - 119.29.29.29
-    "rule-set:R-apple-dev-cn":
-      - 223.5.5.5
-      - 119.29.29.29
-    "rule-set:R-apple-pki-cn":
-      - 223.5.5.5
-      - 119.29.29.29
+    "rule-set:R-tencent": 223.5.5.5
+    "rule-set:R-tendcloud": 223.5.5.5
+    "rule-set:R-tencent-dev": 223.5.5.5
+    "rule-set:R-tencent-games": 223.5.5.5
+    "rule-set:R-aliyun": 223.5.5.5
+    "rule-set:R-aliyun-drive": 223.5.5.5
+    "rule-set:R-alibaba": 223.5.5.5
+    "rule-set:R-alibabacloud": 223.5.5.5
+    "rule-set:R-jingdong": 223.5.5.5
+    "rule-set:R-meituan": 223.5.5.5
+    "rule-set:R-icloud-cn": 223.5.5.5
+    "rule-set:R-itunes-cn": 223.5.5.5
+    "rule-set:R-apple-update": 223.5.5.5
+    "rule-set:R-apple-cn": 223.5.5.5
+    "rule-set:R-apple-at-cn": 223.5.5.5
+    "rule-set:R-apple-dev-cn": 223.5.5.5
+    "rule-set:R-apple-pki-cn": 223.5.5.5
     
   # ── Fake-IP ──
   fake-ip-filter:
