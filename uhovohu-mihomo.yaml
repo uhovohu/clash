@@ -1,0 +1,1061 @@
+# =======================================================
+# 1. 机场订阅 Proxy Providers
+# =======================================================
+proxy-providers:
+  provider1:
+    url: "填入订阅"
+    type: http
+    interval: 86400
+    health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
+    proxy: DIRECT
+  
+  provider2:
+    url: "填入订阅"
+    type: http
+    interval: 86400
+    health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
+    proxy: DIRECT
+  
+  provider3:
+    url: "填入订阅"
+    type: http
+    interval: 86400
+    health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
+    proxy: DIRECT
+
+#proxies:
+#  - name: "手动节点1"
+#  - name: "手动节点2"
+
+# =======================================================
+# 2. 全局参数 Global Settings
+# =======================================================
+
+# ── 系统设置 ──
+mixed-port: 7890                             # 混合代理端口
+allow-lan: true                              # 允许局域网连接
+bind-address: "*"                            # 绑定所有网卡 IP，确保本机所有内网 IP 都能接收局域网请求
+ipv6: false                                  # 关闭 IPv6 解析
+log-level: warning                           # 日志级别 仅记录警告和错误，保持后台清爽并节省硬盘
+
+# ── 分流与防封锁机制 ──
+find-process-mode: off                       # 进程匹配模式: off 关闭进程规则/ strict 按需精准匹配/ always 强制查询耗性能
+global-client-fingerprint: chrome            # 全局 TLS 指纹伪装: 伪装为正常浏览器，降低节点被墙概率 可选 chrome/ios/random 等
+
+# ── 性能与连接优化 ──
+unified-delay: true                          # 统一延迟计算方式
+tcp-concurrent: true                         # 开启 TCP 并发连接，大幅加快多图网页加载速度
+keep-alive-idle: 600                         # TCP 空闲 600 秒后启动保活探针
+keep-alive-interval: 15                      # 保活心跳包发送间隔 15 秒
+
+# ── 运行状态持久化 ──
+profile:                                     # 记忆功能
+  store-selected: true                       # 记忆手动选择的节点
+  store-fake-ip: true                        # 记忆 Fake-IP 映射表
+
+# ── Clash api ──                            # 默认注释 Nikki可取消注释使用  win mac等桌面gui客户端保持注释避免冲突
+#external-controller: 0.0.0.0:9095
+#secret: ""
+#external-ui: ui
+#external-ui-name: zashboard
+#external-ui-url: "https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip"
+
+# =======================================================
+# 3. 流量嗅探 Sniffer
+# =======================================================
+
+# ── Sniffer ──
+sniffer:
+  enable: true                               # 核心开关 开启流量嗅探
+  sniff:
+    HTTP:
+      ports: [80, 8080]                      # 嗅探 HTTP 协议的标准端口及常见的非标大端口
+      override-destination: true             # 局部覆盖 强制用嗅探到的真实域名替换 HTTP 请求中的假 IP
+    TLS:
+      ports: [443]                           # 嗅探 HTTPS/TLS 加密流量，通过读取握手包中的 SNI 获取真实域名
+    QUIC:
+      ports: [443]                           # 嗅探 QUIC HTTP/3 协议流量
+  skip-domain:                               # 嗅探豁免名 遇到以下域名直接放行不拆包，防止破坏特殊协议导致断连
+    # ── LAN ──
+    - +.lan
+    - +.local
+    - +.localdomain
+    - +.localhost
+    - +.test
+    - +.example
+    - +.invalid
+    - +.bogon
+    - +.internal
+    - +.direct
+    - +.home.arpa
+    - +.in-addr.arpa
+    - +.ip6.arpa
+
+    # ── WPAD / mDNS ──
+    - +.wpad
+    - +.wpad.local
+    - +.wpad.lan
+    - +._tcp.local
+    - +._udp.local
+    - +._dns.resolver.arpa
+    - +._dns-sd._udp.local
+    - +._dns-sd._udp.lan
+    - +._googlecast._tcp.local
+    - +._apple-mobdev2._tcp.local
+    - +._universal-control._tcp.local
+    - +._sleep-proxy._udp.local
+
+    # ── 音乐平台 ──
+    - +.music.163.com
+    - +.126.net
+    - musicapi.taihe.com
+    - music.taihe.com
+    - songsearch.kugou.com
+    - trackercdn.kugou.com
+    - +.kuwo.cn
+    - api-jooxtt.sanook.com
+    - api.joox.com
+    - joox.com
+    - +.y.qq.com
+    - streamoc.music.tc.qq.com
+    - mobileoc.music.tc.qq.com
+    - isure.stream.qqmusic.qq.com
+    - dl.stream.qqmusic.qq.com
+    - aqqmusic.tc.qq.com
+    - amobile.music.tc.qq.com
+    - +.xiami.com
+    - +.music.migu.cn
+
+    # ── 连通性检测 ──
+    - +.msftconnecttest.com
+    - +.msftncsi.com  
+    
+    # ── telegram ──
+    - 5.28.192.0/18
+    - 5.28.195.2/32
+    - 67.198.55.0/24
+    - 91.105.192.0/23
+    - 91.108.4.0/22
+    - 91.108.8.0/21
+    - 91.108.16.0/21
+    - 91.108.56.0/22
+    - 95.161.64.0/20
+    - 91.108.56.139/32
+    - 109.239.140.0/24
+    - 139.59.210.98/32
+    - 149.154.160.0/20
+    - 149.154.167.41/32
+    - 149.154.175.56/32
+    - 185.76.151.0/24
+    - 196.55.216.167/32
+    - 2001:67c:4e8::/48
+    - 2001:b28:f23c::/47
+    - 2001:b28:f23f::/48
+    - 2001:b28:f242::/48
+    - 2a0a:f280:203::/48
+    
+    # ── ???? ──
+    - 149.154.166.111/32
+    - 120.83.144.66/32
+    
+
+
+# =======================================================
+# 4. 虚拟网卡 TUN
+# =======================================================
+tun:
+  enable: true                               # 开启 TUN 虚拟网卡
+  stack: mixed                               # 混合网络栈：TCP 走 system (高性能)，UDP 走 gVisor (高兼容)
+  dns-hijack: ["any:53", "tcp://any:53"]     # 双重劫持标准 DNS 端口，彻底防泄漏
+  
+  #device: nikki                             #使用nikki，混入全部不修改的情况，开启接口指定为nikki
+  
+  #使用仅内核自行修改下面三项为true 路由控制 使用 GUI 客户端保持 false，纯内核命令行运行改为 true
+  auto-route: false                          # 不自动修改系统路由表，交由外层客户端管理，防冲突
+  auto-redirect: false                       # 不自动配置重定向流量规则
+  auto-detect-interface: false               # 不自动探测物理出口网卡
+  strict-route: false                        # 严格路由限制 开启后物理网卡被锁死，GUI 环境建议 false
+
+# =======================================================
+# 5. DNS
+# =======================================================
+
+dns:
+  # ── 运行参数 ──
+  enable: true                               # 开启内置 DNS 服务
+  cache-algorithm: arc                       # DNS 缓存淘汰算法 ARC 相比传统 LRU 命中率更高
+  listen: 0.0.0.0:1053                       # DNS 服务监听端口
+  ipv6: false                                # 关闭 IPv6 解析 保持与全局设置一致
+  respect-rules: false                       # DNS 请求无视底层分流规则，由下方 DNS 设定自身决定走向
+
+  # ── Fake-IP ──
+  enhanced-mode: fake-ip                     # 开启 Fake-IP 增强模式 秒回假 IP，极大提升网络响应速度
+  fake-ip-range: 28.0.0.1/8                  # 假 IP 池分配网段 使用 28 网段可避免与常见局域网 192.168 冲突
+  fake-ip-filter-mode: blacklist             # 黑名单过滤模式 名单内的域名不返回假 IP，要求真实解析
+
+  # ── DNS ──
+  default-nameserver:                        # 基础启动 用于最底层解析下方 proxy-server-nameserver 本身及代理节点的域名
+    - 223.5.5.5
+    - 223.6.6.6
+  proxy-server-nameserver:                   # 节点专线 专职负责解析 “节点” 和 “订阅链接” 的真实 IP
+    - https://223.5.5.5/dns-query
+    - https://doh.pub/dns-query
+  direct-nameserver:                         # 直连兜底 专职负责解析走 DIRECT 分流规则的域名
+    - 223.5.5.5
+  nameserver:                                # 国外兜底 处理所有未知的兜底域名，防止 DNS 污染 附带节点选择强制走代理出境
+    - https://1.1.1.1/dns-query#Proxy
+
+  # ── DNS 分流 ──
+  nameserver-policy:
+    "rule-set:R-private": system             # 局域网 / 私有域名 → 系统 DNS 路由器，避免本地设备发现失败
+    "rule-set:R-fakeipfilter": system        # Fake-IP 豁免域名 → 系统 DNS，确保返回真实 IP
+    "rule-set:R-connectivity": system        # 连通性检测 微软/苹果 → 系统 DNS，防止误报"无网络"
+    "rule-set:R-cdn-cn": system              # 国内 CDN → 系统 DNS，获得最近节点 IP
+    "rule-set:R-bank-cn": system             # 国内银行 → 系统 DNS，防止 DNS 污染导致证书异常
+    "rule-set:R-securities-cn": system       # 国内证券 → 系统 DNS
+    "rule-set:R-finance-cn": system          # 国内金融 → 系统 DNS
+    "rule-set:R-ntp-cn": system
+    "rule-set:R-tencent":
+      - 223.5.5.5
+      - 119.29.29.29
+    "rule-set:R-tendcloud":
+      - 223.5.5.5
+      - 119.29.29.29
+    "rule-set:R-tencent-dev":
+      - 223.5.5.5
+      - 119.29.29.29
+    "rule-set:R-tencent-games":
+      - 223.5.5.5
+      - 119.29.29.29
+    "rule-set:R-aliyun":
+      - 223.5.5.5
+      - 119.29.29.29
+    "rule-set:R-aliyun-drive":
+      - 223.5.5.5
+      - 119.29.29.29
+    "rule-set:R-alibaba":
+      - 223.5.5.5
+      - 119.29.29.29
+    "rule-set:R-alibabacloud":
+      - 223.5.5.5
+      - 119.29.29.29
+    "rule-set:R-jingdong":
+      - 223.5.5.5
+      - 119.29.29.29
+    "rule-set:R-meituan": 
+      - 223.5.5.5
+      - 119.29.29.29
+    "rule-set:R-icloud-cn":
+      - 223.5.5.5
+      - 119.29.29.29
+    "rule-set:R-itunes-cn":
+      - 223.5.5.5
+      - 119.29.29.29
+    "rule-set:R-apple-update":
+      - 223.5.5.5
+      - 119.29.29.29
+    "rule-set:R-apple-cn":
+      - 223.5.5.5
+      - 119.29.29.29
+    "rule-set:R-apple-at-cn":
+      - 223.5.5.5
+      - 119.29.29.29
+    "rule-set:R-apple-dev-cn":
+      - 223.5.5.5
+      - 119.29.29.29
+    "rule-set:R-apple-pki-cn":
+      - 223.5.5.5
+      - 119.29.29.29
+    
+  # ── Fake-IP ──
+  fake-ip-filter:
+    - "rule-set:R-private"                   # 局域网 / 私有域名：必须返回真实 IP，否则本地服务无法访问
+    - "rule-set:R-fakeipfilter"              # 标准 Fake-IP 豁免表 NTP / STUN / 音乐 / 游戏等
+    - "rule-set:R-connectivity"              # 连通性探测：返回假 IP 会导致 Windows/macOS 报断网
+    - "rule-set:R-cdn-cn"                    # 国内 CDN：需要真实 IP 做就近调度
+    - "rule-set:R-bank-cn"                   # 国内银行：假 IP 会触发证书校验失败
+    - "rule-set:R-securities-cn"             # 国内证券
+    - "rule-set:R-finance-cn"                # 国内金融
+    - "rule-set:R-ntp-cn"                    # 国内 NTP：假 IP 导致时间同步失败
+    - "rule-set:R-wechat"
+    - "rule-set:R-tencent"
+    - "rule-set:R-tendcloud"
+    - "rule-set:R-tencent-dev"
+    - "rule-set:R-aliyun"
+    - "rule-set:R-aliyun-drive"
+    - "rule-set:R-alibaba"
+    - "rule-set:R-alibabacloud"
+    - "rule-set:R-jingdong"
+    - "rule-set:R-meituan"
+    - "rule-set:R-icloud-cn"                 # iCloud 国内节点 云上贵州
+    - "rule-set:R-itunes-cn"                 # iTunes 国内节点
+    - "rule-set:R-apple-update"              # iOS/macOS 系统更新
+    - "rule-set:R-apple-cn"                  # Apple 中国专属域名
+    - "rule-set:R-apple-at-cn"               # Apple 国内服务补充
+    - "rule-set:R-apple-dev-cn"              # Apple 开发者国内节点
+    - "rule-set:R-apple-pki-cn"              # Apple 证书国内节点
+    - "rule-set:R-icloud"                    # iCloud
+    - "rule-set:R-itunes"                    # iTunes
+    - "rule-set:R-apple"                     # Apple 全家桶
+
+# =======================================================
+# 6. 策略组 Proxy Groups
+# =======================================================
+
+# ── 地区节点匹配正则 支持国旗 / 中英文 / 地区代码 ──
+FilterHK: &FilterHK '(?i)(?:🇭🇰|香港|Hong\s?Kong|\b(?:HK|HKG)\d*\b)'
+FilterTW: &FilterTW '(?i)(?:🇹🇼|台湾|Tai(?:wan)?|\b(?:TW|TWN)\d*\b)'
+FilterJP: &FilterJP '(?i)(?:🇯🇵|日本|川日|东京|大阪|埼玉|Japan|\b(?:JP|JPN)\d*\b)'
+FilterKR: &FilterKR '(?i)(?:🇰🇷|韩国|韓|首尔|Korea|\b(?:KR|KOR)\d*\b)'
+FilterSG: &FilterSG '(?i)(?:🇸🇬|新加坡|狮|Singapore|\b(?:SG|SGP)\d*\b)'
+FilterUS: &FilterUS '(?i)(?:🇺🇸|美国|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|拉斯维加斯|United States|\b(?:US|USA)\d*\b)'
+
+# ── 全局节点净化 排除广告 / 流量信息 / 到期时间等非节点内容 ──
+FilterAll: &FilterAll '^(?!.*(?:(?i)群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|剩余流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|超时|收藏|福利|失联|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|\d{4}-\d{2}-\d{2}|\d+G)).*$'
+
+# ── Others节点过滤 在净化的基础上，排除已提取的常用地区节点 ──
+FilterOthers: &FilterOthers '^(?!.*(?:(?i)群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|剩余流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|超时|收藏|福利|失联|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|\d{4}-\d{2}-\d{2}|\d+G|🇭🇰|香港|Hong\s?Kong|\bHKG?\d*\b|🇹🇼|台湾|Taiwan?|\bTWN?\d*\b|🇯🇵|日本|川日|东京|大阪|埼玉|Japan|\bJPN?\d*\b|🇰🇷|韩国|韓|首尔|Korea|(?:KR|KOR)\d*|🇸🇬|新加坡|Singapore|\bSGP?\d*\b|🇺🇸|美国|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|拉斯维加斯|United\s?States|\bUSA?\d*\b)).*$'
+
+proxy-groups:
+
+  # ── 链式代理 ──
+  - {name: IN,  type: select, include-all: true, filter: *FilterAll}                          # 入口节点：链路第一跳，流量先进入此节点 一般是线路节点
+  - {name: OUT, type: select, include-all: true, filter: *FilterAll, dialer-proxy: "IN"}      # 出口节点：链路第二跳，由 入口节点 中转到 出口节点， 一般是落地节点
+  
+  # ── Proxy ──
+  - {name: Proxy,       type: select, include-all: true, filter: *FilterAll, proxies: [OUT]}                            # 全部节点手动选择入口
+
+  # ── Proxy App ──
+  
+  - {name: OpenAI,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # OpenAI / ChatGPT
+  - {name: Anthropic,   type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Anthropic / Claude
+  - {name: AI,          type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # AI 杂项 (Perplexity / Groq / Cerebras / HuggingFace / Cursor / ElevenLabs / ComfyUI / 兜底)
+  - {name: Crypto,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # 加密货币
+  - {name: YouTube,     type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # YouTube
+  - {name: Google,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Google 全家桶
+  - {name: Cloudflare,  type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Cloudflare
+  - {name: GitHub,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # GitHub
+  - {name: Microsoft,   type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Microsoft 全家桶
+  - {name: Adobe,       type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Adobe 全家桶
+  - {name: Apple,       type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Apple 全家桶
+  - {name: Android,     type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Android / Google Play
+
+  - {name: X,           type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # X / Twitter / 马斯克系
+  - {name: Meta,        type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Meta (Facebook / Instagram / WhatsApp)
+  - {name: Telegram,    type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Telegram
+  - {name: Discord,     type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Discord
+  - {name: Social,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # 社交杂项 (Reddit / Tumblr / LINE)
+
+  - {name: TikTok,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # TikTok / 字节跳动海外
+  - {name: Netflix,     type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Netflix
+  - {name: Spotify,     type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Spotify
+  - {name: Media,       type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # 流媒体杂项 (Hulu / Prime Video / DAZN / HBO / Disney+ / Vimeo / Twitch / Rumble / Plex)
+  - {name: BiliBil,     type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Bilibili
+  
+  - {name: Steam,       type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Steam
+  - {name: Epic,        type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Epic Games
+  - {name: TapTap,      type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # TapTap
+  
+  - {name: Speedtest,   type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # 测速
+ 
+  # ── R18 默认注释 ──
+  # - {name: R18, type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}       # 成人内容
+
+  # ── CN / Final ──
+  - {name: CN,          type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # 默认国内直连
+  - {name: Final,       type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # 未匹配流量
+
+  # ── Regions ──
+  - {name: HK,          type: select, include-all: true, filter: *FilterHK}      # 香港节点
+  - {name: TW,          type: select, include-all: true, filter: *FilterTW}      # 台湾节点
+  - {name: JP,          type: select, include-all: true, filter: *FilterJP}      # 日本节点
+  - {name: KR,          type: select, include-all: true, filter: *FilterKR}      # 韩国节点
+  - {name: SG,          type: select, include-all: true, filter: *FilterSG}      # 新加坡节点
+  - {name: US,          type: select, include-all: true, filter: *FilterUS}      # 美国节点
+  - {name: OTHERS1,     type: select, include-all: true, filter: *FilterOthers}  # 其他节点 A
+  - {name: OTHERS2,     type: select, include-all: true, filter: *FilterOthers}  # 其他节点 B
+
+# =======================================================
+# 7. 规则源 Rule Providers
+# =======================================================
+
+# ===== 锚点 Providers =====
+rule-anchor:
+  ip:           &ip           {type: http, behavior: ipcidr,    format: mrs,  interval: 86400, proxy: Proxy}
+  domain:       &domain       {type: http, behavior: domain,    format: mrs,  interval: 86400, proxy: Proxy}
+  yaml:         &yaml         {type: http, behavior: domain,    format: yaml, interval: 86400, proxy: Proxy}
+  yaml-ip:      &yaml-ip      {type: http, behavior: ipcidr,    format: yaml, interval: 86400, proxy: Proxy}
+  yaml-classic: &yaml-classic {type: http, behavior: classical, format: yaml, interval: 86400, proxy: Proxy}
+  list-class:   &list-class   {type: http, behavior: classical, format: text, interval: 86400, proxy: Proxy}
+
+# ===== 远程规则集 Remote Rule =====
+rule-providers:
+
+  # ══════════════════════════════════════════
+  # 1.REJECT
+  # ══════════════════════════════════════════
+  R-icloudprivaterelay: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/icloudprivaterelay.mrs"}             # iCloud私有中继 → REJECT
+  R-reject:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/reject.yaml"}
+  R-reject-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/reject-ip.yaml"}
+  R-ads:                {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ads-all.mrs"}               # 全量广告拦截 → REJECT
+  R-ads-add:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/ads-add.yaml"}
+  R-ads-add-ip:         {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/ads-add-ip.yaml"}
+  R-httpdns-cn:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-httpdns-cn.mrs"}            # 国内HTTPDNS劫持 → REJECT
+  R-win-spy:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/win-spy.mrs"}                        # Windows隐私追踪 → REJECT
+
+  # ══════════════════════════════════════════
+  # 2.LAN
+  # ══════════════════════════════════════════
+  R-private:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}                        # 内网域名 → DIRECT
+  R-fakeipfilter:       {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/fakeipfilter.yaml"}                                      # FakeIP过滤 → DIRECT
+  R-connectivity:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/connectivity-check.mrs"}             # 网络连通性检测 → DIRECT
+
+  # ══════════════════════════════════════════
+  # 3.Proxy
+  # ══════════════════════════════════════════
+
+  # ── YouTube ──
+  R-youtube:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"}                        # YouTube
+  
+  # ── Google ──
+  R-google:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}                         # Google全家桶
+  R-google-ip:          {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"} 
+  R-FCM:                {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/googlefcm.mrs"}                      # Firebase推送
+  R-gemini:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-gemini.mrs"}                  # Gemini AI
+  R-deepmind:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-deepmind.mrs"}                # DeepMind
+  R-google-play:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-play.mrs"}                    # Google Play
+  R-google-play-cn:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-play@cn.mrs"}                 # Google Play国内节点 → DIRECT
+  R-google-scholar:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-scholar.mrs"}                 # Google学术
+  R-firebase:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/firebase.mrs"}                       # Firebase开发平台
+  R-firebase-cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/firebase@cn.mrs"}                    # Firebase国内节点 → DIRECT
+  R-fonts:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/fonts.mrs"}                          # Google字体
+  R-golang:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/golang.mrs"}                         # Go语言官方
+  R-dart:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/dart.mrs"}                           # Dart语言
+  R-v8:                 {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/v8.mrs"}                             # V8引擎
+  R-goproxy:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/goproxy.mrs"}                        # Go模块代理
+  R-amp:                {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/amp.mrs"}                            # Google AMP
+  R-amp-cn:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/amp@cn.mrs"}                         # Google AMP国内节点 → DIRECT
+
+  # ── Adobe ──
+  R-adobe-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/adobe@cn.mrs"}                       # Adobe国内节点 → DIRECT
+  R-adobe-activation:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/adobe-activation.mrs"}               # Adobe激活服务
+  R-adobe:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/adobe.mrs"}                          # Adobe全家桶
+
+  # ── OpenAI ──
+  R-openai:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/openai.mrs"}                         # OpenAI
+  
+  # ── Anthropic ──
+  R-anthropic:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/anthropic.mrs"}                      # Anthropic / Claude
+  
+  # ── AI ──
+  R-perplexity:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/perplexity.mrs"}                     # Perplexity AI搜索
+  R-groq:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/groq.mrs"}                           # Groq AI推理
+  R-cerebras:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cerebras.mrs"}                       # Cerebras AI
+  R-huggingface:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/huggingface.mrs"}                    # Hugging Face
+  R-cursor:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cursor.mrs"}                         # Cursor AI编辑器
+  R-elevenlabs:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/elevenlabs.mrs"}                     # ElevenLabs AI语音
+  R-comfy:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/comfy.mrs"}                          # ComfyUI
+  R-comfy-launcher:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/comfy-ui-launcher.mrs"}              # ComfyUI启动器
+  R-ai:                 {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-chat-!cn.mrs"}           # AI聊天服务兜底
+  
+  # ── Crypto ──
+  R-crypto:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-cryptocurrency.mrs"}        # 加密货币
+  
+  # ── GitHub ──
+  R-github:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"}                         # GitHub
+  R-github1s:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github1s.mrs"}                       # GitHub在线VSCode
+  R-github-copilot:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github-copilot.mrs"}                 # GitHub Copilot
+  
+  # ── Cloudflare ──
+  R-cloudflare:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare.mrs"}                     # Cloudflare
+  R-cloudflare-ip:      {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cloudflare.mrs"}                       # Cloudflare IP
+  R-cloudflare-ipfs:    {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare-ipfs.mrs"}                # Cloudflare IPFS网关
+  R-cloudflare-cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare-cn.mrs"}                  # Cloudflare中国域名 → DIRECT
+  R-cloudflare-cn2:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare-cn@cn.mrs"}               # Cloudflare中国域名补充 → DIRECT
+  R-cloudflare-at-cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare@cn.mrs"}                  # Cloudflare@cn → DIRECT
+
+  # ── Microsoft ──
+  R-microsoft:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}                      # Microsoft全家桶
+  R-microsoft-dev:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft-dev.mrs"}                  # Microsoft开发者
+  R-microsoft-pki:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft-pki.mrs"}                  # Microsoft证书服务
+  R-microsoft-cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft@cn.mrs"}                   # Microsoft国内节点 → DIRECT
+  R-microsoft-dev-cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft-dev@cn.mrs"}               # Microsoft开发者国内节点 → DIRECT
+  R-microsoft-pki-cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft-pki@cn.mrs"}               # Microsoft证书国内节点 → DIRECT
+  R-bing:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bing.mrs"}                           # Bing搜索
+  R-bing-cn:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bing@cn.mrs"}                        # Bing国内节点 → DIRECT
+  R-xbox:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xbox.mrs"}                           # Xbox
+  R-xbox-cn:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xbox@cn.mrs"}                        # Xbox国内节点 → DIRECT
+  R-azure-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/azure@cn.mrs"}                       # Azure国内节点 → DIRECT
+
+  # ── Apple ──
+  R-icloud:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/icloud.mrs"}                         # iCloud
+  R-icloud-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/icloud@cn.mrs"}                      # iCloud国内节点(云上贵州) → DIRECT
+  R-itunes:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/itunes.mrs"}                         # iTunes
+  R-itunes-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/itunes@cn.mrs"}                      # iTunes国内节点 → DIRECT
+  R-apple-pki:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-pki.mrs"}                      # Apple证书服务(国际)
+  R-apple:              {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/apple.yaml"}                          # Apple全家桶
+  R-apple-ip:           {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/apple-ip.yaml"}                       # Apple IP段
+  R-apple-update:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-update.mrs"}                   # iOS/macOS系统更新 → DIRECT
+  R-apple-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"}                       # Apple中国专属域名 → DIRECT
+  R-apple-at-cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple@cn.mrs"}                       # Apple国内服务补充 → DIRECT
+  R-apple-dev-cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-dev@cn.mrs"}                   # Apple开发者国内节点 → DIRECT
+  R-apple-pki-cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-pki@cn.mrs"}                   # Apple证书国内节点 → DIRECT
+
+  # ── Android ──
+  R-android:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/android.mrs"}                        # Android系统相关
+  R-fdroid:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/f-droid.mrs"}                        # F-Droid开源应用商店
+  R-apkpure:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apkpure.mrs"}                        # APKPure
+  R-apkmirror:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apkmirror.mrs"}                      # APKMirror
+  R-apkcombo:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apkcombo.mrs"}                       # APKCombo
+
+  # ── Discord ──
+  R-discord:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/discord.mrs"}                        # Discord
+  
+  # ── Telegram ──
+  R-telegram:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/telegram.yaml"}                                       # Telegram
+  R-telegram-ip:        {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/telegram-ip.yaml"}                                       # Telegram IP
+  
+  # ── Social ──
+  R-reddit:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/reddit.mrs"}                         # Reddit
+  R-tumblr:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tumblr.mrs"}                         # Tumblr
+  R-line:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/line.mrs"}                           # LINE
+
+  # ── Meta ──
+  R-instagram:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/instagram.mrs"}                      # Instagram
+  R-facebook:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/facebook.mrs"}                       # Facebook
+  R-facebook-dev:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/facebook-dev.mrs"}                   # Facebook开发者
+  R-meta-ads:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/meta@ads.mrs"}                       # Meta广告 → REJECT
+  R-messenger:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/messenger.mrs"}                      # Messenger
+  R-threads:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/threads.mrs"}                        # Threads
+  R-whatsapp:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/whatsapp.mrs"}                       # WhatsApp
+
+  # ── Elon Musk ──
+  R-x-ads:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/x@ads.mrs"}                          # X广告 → REJECT
+  R-twitter-ads:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitter@ads.mrs"}                    # Twitter广告 → REJECT
+  R-x:                  {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/x.mrs"}                              # X补充域名
+  R-twitter:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitter.mrs"}                        # Twitter/X
+  R-twitter-ip:         {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/twitter.mrs"}                          # Twitter IP
+  R-xai:                {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xai.mrs"}                            # xAI / Grok
+  R-spacex:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spacex.mrs"}                         # SpaceX
+  R-neuralink:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/neuralink.mrs"}                      # Neuralink
+  R-theboringcompany:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/theboringcompany.mrs"}               # The Boring Company
+  R-tesla:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tesla.mrs"}                          # Tesla
+
+  # ── TikTok / 字节跳动 ──
+  R-tiktok:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"}                         # TikTok → 代理
+  
+  R-bytedance-ai-!cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bytedance-ai-!cn.mrs"}               # 字节AI海外(豆包/Coze国际版) → 代理
+  R-bytedance-!cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bytedance@!cn.mrs"}                  # 字节海外域名 → 代理
+
+  R-bytedance:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bytedance.mrs"}                      # 字节全量兜底(抖音/飞书/头条) → DIRECT
+
+  # ── Netflix ──
+  R-netflix:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"}                        # Netflix
+  R-netflix-ip:         {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs"}                          # Netflix IP
+  
+  # ── Media ──
+  R-hulu:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/hulu.mrs"}                           # Hulu
+  R-primevideo:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/primevideo.mrs"}                     # Prime Video
+  R-dazn:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/dazn.mrs"}                           # DAZN体育直播
+  R-hbo:                {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/hbo.mrs"}                            # HBO
+  R-disney:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/disney.mrs"}                         # Disney+
+  R-vimeo:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/vimeo.mrs"}                          # Vimeo
+  R-twitch:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitch.mrs"}                         # Twitch
+  R-rumble:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/rumble.mrs"}                         # Rumble
+  R-plex:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/plex.mrs"}                           # Plex媒体服务器
+
+  # ── Spotify ──
+  R-spotify:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs"}                        # Spotify
+  R-spotify-ads:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify@ads.mrs"}                    # Spotify广告 → REJECT
+
+  # ── Steam ──
+  R-steam:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.mrs"}                          # Steam
+  R-steam-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam@cn.mrs"}                       # Steam国内节点 → DIRECT
+
+  R-steamunlocked:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steamunlocked.mrs"}                  # SteamUnlocked游戏资源
+  R-steaminventory:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steaminventoryhelper.mrs"}           # Steam库存助手
+  
+  # ── Epic ──
+  R-epicgames:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/epicgames.mrs"}                      # Epic Games  
+  # ── TapTap ──
+  R-taptap:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/taptap.mrs"}                         # TapTap
+  R-taptap-!cn:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/taptap@!cn.mrs"}                     # TapTap海外版
+
+  # ── Bilibili ──
+  R-bilibili-!cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili@!cn.mrs"}                   # B站海外版 → 代理
+  R-bilibili-cdn-!cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili-cdn@!cn.mrs"}               # B站海外CDN → 代理
+  R-biliintl:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/biliintl.mrs"}                       # B站国际版
+  R-bilibili:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili.mrs"}                       # B站主域名 → DIRECT
+  R-bilibili-ip:        {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/bilibili.mrs"}                    # B站 IP → DIRECT
+  R-bilibili-game:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili-game.mrs"}                  # B站游戏 → DIRECT
+  R-bilibili-cdn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili-cdn.mrs"}                   # B站CDN → DIRECT
+
+  # ── Speedtest ──
+  R-speedtest:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs"}                # Speedtest测速
+  
+  # ── IP ──
+  R-nodeseek:           {<<: *domain,   url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/nodeseek.mrs"}                                                                      # nodeseek自建服务
+  
+  # ── CN App ──
+  R-jingdong:           {<<: *domain, url: "https://raw.githubusercontent.com/Keviin560/Shunt_Rules/main/rule/Mihomo/JingDong.mrs"}
+  R-jingdongcloud-ip:   {<<: *ip,     url: "https://raw.githubusercontent.com/Keviin560/Shunt_Rules/main/rule/Mihomo/JingDongCloud_IP.mrs"}  
+  
+  R-wechat:             {<<: *domain, url: "https://raw.githubusercontent.com/Keviin560/Shunt_Rules/main/rule/Mihomo/WeChat.mrs"}
+ 
+  R-tencent:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tencent.mrs"}
+  R-tendcloud:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tendcloud.mrs"}
+  R-tencent-dev:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tencent-dev.mrs"}
+  R-tencent-games:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tencent-games.mrs"}
+  R-aliyun:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/aliyun.mrs"}
+  R-aliyun-drive:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/aliyun-drive.mrs"}
+  R-alibaba:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/alibaba.mrs"}
+  R-alibabacloud:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/alibabacloud.mrs"}
+  R-meituan:            {<<: *domain, url: "https://raw.githubusercontent.com/Keviin560/Shunt_Rules/main/rule/Mihomo/MeiTuan.mrs"}
+  
+  # ── 硬件 / 杂项 ──
+  R-nvidia-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/nvidia@cn.mrs"}                      # Nvidia国内节点 → DIRECT
+  R-amd-cn:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/amd@cn.mrs"}                         # AMD国内节点 → DIRECT
+  R-intel-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/intel@cn.mrs"}                       # Intel国内节点 → DIRECT
+  R-synology-cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/synology@cn.mrs"}                    # 群晖国内节点 → DIRECT
+  R-amazon-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/amazon@cn.mrs"}                      # Amazon国内节点 → DIRECT
+
+  # ══════════════════════════════════════════
+  # 4.Final
+  # ══════════════════════════════════════════
+
+  # ── Category ──
+  R-cdn-cn:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-cdn-cn.mrs"}                # 国内CDN → DIRECT
+  R-bank-cn:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-bank-cn.mrs"}               # 国内银行 → DIRECT
+  R-securities-cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-securities-cn.mrs"}         # 国内证券 → DIRECT
+  R-finance-cn:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-finance@cn.mrs"}            # 国内金融 → DIRECT
+  R-ntp-cn:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ntp-cn.mrs"}                # 国内NTP时间服务 → DIRECT
+  R-netdisk-cn:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-netdisk-cn.mrs"}            # 国内网盘 → DIRECT
+  R-games-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-games-cn.mrs"}              # 国内游戏 → DIRECT
+  R-getui:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/getui.mrs"}                          # 国内个推推送服务 → DIRECT
+  R-globalsign@cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/globalsign@cn.mrs"}                  # Globalsign国内节点 → DIRECT
+  R-digicert@cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/digicert@cn.mrs"}                    # Digicert国内节点 → DIRECT
+  
+  # ── Final ──
+  geolocation-!cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}                # 非中国域名兜底 → 代理
+  geosite-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}                             # 中国域名兜底 → DIRECT
+  geoip-cn:             {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}                               # 中国IP兜底 → DIRECT
+
+  # ══════════════════════════════════════════
+  # 5.R18 默认注释
+  # ══════════════════════════════════════════
+
+  # ── 视频、直播与信息聚合 ──
+  # R-54647:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/54647.mrs"}                      # 54647.com — 日本成人视频平台
+  # R-928plus:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/928plus.mrs"}                    # 928plus.com — 成人视频
+  # R-akiko:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/akiko.mrs"}                      # akiko — 日本 AV 女优站
+  # R-avmoo:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/avmoo.mrs"}                      # avmoo.com — AV 影片数据库
+  # R-baltamatica:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/baltamatica.mrs"}                # baltamatica — 成人视频
+  # R-bdsmhub:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bdsmhub.mrs"}                    # bdsmhub.com — BDSM 主题成人视频
+  # R-boboporn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/boboporn.mrs"}                   # boboporn — 成人视频
+  # R-bongacams:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bongacams.mrs"}                  # bongacams.com — 成人直播平台
+  # R-braveux:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/braveux.mrs"}                    # braveux — 成人视频
+  # R-brazzers:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/brazzers.mrs"}                   # brazzers.com — 美国知名成人制片公司
+  # R-camwhores:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/camwhores.mrs"}                  # camwhores.tv — 直播 / 自拍成人视频
+  # R-cavporn:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cavporn.mrs"}                    # cavporn — 成人视频
+  # R-chatwhores:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/chatwhores.mrs"}                 # chatwhores — 成人直播
+  # R-clips4sale:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/clips4sale.mrs"}                 # clips4sale.com — 独立创作者成人视频平台
+
+  # R-coomer:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/coomer.mrs"}                     # coomer.su — OF/Fansly 内容聚合
+  # R-digitalplayground:  {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/digitalplayground.mrs"}          # digitalplayground.com — 美国成人制片公司
+  # R-dwion:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/dwion.mrs"}                      # dwion — 成人视频
+  # R-fans66:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/fans66.mrs"}                     # fans66 — 华人粉丝内容平台
+  # R-fansta:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/fansta.mrs"}                     # fansta — 成人内容订阅平台
+  # R-heyzo:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/heyzo.mrs"}                      # heyzo.com — 日本无码 AV 平台
+  # R-jable:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/jable.mrs"}                      # jable.tv — 日本 AV 影片聚合（繁中字幕）
+  # R-japonx:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/japonx.mrs"}                     # japonx.com — 日本 AV 视频网站
+
+  # R-javbus:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/javbus.mrs"}                     # javbus.com — 日本 AV 数据库 / 磁链索引
+  # R-javcc:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/javcc.mrs"}                      # javcc — 日本 AV 数据库
+  # R-javdb:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/javdb.mrs"}                      # javdb.com — 日本 AV 数据库（评分 / 磁链）
+  # R-javwide:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/javwide.mrs"}                    # javwide — 日本 AV 相关
+
+  # R-justav:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/justav.mrs"}                     # justav — 日本 AV 视频网站
+  # R-kubakuba:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/kubakuba.mrs"}                   # kubakuba — 成人视频
+  # R-lethalhardcore:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/lethalhardcore.mrs"}             # lethalhardcore.com — 美国成人制片公司
+  # R-missav:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/missav.mrs"}                     # missav.com — 日本 AV 在线播放
+  # R-mydirtyhobby:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/mydirtyhobby.mrs"}               # mydirtyhobby.com — 德国业余成人内容平台
+  # R-netflav:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflav.mrs"}                    # netflav.com — 日本 AV 在线流媒体
+  # R-pingsx:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/pingsx.mrs"}                     # pingsx — 成人视频
+  # R-playboy:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/playboy.mrs"}                    # playboy.com — 成人杂志 / 内容平台
+  # R-pornhub:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/pornhub.mrs"}                    # pornhub.com — 全球最大成人视频平台
+  # R-pornpros:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/pornpros.mrs"}                   # pornpros.com — 美国成人制片公司
+  # R-realitykings:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/realitykings.mrs"}               # realitykings.com — 美国成人制片公司
+  # R-redtube:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/redtube.mrs"}                    # redtube.com — 成人视频平台
+  # R-sehuatang:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/sehuatang.mrs"}                  # 色花堂 — 华人成人论坛 / 图片
+  # R-smtiaojiaoshi:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/smtiaojiaoshi.mrs"}              # 丝袜调教师 — 成人视频 / 内容
+  # R-spankbang:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spankbang.mrs"}                  # spankbang.com — 成人视频平台
+  # R-swag:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/swag.mrs"}                       # swag.live — 台湾成人直播 / 视频平台
+  # R-theporndude:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/theporndude.mrs"}                # theporndude.com — 成人网站导航 / 评测
+  # R-tube8:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tube8.mrs"}                      # tube8.com — 成人视频平台（MindGeek 旗下）
+
+  # R-xhamster:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xhamster.mrs"}                   # xhamster.com — 成人视频平台
+  # R-xhamster-ads:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xhamster@ads.mrs"}               # xHamster 广告域名 → 拦截
+
+  # R-xingkongwuxianmedia:{<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xingkongwuxianmedia.mrs"}        # 星空无限传媒 — 国产成人视频制作公司
+  # R-xnxx:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xnxx.mrs"}                       # xnxx.com — 成人视频平台
+  # R-xvideos:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xvideos.mrs"}                    # xvideos.com — 成人视频平台
+
+  # R-youjizz:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youjizz.mrs"}                    # youjizz.com — 成人视频平台
+  # R-youporn:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youporn.mrs"}                    # youporn.com — 成人视频平台（MindGeek 旗下）
+
+  # ── 漫画、图片与阅读社区 ──
+  # R-18comic:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/18comic.mrs"}                    # 18comic.vip — 禁漫天堂（成人漫画）
+  # R-boylove:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/boylove.mrs"}                    # boylove — BL 成人漫画 / 小说
+  # R-ehentai:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ehentai.mrs"}                    # e-hentai.org — 成人同人漫画聚合
+
+  # R-hentaichen:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/hentaichen.mrs"}                 # hentaichen — 中文成人漫画
+  # R-hentaivn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/hentaivn.mrs"}                   # hentaivn — 越南语成人漫画
+
+  # R-metart:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/metart.mrs"}                     # metart.com — 艺术写真 / 成人图片平台
+  # R-nudevista:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/nudevista.mrs"}                   # nudevista.com — 成人图片 / 视频搜索引擎
+  # R-truyen-hentai:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/truyen-hentai.mrs"}              # truyen-hentai — 越南语成人漫画
+  # R-xingrz:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xingrz.mrs"}                     # xingrz — 成人图片 / 漫画
+
+  # ── 游戏平台与制作公司 ──
+  # R-awempire:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/awempire.mrs"}                   # awempire.com — 成人娱乐集团（旗下多品牌）
+  # R-dmm-porn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/dmm-porn.mrs"}                   # DMM 成人内容 — 日本成人数字内容平台
+
+  # R-illgames:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/illgames.mrs"}                   # illgames — 日本成人游戏制作商（前 Illusion）
+  # R-illusion-nonoff:    {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/illusion-nonofficial.mrs"}       # Illusion 非官方资源站
+  # R-illusion:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/illusion.mrs"}                   # Illusion — 日本知名成人游戏制作商
+
+  # R-mindgeek-porn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/mindgeek-porn.mrs"}              # MindGeek 成人内容（旗下含 PH / RedTube / YouPorn）
+  # R-mindgeek:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/mindgeek.mrs"}                   # mindgeek.com — 成人娱乐集团（Aylo 前身）
+
+  # R-nutaku:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/nutaku.mrs"}                     # nutaku.net — 成人游戏平台
+  # R-pinkcore:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/pinkcore.mrs"}                   # pinkcore — 成人内容
+
+# =======================================================
+# 8. 分流规则 Rules
+# =======================================================
+rules:
+
+  # ══════════════════════════════════════════
+  # 1.REJECT
+  # ══════════════════════════════════════════
+  - AND,((NETWORK,UDP),(DST-PORT,443)),REJECT                      # QUIC 封锁（强制 TCP）
+  - RULE-SET,R-icloudprivaterelay,REJECT,no-resolve                # iCloud 私有中继
+  - RULE-SET,R-reject,REJECT 
+  - RULE-SET,R-reject-ip,REJECT,no-resolve
+  - RULE-SET,R-ads,REJECT                                          # 全量广告拦截
+  - RULE-SET,R-ads-add,REJECT                                      # 增强广告拦截
+  - RULE-SET,R-ads-add-ip,REJECT,no-resolve                        # 增强广告拦截 IP
+  - RULE-SET,R-httpdns-cn,REJECT                                   # 国内 HTTPDNS 劫持
+  - RULE-SET,R-win-spy,REJECT                                      # Windows 隐私追踪
+
+  # ══════════════════════════════════════════
+  # 2.LAN
+  # ══════════════════════════════════════════
+  - RULE-SET,R-private,DIRECT                                      # 内网域名
+  - RULE-SET,R-fakeipfilter,DIRECT                                 # FakeIP 过滤
+  - RULE-SET,R-connectivity,DIRECT                                 # 网络连通性检测
+
+  # ══════════════════════════════════════════
+  # 3.Proxy
+  # ══════════════════════════════════════════
+  # ── YouTube ──
+  - RULE-SET,R-youtube,YouTube                                     # YouTube
+  
+  # ── Google ──
+  - RULE-SET,R-google-play-cn,Google                               # Google Play 国内节点
+  - RULE-SET,R-firebase-cn,Google                                  # Firebase 国内节点
+  - RULE-SET,R-amp-cn,Google                                       # AMP 国内节点
+  - RULE-SET,R-gemini,Google                                       # Gemini AI
+  - RULE-SET,R-google,Google                                       # Google 全家桶
+  - RULE-SET,R-google-ip,Google,no-resolve                         # Google IP
+  - RULE-SET,R-FCM,Google                                          # Firebase 推送
+  - RULE-SET,R-deepmind,Google                                     # DeepMind
+  - RULE-SET,R-google-play,Google                                  # Google Play
+  - RULE-SET,R-google-scholar,Google                               # Google 学术
+  - RULE-SET,R-firebase,Google                                     # Firebase 开发平台
+  - RULE-SET,R-fonts,Google                                        # Google 字体
+  - RULE-SET,R-golang,Google                                       # Go 语言官方
+  - RULE-SET,R-dart,Google                                         # Dart 语言
+  - RULE-SET,R-v8,Google                                           # V8 引擎
+  - RULE-SET,R-goproxy,Google                                      # Go 模块代理
+  - RULE-SET,R-amp,Google                                          # Google AMP
+
+  # ── Adobe ──
+  - RULE-SET,R-adobe-cn,Adobe                                      # Adobe 国内节点
+  - RULE-SET,R-adobe-activation,Adobe                              # Adobe 激活服务
+  - RULE-SET,R-adobe,Adobe                                         # Adobe 全家桶
+
+  # ── OpenAI ──
+  - RULE-SET,R-openai,OpenAI                                       # OpenAI
+
+  # ── Anthropic ──
+  - RULE-SET,R-anthropic,Anthropic                                 # Anthropic / Claude
+
+  # ── AI ──
+  - RULE-SET,R-perplexity,AI                                       # Perplexity AI 搜索
+  - RULE-SET,R-groq,AI                                             # Groq AI 推理
+  - RULE-SET,R-cerebras,AI                                         # Cerebras AI
+  - RULE-SET,R-huggingface,AI                                      # Hugging Face
+  - RULE-SET,R-cursor,AI                                           # Cursor AI 编辑器
+  - RULE-SET,R-elevenlabs,AI                                       # ElevenLabs AI 语音
+  - RULE-SET,R-comfy,AI                                            # ComfyUI
+  - RULE-SET,R-comfy-launcher,AI                                   # ComfyUI 启动器
+  - RULE-SET,R-ai,AI                                               # AI 聊天服务兜底
+  
+  # ── Crypto ──
+  - RULE-SET,R-crypto,Crypto                                       # 加密货币
+  
+  # ── GitHub ──
+  - RULE-SET,R-github,GitHub                                       # GitHub
+  - RULE-SET,R-github1s,GitHub                                     # GitHub 在线 VSCode
+  - RULE-SET,R-github-copilot,GitHub                               # GitHub Copilot
+
+  # ── Cloudflare ──
+  - RULE-SET,R-cloudflare-cn,CN                                    # Cloudflare 中国域名
+  - RULE-SET,R-cloudflare-cn2,CN                                   # Cloudflare 中国域名补充
+  - RULE-SET,R-cloudflare-at-cn,CN                                 # Cloudflare@cn
+  - RULE-SET,R-cloudflare,Cloudflare                               # Cloudflare
+  - RULE-SET,R-cloudflare-ipfs,Cloudflare                          # Cloudflare IPFS 网关
+  - RULE-SET,R-cloudflare-ip,Cloudflare,no-resolve                 # Cloudflare IP
+
+  # ── Microsoft ──
+  - RULE-SET,R-microsoft-cn,Microsoft                              # Microsoft 国内节点
+  - RULE-SET,R-microsoft-dev-cn,Microsoft                          # Microsoft 开发者国内节点
+  - RULE-SET,R-microsoft-pki-cn,Microsoft                          # Microsoft 证书国内节点
+  - RULE-SET,R-bing-cn,Microsoft                                   # Bing 国内节点
+  - RULE-SET,R-xbox-cn,Microsoft                                   # Xbox 国内节点
+  - RULE-SET,R-azure-cn,Microsoft                                  # Azure 国内节点
+  - RULE-SET,R-microsoft,Microsoft                                 # Microsoft 全家桶
+  - RULE-SET,R-microsoft-dev,Microsoft                             # Microsoft 开发者
+  - RULE-SET,R-microsoft-pki,Microsoft                             # Microsoft 证书服务
+  - RULE-SET,R-bing,Microsoft                                      # Bing 搜索
+  - RULE-SET,R-xbox,Microsoft                                      # Xbox
+
+  # ── Apple ──
+  - RULE-SET,R-icloud-cn,Apple                                     # iCloud 国内节点（云上贵州）
+  - RULE-SET,R-itunes-cn,Apple                                     # iTunes 国内节点
+  - RULE-SET,R-apple-update,Apple                                  # iOS/macOS 系统更新
+  - RULE-SET,R-apple-cn,Apple                                      # Apple 中国专属域名
+  - RULE-SET,R-apple-at-cn,Apple                                   # Apple 国内服务补充
+  - RULE-SET,R-apple-dev-cn,Apple                                  # Apple 开发者国内节点
+  - RULE-SET,R-apple-pki-cn,Apple                                  # Apple 证书国内节点
+  - RULE-SET,R-icloud,Apple                                        # iCloud
+  - RULE-SET,R-itunes,Apple                                        # iTunes
+  - RULE-SET,R-apple-pki,Apple                                     # Apple 证书服务（国际）
+  - RULE-SET,R-apple,Apple                                         # Apple 全家桶
+  - RULE-SET,R-apple-ip,Apple,no-resolve                           # Apple IP 段
+
+  # ── Android ──
+  - RULE-SET,R-android,Android                                     # Android 系统相关
+  - RULE-SET,R-fdroid,Android                                      # F-Droid
+  - RULE-SET,R-apkpure,Android                                     # APKPure
+  - RULE-SET,R-apkmirror,Android                                   # APKMirror
+  - RULE-SET,R-apkcombo,Android                                    # APKCombo
+
+  # ── Discord ──
+  - RULE-SET,R-discord,Discord                                     # Discord
+
+  # ── Telegram ──
+  - RULE-SET,R-telegram,Telegram                                   # Telegram
+  - RULE-SET,R-telegram-ip,Telegram,no-resolve                     # Telegram IP
+
+  # ── Social ──
+  - RULE-SET,R-reddit,Social                                       # Reddit
+  - RULE-SET,R-tumblr,Social                                       # Tumblr
+  - RULE-SET,R-line,Social                                         # LINE
+
+  # ── Meta ──
+  - RULE-SET,R-meta-ads,REJECT                                     # Meta 广告
+  - RULE-SET,R-instagram,Meta                                      # Instagram
+  - RULE-SET,R-facebook,Meta                                       # Facebook
+  - RULE-SET,R-facebook-dev,Meta                                   # Facebook 开发者
+  - RULE-SET,R-messenger,Meta                                      # Messenger
+  - RULE-SET,R-threads,Meta                                        # Threads
+  - RULE-SET,R-whatsapp,Meta                                       # WhatsApp
+
+  # ── Elon Musk ──
+  - RULE-SET,R-x-ads,REJECT                                        # X 广告
+  - RULE-SET,R-twitter-ads,REJECT                                  # Twitter 广告
+  - RULE-SET,R-xai,X                                               # xAI / Grok
+  - RULE-SET,R-x,X                                                 # X 补充域名
+  - RULE-SET,R-twitter,X                                           # Twitter/X
+  - RULE-SET,R-twitter-ip,X,no-resolve                             # Twitter IP
+  - RULE-SET,R-spacex,X                                            # SpaceX
+  - RULE-SET,R-neuralink,X                                         # Neuralink
+  - RULE-SET,R-theboringcompany,X                                  # The Boring Company
+  - RULE-SET,R-tesla,X                                             # Tesla
+
+  # ── TikTok / 字节跳动 ──
+  - RULE-SET,R-tiktok,TikTok                                       # TikTok
+  - RULE-SET,R-bytedance-ai-!cn,TikTok                             # 字节 AI 海外（豆包/Coze 国际版）
+  - RULE-SET,R-bytedance-!cn,TikTok                                # 字节海外域名
+  - RULE-SET,R-bytedance,CN                                        # 字节全量兜底（抖音/飞书/头条）
+
+  # ── Netflix ──
+  - RULE-SET,R-netflix,Netflix                                     # Netflix
+  - RULE-SET,R-netflix-ip,Netflix,no-resolve                       # Netflix IP
+  
+  # ── Media ──
+  - RULE-SET,R-hulu,Media                                          # Hulu
+  - RULE-SET,R-primevideo,Media                                    # Prime Video
+  - RULE-SET,R-dazn,Media                                          # DAZN 体育直播
+  - RULE-SET,R-hbo,Media                                           # HBO
+  - RULE-SET,R-disney,Media                                        # Disney+
+  - RULE-SET,R-vimeo,Media                                         # Vimeo
+  - RULE-SET,R-twitch,Media                                        # Twitch
+  - RULE-SET,R-rumble,Media                                        # Rumble
+  - RULE-SET,R-plex,Media                                          # Plex
+
+  # ── Spotify ──
+  - RULE-SET,R-spotify-ads,REJECT                                  # Spotify 广告
+  - RULE-SET,R-spotify,Spotify                                     # Spotify
+
+  # ── Steam ──
+  - RULE-SET,R-steam-cn,Steam                                      # Steam 国内节点
+  - RULE-SET,R-steam,Steam                                         # Steam
+  - RULE-SET,R-steamunlocked,Steam                                 # SteamUnlocked
+  - RULE-SET,R-steaminventory,Steam                                # Steam 库存助手
+
+  # ── Epic ──
+  - RULE-SET,R-epicgames,Epic                                      # Epic Games
+
+  # ── TapTap ──
+  - RULE-SET,R-taptap,TapTap                                       # TapTap（国内版）
+  - RULE-SET,R-taptap-!cn,TapTap                                   # TapTap 海外版
+
+  # ── Bilibili ──
+  - RULE-SET,R-bilibili-!cn,BiliBil                                # B 站海外版
+  - RULE-SET,R-bilibili-cdn-!cn,BiliBil                            # B 站海外 CDN
+  - RULE-SET,R-biliintl,BiliBil                                    # B 站国际版
+  - RULE-SET,R-bilibili,BiliBil                                    # B 站主域名
+  - RULE-SET,R-bilibili-ip,BiliBil,no-resolve                      # B 站 IP
+  - RULE-SET,R-bilibili-game,BiliBil                               # B 站游戏
+  - RULE-SET,R-bilibili-cdn,BiliBil                                # B 站 CDN
+
+  # ── Speedtest ──
+  - RULE-SET,R-speedtest,Speedtest                                 # Speedtest
+  
+  # ── Nodeseek ──
+  - RULE-SET,R-nodeseek,Proxy                                      # NodeSeek
+  
+  # ── CN App ── 
+  - RULE-SET,R-wechat,CN
+  - RULE-SET,R-tencent,CN
+  - RULE-SET,R-tendcloud,CN
+  - RULE-SET,R-tencent-dev,CN
+  - RULE-SET,R-tencent-games,CN
+  - RULE-SET,R-aliyun,CN
+  - RULE-SET,R-aliyun-drive,CN
+  - RULE-SET,R-alibaba,CN
+  - RULE-SET,R-alibabacloud,CN
+  - RULE-SET,R-jingdong,CN
+  - RULE-SET,R-jingdongcloud-ip,CN,no-resolve
+  - RULE-SET,R-meituan,CN
+
+  # ── 硬件 / 杂项 ──
+  - RULE-SET,R-nvidia-cn,CN                                        # Nvidia 国内节点
+  - RULE-SET,R-amd-cn,CN                                           # AMD 国内节点
+  - RULE-SET,R-intel-cn,CN                                         # Intel 国内节点
+  - RULE-SET,R-synology-cn,CN                                      # 群晖国内节点
+  - RULE-SET,R-amazon-cn,CN                                        # Amazon国内节点
+  
+  # ══════════════════════════════════════════
+  # 5.R18 默认注释
+  # ══════════════════════════════════════════
+  
+  # ── 视频、直播与信息聚合 ──
+  # - RULE-SET,R-54647,R18                                         # 54647.com — 日本成人视频平台
+  # - RULE-SET,R-928plus,R18                                       # 928plus.com — 成人视频
+  # - RULE-SET,R-akiko,R18                                         # akiko — 日本 AV 女优站
+  # - RULE-SET,R-avmoo,R18                                         # avmoo.com — AV 影片数据库
+  # - RULE-SET,R-baltamatica,R18                                   # baltamatica — 成人视频
+  # - RULE-SET,R-bdsmhub,R18                                       # bdsmhub.com — BDSM 主题成人视频
+  # - RULE-SET,R-boboporn,R18                                      # boboporn — 成人视频
+  # - RULE-SET,R-bongacams,R18                                     # bongacams.com — 成人直播平台
+  # - RULE-SET,R-braveux,R18                                       # braveux — 成人视频
+  # - RULE-SET,R-brazzers,R18                                      # brazzers.com — 美国知名成人制片公司
+  # - RULE-SET,R-camwhores,R18                                     # camwhores.tv — 直播 / 自拍成人视频
+  # - RULE-SET,R-cavporn,R18                                       # cavporn — 成人视频
+  # - RULE-SET,R-chatwhores,R18                                    # chatwhores — 成人直播
+  # - RULE-SET,R-clips4sale,R18                                    # clips4sale.com — 独立创作者成人视频平台
+  # - RULE-SET,R-coomer,R18                                        # coomer.su — OF/Fansly 内容聚合
+  # - RULE-SET,R-digitalplayground,R18                             # digitalplayground.com — 美国成人制片公司
+  # - RULE-SET,R-dwion,R18                                         # dwion — 成人视频
+  # - RULE-SET,R-fans66,R18                                        # fans66 — 华人粉丝内容平台
+  # - RULE-SET,R-fansta,R18                                        # fansta — 成人内容订阅平台
+  # - RULE-SET,R-heyzo,R18                                         # heyzo.com — 日本无码 AV 平台
+  # - RULE-SET,R-jable,R18                                         # jable.tv — 日本 AV 影片聚合（繁中字幕）
+  # - RULE-SET,R-japonx,R18                                        # japonx.com — 日本 AV 视频网站
+  # - RULE-SET,R-javbus,R18                                        # javbus.com — 日本 AV 数据库 / 磁链索引
+  # - RULE-SET,R-javcc,R18                                         # javcc — 日本 AV 数据库
+  # - RULE-SET,R-javdb,R18                                         # javdb.com — 日本 AV 数据库（评分 / 磁链）
+  # - RULE-SET,R-javwide,R18                                       # javwide — 日本 AV 相关
+  # - RULE-SET,R-justav,R18                                        # justav — 日本 AV 视频网站
+  # - RULE-SET,R-kubakuba,R18                                      # kubakuba — 成人视频
+  # - RULE-SET,R-lethalhardcore,R18                                # lethalhardcore.com — 美国成人制片公司
+  # - RULE-SET,R-missav,R18                                        # missav.com — 日本 AV 在线播放
+  # - RULE-SET,R-mydirtyhobby,R18                                  # mydirtyhobby.com — 德国业余成人内容平台
+  # - RULE-SET,R-netflav,R18                                       # netflav.com — 日本 AV 在线流媒体
+  # - RULE-SET,R-pingsx,R18                                        # pingsx — 成人视频
+  # - RULE-SET,R-playboy,R18                                       # playboy.com — 成人杂志 / 内容平台
+  # - RULE-SET,R-pornhub,R18                                       # pornhub.com — 全球最大成人视频平台
+  # - RULE-SET,R-pornpros,R18                                      # pornpros.com — 美国成人制片公司
+  # - RULE-SET,R-realitykings,R18                                  # realitykings.com — 美国成人制片公司
+  # - RULE-SET,R-redtube,R18                                       # redtube.com — 成人视频平台
+  # - RULE-SET,R-sehuatang,R18                                     # 色花堂 — 华人成人论坛 / 图片
+  # - RULE-SET,R-smtiaojiaoshi,R18                                 # 丝袜调教师 — 成人视频 / 内容
+  # - RULE-SET,R-spankbang,R18                                     # spankbang.com — 成人视频平台
+  # - RULE-SET,R-swag,R18                                          # swag.live — 台湾成人直播 / 视频平台
+  # - RULE-SET,R-theporndude,R18                                   # theporndude.com — 成人网站导航 / 评测
+  # - RULE-SET,R-tube8,R18                                         # tube8.com — 成人视频平台（MindGeek 旗下）
+  # - RULE-SET,R-xhamster-ads,REJECT                               # xhamster 广告域名 → 拦截
+  # - RULE-SET,R-xhamster,R18                                      # xhamster.com — 成人视频平台
+  # - RULE-SET,R-xingkongwuxianmedia,R18                            # 星空无限传媒 — 国产成人视频制作公司
+  # - RULE-SET,R-xnxx,R18                                          # xnxx.com — 成人视频平台
+  # - RULE-SET,R-xvideos,R18                                       # xvideos.com — 成人视频平台
+  # - RULE-SET,R-youjizz,R18                                       # youjizz.com — 成人视频平台
+  # - RULE-SET,R-youporn,R18                                       # youporn.com — 成人视频平台（MindGeek 旗下）
+
+  # ── 漫画、图片与阅读社区 ──
+  # - RULE-SET,R-18comic,R18                                       # 18comic.vip — 禁漫天堂（成人漫画）
+  # - RULE-SET,R-boylove,R18                                       # boylove — BL 成人漫画 / 小说
+  # - RULE-SET,R-ehentai,R18                                       # e-hentai.org — 成人同人漫画聚合
+  # - RULE-SET,R-hentaichen,R18                                    # hentaichen — 中文成人漫画
+  # - RULE-SET,R-hentaivn,R18                                      # hentaivn — 越南语成人漫画
+  # - RULE-SET,R-metart,R18                                        # metart.com — 艺术写真 / 成人图片平台
+  # - RULE-SET,R-nudevista,R18                                     # nudevista.com — 成人图片 / 视频搜索引擎
+  # - RULE-SET,R-truyen-hentai,R18                                 # truyen-hentai — 越南语成人漫画
+  # - RULE-SET,R-xingrz,R18                                        # xingrz — 成人图片 / 漫画
+
+  # ── 游戏平台与制作公司 ──
+  # - RULE-SET,R-awempire,R18                                      # awempire.com — 成人娱乐集团（旗下多品牌）
+  # - RULE-SET,R-dmm-porn,R18                                      # DMM 成人内容 — 日本成人数字内容平台
+  # - RULE-SET,R-illgames,R18                                      # illgames — 日本成人游戏制作商（前 Illusion）
+  # - RULE-SET,R-illusion-nonoff,R18                               # Illusion 非官方资源站
+  # - RULE-SET,R-illusion,R18                                      # Illusion — 日本知名成人游戏制作商
+  # - RULE-SET,R-mindgeek-porn,R18                                 # MindGeek 成人内容（旗下含 PH / RedTube / YouPorn）
+  # - RULE-SET,R-mindgeek,R18                                      # mindgeek.com — 成人娱乐集团（Aylo 前身）
+  # - RULE-SET,R-nutaku,R18                                        # nutaku.net — 成人游戏平台
+  # - RULE-SET,R-pinkcore,R18                                      # pinkcore — 成人内容
+
+  # ══════════════════════════════════════════
+  # 6.Final
+  # ══════════════════════════════════════════
+  - RULE-SET,R-cdn-cn,DIRECT                                       # 国内 CDN
+  - RULE-SET,R-bank-cn,DIRECT                                      # 国内银行
+  - RULE-SET,R-securities-cn,DIRECT                                # 国内证券
+  - RULE-SET,R-finance-cn,DIRECT                                   # 国内金融
+  - RULE-SET,R-ntp-cn,DIRECT                                       # 国内 NTP 时间服务
+  - RULE-SET,R-netdisk-cn,DIRECT                                   # 国内网盘
+  - RULE-SET,R-games-cn,DIRECT                                     # 国内游戏
+  - RULE-SET,R-getui,DIRECT                                        # 国内个推推送服务
+  - RULE-SET,R-globalsign@cn,DIRECT                                # Apple 中国专属域名（云上贵州）
+  - RULE-SET,R-digicert@cn,DIRECT                                  # 字节全量
+ 
+  # ── GEO Final ──
+  - RULE-SET,geolocation-!cn,Final                                 # 非中国域名兜底
+  - RULE-SET,geosite-cn,DIRECT                                     # 中国域名兜底
+  - RULE-SET,geoip-cn,DIRECT,no-resolve                            # 中国 IP 兜底
+
+  # ── Final ──
+  - MATCH,Final
