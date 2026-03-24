@@ -1,4 +1,6 @@
-uhovohu-mihomo.yaml 包含链式代理配置
+uhovohu-mihomo.yaml 包含链式代理配置 
+请尽量使用最新内核
+理论上mihomo内核高于v1.18.6可用
 > [!WARNING]
 > ## ⚠️ 免责声明 / Disclaimer
 > 
