@@ -1,37 +1,61 @@
+
+# Proxy 分组内包含 provider1 provider2 手动节点（无Link-OUT）
+
+# 链式代理说明：
+      # 本配置的链式代理 设计为 入口 IN组 和 出口 OUT组，分开管理，提供更大灵活性
+      # 你的设备 → IN组（入口） → OUT组（出口） → 互联网
+      
+      #
+      # IN 组：你的设备直接连接的节点，在此选择 入口
+      #         来源：provider1 / provider2 / 手动节点
+      #
+      # OUT 组：最终连接互联网的节点，在此选择 出口
+      #         来源：Link-OUT 订阅中的节点
+      #
+      
+      # 其他策略组（Apple / Netflix 等）均内置 OUT 组选项
+      
+      # 例：IN 选 hk01，OUT 选 tw01，Apple 组选 OUT
+      # Apple 组的流量最终路径：设备 → hk01 → tw01 → 互联网
+      
+      # 用法一 推荐把 所有节点(包含中转与落地) 并入一个订阅链接，在 provider1 与 Link-OUT 中引用相同链接使用
+      # 用法二 把中转节点放入 provider1 订阅链接，落地节点放入 Link-OUT 订阅链接，分别在 IN 与 OUT 中引用
+
 # =======================================================
 # 1. 机场订阅 Proxy Providers
 # =======================================================
+
 proxy-providers:
-  provider1:                                                                                    # 机场订阅链接，如需多个机场请复制整段 并修改 provider1 字段 保证唯一性
+  provider1:                                                                                    # 订阅链接，如需多个订阅请复制整段 并修改 provider1 字段 保证唯一性
     url: "填入订阅"
     type: http
     interval: 86400
     health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
     proxy: DIRECT
   
-  provider2:                                                                                    # 机场订阅链接，如需多个机场请复制整段 并修改 provider2 字段 保证唯一性
+  provider2:                                                                                    # 订阅链接，如需多个订阅请复制整段 并修改 provider2 字段 保证唯一性
     url: "填入订阅"
     type: http
     interval: 86400
     health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
     proxy: DIRECT  
   
-  Link-OUT:                                                                                     # 链路出口节点订阅，请尽量使用单独的订阅链接   或 "与上方机场订阅链接相同"
+  Link-OUT:                                                                                     # 链路出口节点订阅，请尽量使用单独的订阅链接   或 "与上方订阅链接相同"  
     url: "填入订阅"
     type: http
     interval: 86400
     health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
     proxy: DIRECT
     override:
-      additional-prefix: "=> "                                                                   # 追加前缀 "=> " 以区分链路出口节点，方便在策略组中单独调用
-      dialer-proxy: IN
+      additional-prefix: "=> "                                                                  # 追加前缀 "=> " 以区分链路出口节点，方便在策略组中单独调用
+      dialer-proxy: IN                                                                          # 关键：让这些节点在连接时自动经过 IN 组的当前选中节点
 
 
-#proxies:
+#proxies:                                                                                       # 手动节点的链式代理建议去参考官方文档填写
 #  - name: "手动节点1"
 #  - name: "手动节点2"
 
-# =======================================================
+
 # 2. 全局参数 Global Settings
 # =======================================================
 
