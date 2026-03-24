@@ -444,8 +444,8 @@ rule-providers:
   R-itunes:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/itunes.mrs"}                         # iTunes
   R-itunes-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/itunes@cn.mrs"}                      # iTunes国内节点 → DIRECT
   R-apple-pki:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-pki.mrs"}                      # Apple证书服务(国际)
-  R-apple:              {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/apple.yaml"}                          # Apple全家桶
-  R-apple-ip:           {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/apple-ip.yaml"}                       # Apple IP段
+  R-apple:              {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/apple.yaml"}                        # Apple全家桶
+  R-apple-ip:           {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/apple-ip.yaml"}                     # Apple IP段
   R-apple-update:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-update.mrs"}                   # iOS/macOS系统更新 → DIRECT
   R-apple-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"}                       # Apple中国专属域名 → DIRECT
   R-apple-at-cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple@cn.mrs"}                       # Apple国内服务补充 → DIRECT
@@ -462,8 +462,8 @@ rule-providers:
   R-discord:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/discord.mrs"}                        # Discord
   
   # ── Telegram ──
-  R-telegram:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/telegram.yaml"}                                       # Telegram
-  R-telegram-ip:        {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/telegram-ip.yaml"}                                       # Telegram IP
+  R-telegram:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/telegram.yaml"}                     # Telegram
+  R-telegram-ip:        {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/telegram-ip.yaml"}                  # Telegram IP
   
   # ── Social ──
   R-reddit:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/reddit.mrs"}                         # Reddit
@@ -544,7 +544,7 @@ rule-providers:
   R-speedtest:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs"}                # Speedtest测速
   
   # ── IP ──
-  R-nodeseek:           {<<: *domain,   url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/nodeseek.mrs"}                                                                      # nodeseek自建服务
+  R-nodeseek:           {<<: *domain,   url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/nodeseek.mrs"}                     # nodeseek
   
   # ── CN App ──
   R-jingdong:           {<<: *domain, url: "https://raw.githubusercontent.com/Keviin560/Shunt_Rules/main/rule/Mihomo/JingDong.mrs"}
