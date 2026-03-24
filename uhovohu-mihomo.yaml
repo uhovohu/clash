@@ -23,7 +23,7 @@ proxy-providers:
     health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
     proxy: DIRECT
     override:
-      additional-prefix: "=> "                                                                   # 追加前缀 "=> " 以区分链路出口节点，方便在策略组中单独调用
+      additional-prefix: "=> "                                                                  # 追加前缀 "=> " 以区分链路出口节点，方便在策略组中单独调用
       dialer-proxy: IN
 
 
