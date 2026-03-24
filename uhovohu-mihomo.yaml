@@ -23,7 +23,7 @@ proxy-providers:
     health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
     proxy: DIRECT
     override:
-      additional-prefix: "=> "                                                                  # 追加前缀 "=> " 以区分链路出口节点，方便在策略组中单独调用
+      additional-prefix: "=> "                                                                   # 追加前缀 "=> " 以区分链路出口节点，方便在策略组中单独调用
       dialer-proxy: IN
 
 
@@ -80,86 +80,37 @@ sniffer:
     QUIC:
       ports: [443]                           # 嗅探 QUIC HTTP/3 协议流量
   skip-domain:                               # 嗅探豁免名 遇到以下域名直接放行不拆包，防止破坏特殊协议导致断连
-    # ── LAN ──
-    - +.lan
-    - +.local
-    - +.localdomain
-    - +.localhost
-    - +.test
-    - +.example
-    - +.invalid
-    - +.bogon
-    - +.internal
-    - +.direct
-    - +.home.arpa
-    - +.in-addr.arpa
-    - +.ip6.arpa
+    - "rule-set:R-private"                   # 局域网 / 私有域名：必须返回真实 IP，否则本地服务无法访问
+    - "rule-set:R-fakeipfilter"              # 标准 Fake-IP 豁免表 NTP / STUN / 音乐 / 游戏等
+    - "rule-set:R-connectivity"              # 连通性探测：返回假 IP 会导致 Windows/macOS 报断网
+    - "rule-set:R-cdn-cn"                    # 国内 CDN：需要真实 IP 做就近调度
+    - "rule-set:R-bank-cn"                   # 国内银行：假 IP 会触发证书校验失败
+    - "rule-set:R-securities-cn"             # 国内证券
+    - "rule-set:R-finance-cn"                # 国内金融
+    - "rule-set:R-ntp-cn"                    # 国内 NTP：假 IP 导致时间同步失败
+    - "rule-set:R-wechat"
+    - "rule-set:R-tencent"
+    - "rule-set:R-tendcloud"
+    - "rule-set:R-tencent-dev"
+    - "rule-set:R-aliyun"
+    - "rule-set:R-aliyun-drive"
+    - "rule-set:R-alibaba"
+    - "rule-set:R-alibabacloud"
+    - "rule-set:R-jingdong"
+    - "rule-set:R-meituan"
+    - "rule-set:R-icloud-cn"                 # iCloud 国内节点 云上贵州
+    - "rule-set:R-itunes-cn"                 # iTunes 国内节点
+    - "rule-set:R-apple-update"              # iOS/macOS 系统更新
+    - "rule-set:R-apple-cn"                  # Apple 中国专属域名
+    - "rule-set:R-apple-at-cn"               # Apple 国内服务补充
+    - "rule-set:R-apple-dev-cn"              # Apple 开发者国内节点
+    - "rule-set:R-icloud"                    # iCloud
+    - "rule-set:R-itunes"                    # iTunes
+    - "rule-set:R-apple"                     # Apple 全家桶
 
-    # ── WPAD / mDNS ──
-    - +.wpad
-    - +.wpad.local
-    - +.wpad.lan
-    - +._tcp.local
-    - +._udp.local
-    - +._dns.resolver.arpa
-    - +._dns-sd._udp.local
-    - +._dns-sd._udp.lan
-    - +._googlecast._tcp.local
-    - +._apple-mobdev2._tcp.local
-    - +._universal-control._tcp.local
-    - +._sleep-proxy._udp.local
-
-    # ── 音乐平台 ──
-    - +.music.163.com
-    - +.126.net
-    - musicapi.taihe.com
-    - music.taihe.com
-    - songsearch.kugou.com
-    - trackercdn.kugou.com
-    - +.kuwo.cn
-    - api-jooxtt.sanook.com
-    - api.joox.com
-    - joox.com
-    - +.y.qq.com
-    - streamoc.music.tc.qq.com
-    - mobileoc.music.tc.qq.com
-    - isure.stream.qqmusic.qq.com
-    - dl.stream.qqmusic.qq.com
-    - aqqmusic.tc.qq.com
-    - amobile.music.tc.qq.com
-    - +.xiami.com
-    - +.music.migu.cn
-
-    # ── 连通性检测 ──
-    - +.msftconnecttest.com
-    - +.msftncsi.com  
-    
-  skip-dst-address:                            # 目的地址豁免 遇到以下 IP 地址直接放行不拆包，防止破坏特殊协议导致断连
-    # ── telegram ──
-    - 5.28.192.0/18
-    - 67.198.55.0/24
-    - 91.105.192.0/23
-    - 91.108.4.0/22
-    - 91.108.8.0/21
-    - 91.108.16.0/21
-    - 91.108.56.0/22
-    - 95.161.64.0/20
-    - 109.239.140.0/24
-    - 139.59.210.98/32
-    - 149.154.160.0/20
-    - 185.76.151.0/24
-    - 196.55.216.167/32
-    - 2001:67c:4e8::/48
-    - 2001:b28:f23c::/47
-    - 2001:b28:f23f::/48
-    - 2001:b28:f242::/48
-    - 2a0a:f280:203::/48
-    
-    # ── ???? ──
-    - 149.154.166.111/32
-    - 120.83.144.66/32
-    
-
+  skip-dst-address:                          # 目的地址豁免 遇到以下 IP 地址直接放行不拆包，防止破坏特殊协议导致断连
+    - "rule-set:R-sniffer-skip-ip"
+    - "rule-set:R-telegram-ip"               # Telegram 服务器 IP 地址列表
 
 # =======================================================
 # 4. 虚拟网卡 TUN
@@ -262,14 +213,15 @@ FilterSG: &FilterSG '(?i)(?:🇸🇬|新加坡|狮|Singapore|\b(?:SG|SGP)\d*\b)'
 FilterUS: &FilterUS '(?i)(?:🇺🇸|美国|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|拉斯维加斯|United States|\b(?:US|USA)\d*\b)'
 
 # ── 全局节点净化 排除广告 / 流量信息 / 到期时间等非节点内容 排除带有 "=>" 前缀的落地节点 ──
-FilterAll: &FilterAll '^(?!.*(?:(?i)群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|剩余流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|超时|收藏|福利|失联|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|\d{4}-\d{2}-\d{2}|\d+G|=>)).*$'
+FilterAll: &FilterAll '^(?!.*(?:(?i)=>|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|剩余流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|超时|收藏|福利|失联|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|\d{4}-\d{2}-\d{2}|\d+G)).*$'
 
 # ── 提取带有 "=>" 前缀的落地节点，同时排除垃圾信息 ──
 FilterOut: &FilterOut '^(?=.*=>)(?!.*(?:(?i)群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|剩余流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|超时|收藏|福利|失联|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|\d{4}-\d{2}-\d{2}|\d+G)).*$'
 
 # ── Others节点过滤 在净化的基础上，排除已提取的常用地区节点 ──
-FilterOthers: &FilterOthers '^(?!.*(?:(?i)群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|剩余流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|超时|收藏|福利|失联|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|\d{4}-\d{2}-\d{2}|\d+G|🇭🇰|香港|Hong\s?Kong|\bHKG?\d*\b|🇹🇼|台湾|Taiwan?|\bTWN?\d*\b|🇯🇵|日本|川日|东京|大阪|埼玉|Japan|\bJPN?\d*\b|🇰🇷|韩国|韓|首尔|Korea|(?:KR|KOR)\d*|🇸🇬|新加坡|Singapore|\bSGP?\d*\b|🇺🇸|美国|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|拉斯维加斯|United\s?States|\bUSA?\d*\b)).*$'
+FilterOthers: &FilterOthers '^(?!.*(?:(?i)=>|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|剩余流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|超时|收藏|福利|失联|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|\d{4}-\d{2}-\d{2}|\d+G|🇭🇰|香港|Hong\s?Kong|\bHKG?\d*\b|🇹🇼|台湾|Taiwan?|\bTWN?\d*\b|🇯🇵|日本|川日|东京|大阪|埼玉|Japan|\bJPN?\d*\b|🇰🇷|韩国|韓|首尔|Korea|(?:KR|KOR)\d*|🇸🇬|新加坡|Singapore|\bSGP?\d*\b|🇺🇸|美国|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|拉斯维加斯|United\s?States|\bUSA?\d*\b)).*$'
 
+# ── 策略组 ──
 proxy-groups:
 
   # ── 链式代理 ──
@@ -360,7 +312,8 @@ rule-providers:
   # 2.LAN
   # ══════════════════════════════════════════
   R-private:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}                        # 内网域名 → DIRECT
-  R-fakeipfilter:       {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/fakeipfilter.yaml"}                                      # FakeIP过滤 → DIRECT
+  R-fakeipfilter:       {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/fakeipfilter.yaml"}                 # FakeIP过滤 → DIRECT
+  R-sniffer-skip-ip:    {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/sniffer-skip-ip.yaml"}              # 嗅探豁免 IP 列表
   R-connectivity:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/connectivity-check.mrs"}             # 网络连通性检测 → DIRECT
 
   # ══════════════════════════════════════════
@@ -544,7 +497,7 @@ rule-providers:
   R-speedtest:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs"}                # Speedtest测速
   
   # ── IP ──
-  R-nodeseek:           {<<: *domain,   url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/nodeseek.mrs"}                     # nodeseek
+  R-nodeseek:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/nodeseek.mrs"}                       # nodeseek自建服务
   
   # ── CN App ──
   R-jingdong:           {<<: *domain, url: "https://raw.githubusercontent.com/Keviin560/Shunt_Rules/main/rule/Mihomo/JingDong.mrs"}
@@ -662,7 +615,7 @@ rule-providers:
   # R-hentaivn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/hentaivn.mrs"}                   # hentaivn — 越南语成人漫画
 
   # R-metart:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/metart.mrs"}                     # metart.com — 艺术写真 / 成人图片平台
-  # R-nudevista:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/nudevista.mrs"}                   # nudevista.com — 成人图片 / 视频搜索引擎
+  # R-nudevista:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/nudevista.mrs"}                  # nudevista.com — 成人图片 / 视频搜索引擎
   # R-truyen-hentai:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/truyen-hentai.mrs"}              # truyen-hentai — 越南语成人漫画
   # R-xingrz:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xingrz.mrs"}                     # xingrz — 成人图片 / 漫画
 
@@ -957,7 +910,7 @@ rules:
   # - RULE-SET,R-tube8,R18                                         # tube8.com — 成人视频平台（MindGeek 旗下）
   # - RULE-SET,R-xhamster-ads,REJECT                               # xhamster 广告域名 → 拦截
   # - RULE-SET,R-xhamster,R18                                      # xhamster.com — 成人视频平台
-  # - RULE-SET,R-xingkongwuxianmedia,R18                            # 星空无限传媒 — 国产成人视频制作公司
+  # - RULE-SET,R-xingkongwuxianmedia,R18                           # 星空无限传媒 — 国产成人视频制作公司
   # - RULE-SET,R-xnxx,R18                                          # xnxx.com — 成人视频平台
   # - RULE-SET,R-xvideos,R18                                       # xvideos.com — 成人视频平台
   # - RULE-SET,R-youjizz,R18                                       # youjizz.com — 成人视频平台
