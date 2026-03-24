@@ -134,6 +134,7 @@ sniffer:
     - +.msftconnecttest.com
     - +.msftncsi.com  
     
+  skip-dst-address:                            # 目的地址豁免 遇到以下 IP 地址直接放行不拆包，防止破坏特殊协议导致断连
     # ── telegram ──
     - 5.28.192.0/18
     - 67.198.55.0/24
