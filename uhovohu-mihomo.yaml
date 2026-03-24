@@ -424,9 +424,7 @@ rule-providers:
   R-cloudflare-ip:      {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cloudflare.mrs"}                       # Cloudflare IP
   R-cloudflare-ipfs:    {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare-ipfs.mrs"}                # Cloudflare IPFS网关
   R-cloudflare-cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare-cn.mrs"}                  # Cloudflare中国域名 → DIRECT
-  R-cloudflare-cn2:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare-cn@cn.mrs"}               # Cloudflare中国域名补充 → DIRECT
-  R-cloudflare-at-cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare@cn.mrs"}                  # Cloudflare@cn → DIRECT
-
+ 
   # ── Microsoft ──
   R-microsoft:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}                      # Microsoft全家桶
   R-microsoft-dev:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft-dev.mrs"}                  # Microsoft开发者
@@ -452,7 +450,6 @@ rule-providers:
   R-apple-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"}                       # Apple中国专属域名 → DIRECT
   R-apple-at-cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple@cn.mrs"}                       # Apple国内服务补充 → DIRECT
   R-apple-dev-cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-dev@cn.mrs"}                   # Apple开发者国内节点 → DIRECT
-  R-apple-pki-cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-pki@cn.mrs"}                   # Apple证书国内节点 → DIRECT
 
   # ── Android ──
   R-android:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/android.mrs"}                        # Android系统相关
@@ -765,8 +762,6 @@ rules:
 
   # ── Cloudflare ──
   - RULE-SET,R-cloudflare-cn,CN                                    # Cloudflare 中国域名
-  - RULE-SET,R-cloudflare-cn2,CN                                   # Cloudflare 中国域名补充
-  - RULE-SET,R-cloudflare-at-cn,CN                                 # Cloudflare@cn
   - RULE-SET,R-cloudflare,Cloudflare                               # Cloudflare
   - RULE-SET,R-cloudflare-ipfs,Cloudflare                          # Cloudflare IPFS 网关
   - RULE-SET,R-cloudflare-ip,Cloudflare,no-resolve                 # Cloudflare IP
@@ -787,14 +782,13 @@ rules:
   # ── Apple ──
   - RULE-SET,R-icloud-cn,Apple                                     # iCloud 国内节点（云上贵州）
   - RULE-SET,R-itunes-cn,Apple                                     # iTunes 国内节点
+  - RULE-SET,R-apple-pki,Apple                                     # Apple 证书服务
   - RULE-SET,R-apple-update,Apple                                  # iOS/macOS 系统更新
   - RULE-SET,R-apple-cn,Apple                                      # Apple 中国专属域名
   - RULE-SET,R-apple-at-cn,Apple                                   # Apple 国内服务补充
   - RULE-SET,R-apple-dev-cn,Apple                                  # Apple 开发者国内节点
-  - RULE-SET,R-apple-pki-cn,Apple                                  # Apple 证书国内节点
   - RULE-SET,R-icloud,Apple                                        # iCloud
   - RULE-SET,R-itunes,Apple                                        # iTunes
-  - RULE-SET,R-apple-pki,Apple                                     # Apple 证书服务（国际）
   - RULE-SET,R-apple,Apple                                         # Apple 全家桶
   - RULE-SET,R-apple-ip,Apple,no-resolve                           # Apple IP 段
 
