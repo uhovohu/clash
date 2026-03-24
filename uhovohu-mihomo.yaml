@@ -244,7 +244,6 @@ dns:
     - "rule-set:R-apple-cn"                  # Apple 中国专属域名
     - "rule-set:R-apple-at-cn"               # Apple 国内服务补充
     - "rule-set:R-apple-dev-cn"              # Apple 开发者国内节点
-    - "rule-set:R-apple-pki-cn"              # Apple 证书国内节点
     - "rule-set:R-icloud"                    # iCloud
     - "rule-set:R-itunes"                    # iTunes
     - "rule-set:R-apple"                     # Apple 全家桶

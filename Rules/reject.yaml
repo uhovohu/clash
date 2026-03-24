@@ -1,44 +1,70 @@
 payload:
-  - pull-flv-l1.ixigua.com
-  - api.xsj.wasu.tv
-  - status-ipv6.jpush.cn
-  - basic-static-server.infinitynewtab.com
-  - infinitynewtab.com
-  - ws.infinitynewtab.com
-  - maplocatesdksnapshot.d.meituan.net
-  - al-log.d.meituan.net
-  - route-stats.d.meituan.net
+  # ── HTX ──
   - temp.htx.com.lv
   - temp.bbagl.com
   - temp.htx.com.do
   - temp.aglmt.com
   - temp.htx.com.am
-  - quotation-linear-swap-new-notification.l10n-dm.apru88.com
-  - swap-trade-new-notification.l10n-dm.apru88.com
-  - contract-trade-new-notification.l10n-dm.apru88.com
-  - v5-user-data-push.l10n-dm.apru88.com
   - huobi.com.bo
+  - quotation-linear-swap-new-notification.l10n-dm.apru88.com  # 合约/期权行情推送
+  - swap-trade-new-notification.l10n-dm.apru88.com             # 交易通知
+  - contract-trade-new-notification.l10n-dm.apru88.com         # 合约交易通知
+  - v5-user-data-push.l10n-dm.apru88.com                       # V5 API 用户数据推送
   - contract-trade-new-notification.l10n-dm.88maru.com
   - swap-trade-new-notification.l10n-dm.88maru.com
-  - sis.push.engage7.com
-  - sis.push.engageforce.net
-  - sis.push.theengagelab.com
   - l10n-dm.88maru.com
-  - ctydoh.cn
-  - sis.jpush.io
-  - ntp.nasa.gov
-  - adsmind.gdtimg.com
-  - lf-leads-fe-scm.bytecdn.com
-  - sealine.youku.com
-  - speedv6.m.jd.com
-  - hif-dliq.deepseek.com
-  - +.jddebug.com
-  - +.app-measurement.com
-  - +.dc-telemetry.net
-  - +.g.cn.miaozhen.com
-  - +.posthog.itoytoy.com
-  - +.is.snssdk.com
-  - +.onenav.h06i.com
-  - +.vc-brain-lq.ndcpp.com
-  - +.httpdns.qcloud.com
-  - +.httpdns.start.qcloud.com
+
+  # ── 美团 ──
+  - al-log.d.meituan.net               # 美团日志上报
+  - route-stats.d.meituan.net          # 美团路由统计
+  - maplocatesdksnapshot.d.meituan.net # 美团地图定位 SDK 抓拍
+  
+  # ── 腾讯 ──
+  - adsmind.gdtimg.com                # 腾讯广点通 (GDT) 广告素材
+  - +.httpdns.qcloud.com              # 腾讯云 HTTPDNS (必须直连)
+  - +.httpdns.start.qcloud.com        # 腾讯云 HTTPDNS (必须直连)
+  
+  # ── 京东 ──
+  - +.jddebug.com                     # 京东调试与日志收集
+  - speedv6.m.jd.com                  # 京东 IPv6 测速/调度
+  
+  # ── 数据遥测 ──
+  - +.app-measurement.com             # Google Firebase 统计/数据分析
+  - +.dc-telemetry.net                # 数据遥测 (Telemetry) 收集
+  - +.g.cn.miaozhen.com               # 秒针系统 (国内常见广告监测平台)
+  - +.posthog.itoytoy.com             # PostHog 用户行为分析
+  
+  # ── 字节跳动 ──
+  - +.is.snssdk.com                   # 字节跳动 (巨量引擎) 统计/追踪
+  - lf-leads-fe-scm.bytecdn.com       # 字节跳动 CDN 静态资源
+  - pull-flv-l1.ixigua.com            # 西瓜视频 FLV 视频流拉取节点
+
+  # ── 华数 ── 
+  - api.xsj.wasu.tv                   # 华数 TV 接口
+  
+  # ── 优酷 ──
+  - sealine.youku.com                 # 优酷视频调度/节点
+  
+  # ── 极光推送 ──
+  - status-ipv6.jpush.cn              # 极光推送 (国内版) 状态接口
+  - sis.jpush.io                      # 极光推送接口
+  - sis.push.engage7.com              # EngageLab (极光海外/企业版推送)
+  - sis.push.engageforce.net          # EngageLab 推送
+  - sis.push.theengagelab.com         # EngageLab 推送
+
+  # ── 国内 DoH ──
+  - ctydoh.cn                         # 国内 DoH (DNS over HTTPS) 节点或追踪接口
+  
+  # ── NASA 时间同步 ──
+  - ntp.nasa.gov                      # NASA 的 NTP 时间同步服务器
+
+  # ── Infinity 新标签页 ──
+  - basic-static-server.infinitynewtab.com # Infinity 新标签页插件静态资源
+  - infinitynewtab.com                     # Infinity 官网
+  - ws.infinitynewtab.com                  # Infinity 同步/Websocket
+  
+  # ── OneNav ──
+  - +.onenav.h06i.com                      # OneNav 导航/书签管理工具
+  
+  # ── 网龙 NetDragon ──
+  - +.vc-brain-lq.ndcpp.com                # 某企业/教育机构后端接口 (可能与网龙 NetDragon 有关)

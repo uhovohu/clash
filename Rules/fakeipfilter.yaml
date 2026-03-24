@@ -40,6 +40,10 @@ payload:
   - +.router.ctc
   - +.phicomm.me
   - +.peiluyou.com
+  - heartbeat.belkin.com
+  - +.linksys.com
+  - +.linksyssmartwifi.com
+  - +.router.asus.com
 
   # ── NTP 时间服务 ──
   # time.*.com → 枚举主流服务商（中间通配无法直接表达）
@@ -83,69 +87,6 @@ payload:
   - +.ntp.org.cn
   - +.pool.ntp.org
 
-  # ── CRL 证书吊销列表 ──
-  - +.crl.globalsign.com
-  - +.crl.microsoft.com
-  - +.crl.verisign.com
-  - +.crl.thawte.com
-
-  # ── 音乐平台 ──
-  # 网易云音乐
-  - +.music.163.com
-  - +.126.net
-  # 百度音乐
-  - musicapi.taihe.com
-  - music.taihe.com
-  # 酷狗音乐
-  - songsearch.kugou.com
-  - trackercdn.kugou.com
-  # 酷我音乐
-  - +.kuwo.cn
-  # JOOX
-  - api-jooxtt.sanook.com
-  - api.joox.com
-  - joox.com
-  # QQ音乐
-  - +.y.qq.com
-  - streamoc.music.tc.qq.com
-  - mobileoc.music.tc.qq.com
-  - isure.stream.qqmusic.qq.com
-  - dl.stream.qqmusic.qq.com
-  - aqqmusic.tc.qq.com
-  - amobile.music.tc.qq.com
-  # 虾米音乐
-  - +.xiami.com
-  # 咪咕音乐
-  - +.music.migu.cn
-
-  # ── Windows 连通性检测 ──
-  - +.msftconnecttest.com
-  - +.msftncsi.com
-
-  # ── QQ / 微信登录 ──
-  - localhost.ptlogin2.qq.com
-  - localhost.sec.qq.com
-  - +.weixin.qq.com
-  - +.kk-rays.com
-
-  # ── 游戏平台 ──
-  # Steam
-  - +.steamcontent.com
-  # Nintendo Switch
-  - +.srv.nintendo.net
-  - +.cdn.nintendo.net
-  # Microsoft Xbox
-  - +.xboxlive.com
-  - +.xbox.microsoft.com
-  - xnotify.xboxlive.com
-  # Wargaming
-  - +.battle.net
-  - +.battlenet.com.cn
-  - +.wotgame.cn
-  - +.wggames.cn
-  - +.wowsgame.cn
-  - +.wargaming.net
-
   # ── STUN（枚举主流服务器）──
   - +.stun.l.google.com
   - +.stun.cloudflare.com
@@ -158,11 +99,15 @@ payload:
   - +.stun.counterpath.com
   - +.stun.1und1.de
 
-  # ── 路由器 ──
-  - heartbeat.belkin.com
-  - +.linksys.com
-  - +.linksyssmartwifi.com
-  - +.router.asus.com
+  # ── CRL 证书吊销列表 ──
+  - +.crl.globalsign.com
+  - +.crl.microsoft.com
+  - +.crl.verisign.com
+  - +.crl.thawte.com
+
+  # ── Windows 连通性检测 ──
+  - +.msftconnecttest.com
+  - +.msftncsi.com
 
   # ── Apple 软件更新 ──
   - mesu.apple.com
@@ -171,6 +116,67 @@ payload:
   - swdownload.apple.com
   - swcdn.apple.com
   - swdist.apple.com
+
+  # ── QQ / 微信登录 ──
+  - localhost.ptlogin2.qq.com
+  - localhost.sec.qq.com
+  - +.weixin.qq.com
+  - +.kk-rays.com
+
+  # 网易云音乐
+  - +.music.163.com
+  - +.126.net
+  
+  # 百度音乐
+  - musicapi.taihe.com
+  - music.taihe.com
+  
+  # 酷狗音乐
+  - songsearch.kugou.com
+  - trackercdn.kugou.com
+  
+  # 酷我音乐
+  - +.kuwo.cn
+ 
+  # JOOX
+  - api-jooxtt.sanook.com
+  - api.joox.com
+  - joox.com
+  
+  # QQ音乐
+  - +.y.qq.com
+  - streamoc.music.tc.qq.com
+  - mobileoc.music.tc.qq.com
+  - isure.stream.qqmusic.qq.com
+  - dl.stream.qqmusic.qq.com
+  - aqqmusic.tc.qq.com
+  - amobile.music.tc.qq.com
+  
+  # 虾米音乐
+  - +.xiami.com
+  
+  # 咪咕音乐
+  - +.music.migu.cn
+
+  # Steam
+  - +.steamcontent.com
+  
+  # Nintendo Switch
+  - +.srv.nintendo.net
+  - +.cdn.nintendo.net
+  
+  # Microsoft Xbox
+  - +.xboxlive.com
+  - +.xbox.microsoft.com
+  - xnotify.xboxlive.com
+  
+  # Wargaming
+  - +.battle.net
+  - +.battlenet.com.cn
+  - +.wotgame.cn
+  - +.wggames.cn
+  - +.wowsgame.cn
+  - +.wargaming.net
 
   # ── Final Fantasy XIV ──
   - +.square-enix.com
@@ -190,6 +196,7 @@ payload:
 
   # ── Xiaomi ──
   - +.market.xiaomi.com
+  - +.Mijia Cloud
 
   # ── 招商银行 ──
   - +.cmbchina.com
@@ -206,13 +213,7 @@ payload:
   - +.sandai.net
   - +.n0808.com
 
-  # ── 运营商 Wifi Calling ──
-  - +.3gppnetwork.org
-  - +.app.online-cmcc.cn
-  - +.10086.cn
-  - +.wo.cn
-  
-  # 中国移动
+  # ── 中国移动 ──
   - +.api.share.mob.com
   - +.dnconfig.cmpassport.com
   - +.dnlog.cmpassport.com
@@ -221,12 +222,17 @@ payload:
   - +.wap.cmpassport.com
   - +.onekey1.cmpassport.com
   - +.log1.cmpassport.com
+  - +.log2.cmpassport.com
   - +.smsks1.cmpassport.com
   - +.verify.cmpassport.com
   - +.rcs.cmpassport.com
-  - +.cmpassport.com 
+  - +.cmpassport.com
+  - +.3gppnetwork.org
+  - +.app.online-cmcc.cn
+  - +.10086.cn
+  - +.wo.cn 
 
-  # 中国联通 
+  # ── 中国联通 ──
   - +.opencloud.wostore.cn
   - +.auth.wosms.cn
   - +.id.mail.wo.cn
@@ -235,18 +241,18 @@ payload:
   - +.nishub1.10010.com
   - +.enrichgw.10010.com
 
-  # 中国电信
+  # ── 中国电信 ──
   - +.id6.me
   - +.open.e.189.cn
 
-  # 美团
+  # ── 美团 ──
   - +.config2.cmpassport.com
   
-  # 淘宝闪购
+  # ── 淘宝闪购 ──
   - +.wgo.mmstat.com
   - +.cdn.ynuf.aliapp.org
   
-  # 哈啰单车-
+  # ── 哈啰单车 ──
   - +.c-gtc.getui.net
   - +.c-ido.gepush.com
   - +.ido.gepush.com
@@ -278,6 +284,7 @@ payload:
   - +.1
   - +.1
   - +.1
+  
   # ── 京东养车 ──
   - +.secure.globalsign.com
   - +.aaid.uyunad.com
@@ -285,6 +292,7 @@ payload:
   - +.1
   - +.1
   - +.1
+  
   # ── 知乎 ──
   - +.crt.sectigo.com
   - +.crt.usertrust.com
@@ -310,3 +318,20 @@ payload:
 
   # ── DDNS ──
   - +.dynv6.net
+  
+  # ── Leikwan Host (雷管云) ──
+  #- paid-v4.bgp1.leikwanhost.com
+  
+  # ── 高通 ──
+  - +.qualcomm.cn
+  
+  # ── 自用 ──
+  - op.kookiao.com
+  - rd.kookiao.com
+  - cloud.kookiao.com
+  - rules.uhovohu.com
+  - sub.uhovohu.com
+  - hin.uhovohu.com
+
+
+  
