@@ -1,0 +1,10 @@
+payload:
+  # ── UHD 国际线路 ──
+  - +.v1.uhdnow.com
+  - +.global.uhdnow.com
+  
+  # ── 守候Emby ──
+  - +.cn2gias.uk
+ 
+  # ── FutureEcho ──
+  - +.music.mefun.org

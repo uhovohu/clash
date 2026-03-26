@@ -135,6 +135,10 @@ sniffer:
   skip-dst-address:                          # 目的地址豁免 遇到以下 IP 地址直接放行不拆包，防止破坏特殊协议导致断连
     - "rule-set:R-sniffer-skip-ip"
     - "rule-set:R-telegram-ip"               # Telegram 服务器 IP 地址列表
+    - "rule-set:R-apple-ip"                  # Apple 服务器 IP 地址列表
+    - "rule-set:R-bilibili-ip"
+    - "rule-set:R-jingdongcloud-ip"
+    - "rule-set:R-custom-ip"
 
 # =======================================================
 # 4. 虚拟网卡 TUN
