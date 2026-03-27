@@ -330,14 +330,5 @@ payload:
   
   # ── 高通 ──
   - +.qualcomm.cn
-  
-  # ── 自用 ──
-  - op.kookiao.com
-  - rd.kookiao.com
-  - cloud.kookiao.com
-  - rules.uhovohu.com
-  - sub.uhovohu.com
-  - hin.uhovohu.com
-
 
   
