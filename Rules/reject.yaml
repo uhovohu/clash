@@ -68,3 +68,6 @@ payload:
   
   # ── 网龙 NetDragon ──
   - +.vc-brain-lq.ndcpp.com                # 某企业/教育机构后端接口 (可能与网龙 NetDragon 有关)
+
+  # ── blackberry ──
+  - +.blackberry.com                       # 黑莓公司 (BlackBerry) 相关服务，主要防止 webrtc 泄漏
