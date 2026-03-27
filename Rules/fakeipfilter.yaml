@@ -88,16 +88,21 @@ payload:
   - +.pool.ntp.org
 
   # ── STUN（枚举主流服务器）──
-  - +.stun.l.google.com
-  - +.stun.cloudflare.com
-  - +.stun.nextcloud.com
-  - +.stun.ekiga.net
-  - +.stun.twilio.com
-  - +.stun.relay.metered.ca
-  - +.stun.stunprotocol.org
-  - +.stun.sipgate.net
-  - +.stun.counterpath.com
-  - +.stun.1und1.de
+  - +.stun.aliyun.com          # 阿里云：国内最稳定、解析最快的节点
+  - +.stun.itc.cn              # 搜狐/阿里：响应极快，兼容性极佳
+  - +.stun.qq.com              # 腾讯：部分地区 NAT 穿透效果优于阿里
+  - +.stun.douyu.com           # 斗鱼：直播级带宽，打洞成功率高
+
+  - +.stun.telecom.com.cn      # 中国电信：电信宽带用户建议保留
+  - +.stun.unicom.com.cn       # 中国联通：联通宽带用户建议保留
+  - +.stun.chinamobile.com     # 中国移动：移动/铁通宽带专用
+
+  - +.stun.synology.cn         # 群晖中国：针对 NAS 穿透优化，国内节点
+  - +.stun.miwifi.com          # 小米路由：小米生态链设备常用测试点
+
+  - +.stun.hit.edu.cn          # 哈工大：教育网环境延迟极低
+  - +.stun.pku.edu.cn          # 北京大学：北方教育网骨干节点
+  - +.stun.tuna.tsinghua.edu.cn # 清华大学：高校网络环境下非常稳定
 
   # ── CRL 证书吊销列表 ──
   - +.crl.globalsign.com

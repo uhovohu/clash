@@ -138,7 +138,6 @@ sniffer:
     - "rule-set:R-apple-ip"                  # Apple 服务器 IP 地址列表
     - "rule-set:R-bilibili-ip"
     - "rule-set:R-jingdongcloud-ip"
-    - "rule-set:R-custom-ip"
 
 # =======================================================
 # 4. 虚拟网卡 TUN
