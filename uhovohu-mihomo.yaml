@@ -30,21 +30,21 @@ proxy-providers:
     url: "填入订阅"
     type: http
     interval: 86400
-    health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
+    health-check: {enable: true, lazy: true, url: "https://www.gstatic.com/generate_204",interval: 3600}
     proxy: DIRECT
   
   provider2:                                                                                    # 订阅链接，如需多个订阅请复制整段 并修改 provider2 字段 保证唯一性
     url: "填入订阅"
     type: http
     interval: 86400
-    health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
+    health-check: {enable: true, lazy: true, url: "https://www.gstatic.com/generate_204",interval: 3600}
     proxy: DIRECT  
   
   Link-OUT:                                                                                     # 链路出口节点订阅，请尽量使用单独的订阅链接   或 "与上方订阅链接相同"  
     url: "填入订阅"
     type: http
     interval: 86400
-    health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
+    health-check: {enable: true, lazy: true, url: "https://www.gstatic.com/generate_204",interval: 3600}
     proxy: DIRECT
     override:
       additional-prefix: "=> "                                                                  # 追加前缀 "=> " 以区分链路出口节点，方便在策略组中单独调用
