@@ -329,7 +329,7 @@ rule-providers:
   R-icloudprivaterelay: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/icloudprivaterelay.mrs"}             # iCloud私有中继 → REJECT
   R-reject:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/reject.yaml"}
   R-reject-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/reject-ip.yaml"}
-  R-ads:                {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ads-all.mrs"}               # 全量广告拦截 → REJECT
+  R-ads:                {<<: *domain, url: "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.mrs"}       # 全量广告拦截 → REJECT
   R-ads-add:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/ads-add.yaml"}
   R-ads-add-ip:         {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/ads-add-ip.yaml"}
   R-httpdns-cn:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-httpdns-cn.mrs"}            # 国内HTTPDNS劫持 → REJECT
