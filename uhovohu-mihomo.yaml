@@ -112,18 +112,9 @@ sniffer:
     - "rule-set:R-securities-cn"             # 国内证券
     - "rule-set:R-finance-cn"                # 国内金融
     - "rule-set:R-ntp-cn"                    # 国内 NTP：假 IP 导致时间同步失败
-    - "rule-set:R-wechat"
-    - "rule-set:R-tencent"
-    - "rule-set:R-tendcloud"
-    - "rule-set:R-tencent-dev"
-    - "rule-set:R-aliyun"
-    - "rule-set:R-aliyun-drive"
-    - "rule-set:R-alibaba"
-    - "rule-set:R-alibabacloud"
-    - "rule-set:R-jingdong"
-    - "rule-set:R-meituan"
     - "rule-set:R-icloud-cn"                 # iCloud 国内节点 云上贵州
     - "rule-set:R-itunes-cn"                 # iTunes 国内节点
+    - "rule-set:R-apple-pki"                 # Apple 证书服务
     - "rule-set:R-apple-update"              # iOS/macOS 系统更新
     - "rule-set:R-apple-cn"                  # Apple 中国专属域名
     - "rule-set:R-apple-at-cn"               # Apple 国内服务补充
@@ -136,9 +127,7 @@ sniffer:
     - "rule-set:R-sniffer-skip-ip"
     - "rule-set:R-telegram-ip"               # Telegram 服务器 IP 地址列表
     - "rule-set:R-apple-ip"                  # Apple 服务器 IP 地址列表
-    - "rule-set:R-bilibili-ip"
-    - "rule-set:R-jingdongcloud-ip"
-
+    - "rule-set:R-custom-ip"
 # =======================================================
 # 4. 虚拟网卡 TUN
 # =======================================================
@@ -146,8 +135,7 @@ tun:
   enable: true                               # 开启 TUN 虚拟网卡
   stack: mixed                               # 混合网络栈：TCP 走 system (高性能)，UDP 走 gVisor (高兼容)
   dns-hijack: ["any:53", "tcp://any:53"]     # 双重劫持标准 DNS 端口，彻底防泄漏
-  
-  #device: nikki                             # 使用nikki，混入全部不修改的情况，开启接口指定为nikki
+  #device: nikki                             #使用nikki，混入全部不修改的情况，开启接口指定为nikki
   
   #使用仅内核自行修改下面三项为true 路由控制 使用 GUI 客户端保持 false，纯内核命令行运行改为 true
   auto-route: false                          # 不自动修改系统路由表，交由外层客户端管理，防冲突
@@ -175,13 +163,12 @@ dns:
   # ── DNS ──
   default-nameserver:                        # 基础启动 用于最底层解析下方 proxy-server-nameserver 本身及代理节点的域名
     - 223.5.5.5
-    - 119.29.29.29
+    - 223.6.6.6
   proxy-server-nameserver:                   # 节点专线 专职负责解析 “节点” 和 “订阅链接” 的真实 IP
     - https://223.5.5.5/dns-query
     - https://doh.pub/dns-query
   direct-nameserver:                         # 直连兜底 专职负责解析走 DIRECT 分流规则的域名
     - 223.5.5.5
-    - 119.29.29.29
   nameserver:                                # 国外兜底 处理所有未知的兜底域名，防止 DNS 污染 附带节点选择强制走代理出境
     - https://1.1.1.1/dns-query#Proxy
     - https://8.8.8.8/dns-query#Proxy
@@ -196,6 +183,11 @@ dns:
     "rule-set:R-securities-cn": system       # 国内证券 → 系统 DNS
     "rule-set:R-finance-cn": system          # 国内金融 → 系统 DNS
     "rule-set:R-ntp-cn": system
+    "rule-set:R-wechat": system
+    "rule-set:R-tencent": system
+    "rule-set:R-tendcloud": system
+    "rule-set:R-tencent-dev": system
+
     
   # ── Fake-IP ──
   fake-ip-filter:
@@ -217,16 +209,8 @@ dns:
     - "rule-set:R-alibabacloud"
     - "rule-set:R-jingdong"
     - "rule-set:R-meituan"
-    - "rule-set:R-icloud-cn"                 # iCloud 国内节点 云上贵州
-    - "rule-set:R-itunes-cn"                 # iTunes 国内节点
-    - "rule-set:R-apple-update"              # iOS/macOS 系统更新
-    - "rule-set:R-apple-cn"                  # Apple 中国专属域名
-    - "rule-set:R-apple-at-cn"               # Apple 国内服务补充
-    - "rule-set:R-apple-dev-cn"              # Apple 开发者国内节点
-    - "rule-set:R-icloud"                    # iCloud
-    - "rule-set:R-itunes"                    # iTunes
-    - "rule-set:R-apple"                     # Apple 全家桶
-
+ 
+    
 # =======================================================
 # 6. 策略组 Proxy Groups
 # =======================================================
