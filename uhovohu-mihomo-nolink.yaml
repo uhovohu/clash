@@ -120,7 +120,7 @@ dns:
   cache-algorithm: arc                       # DNS 缓存淘汰算法 ARC 相比传统 LRU 命中率更高
   listen: 0.0.0.0:1053                       # DNS 服务监听端口
   ipv6: false                                # 关闭 IPv6 解析 保持与全局设置一致
-  respect-rules: true                        # DNS 请求无视底层分流规则，由下方 DNS 设定自身决定走向
+  respect-rules: true                        # DNS 请求遵循分流规则，由规则决定 DNS 查询走向而非固定出口
 
   # ── Fake-IP ──
   enhanced-mode: fake-ip                     # 开启 Fake-IP 增强模式 秒回假 IP，极大提升网络响应速度
@@ -137,8 +137,8 @@ dns:
   direct-nameserver:                         # 直连兜底 专职负责解析走 DIRECT 分流规则的域名
     - 223.5.5.5
   nameserver:                                # 国外兜底 处理所有未知的兜底域名，防止 DNS 污染 附带节点选择强制走代理出境
-    - https://1.1.1.1/dns-query#Proxy
-    - https://8.8.8.8/dns-query#Proxy
+    - 1.1.1.1#Proxy                          # 修改为明文dns地址，因大部分家宽不支持DoH解析，有需求的用户可以自行替换为 https://1.1.1.1/dns-query#Proxy  https://8.8.8.8/dns-query#Proxy
+    - 8.8.8.8#Proxy
 
   # ── DNS 分流 ──
   nameserver-policy:
