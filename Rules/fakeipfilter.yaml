@@ -86,6 +86,12 @@ payload:
   - ntp5.tencent.com
   - +.ntp.org.cn
   - +.pool.ntp.org
+  
+  # ── Mail ──
+  - imap.mail.me.com
+  - smtp.mail.me.com           # Apple 邮件服务器，部分地区解析到内网地址
+  - smtp.qq.com
+  - smtp.qq.com
 
   # ── STUN（枚举主流服务器）──
   - +.stun.aliyun.com          # 阿里云：国内最稳定、解析最快的节点
@@ -250,6 +256,9 @@ payload:
   - +.id6.me
   - +.open.e.189.cn
 
+  # ── 公安 一网通办 ──
+  - appx
+
   # ── 美团 ──
   - +.config2.cmpassport.com
   
@@ -309,6 +318,7 @@ payload:
   - +.taqc3qiuoro0kbeq7o5i5cim623i8t0knms2pji0asics822rr7qumu.manlaxycloud.com
   - +.taqc3qiuoro0kbeq7o5i5cim623i8t0knms2pji0asics822rr7qumu.manlaxycloud.com
   - +.douyinvod.com
+  - +.ahdohpiechei.com
   
   # ── UU 加速器 ──
   - +.uu.163.com
@@ -327,8 +337,5 @@ payload:
   
   # ── Leikwan Host (雷管云) ──
   #- paid-v4.bgp1.leikwanhost.com
-  
-  # ── 高通 ──
-  - +.qualcomm.cn
 
   

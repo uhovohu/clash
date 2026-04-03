@@ -5,3 +5,8 @@ payload:
   - +.claude.com
   - +.claudeusercontent.com
   - +.claudemcpclient.com
+  - +.browser-intake-us5-datadoghq.com
+  - +.api-iam.intercom.io
+  - +.nexus-websocket-a.intercom.io
+  - +.widget.intercom.io
+  - +.sentry.io

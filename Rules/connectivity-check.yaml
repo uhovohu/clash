@@ -1,0 +1,25 @@
+payload:
+  # === Linux 发行版连通性测试 ===
+  - ping.archlinux.org            # Arch Linux
+  - redirect.archlinux.org        # Arch Linux
+  - connectivity-check.ubuntu.com # Ubuntu
+  - +.network-test.debian.org     # Debian
+  - +.networkcheck.kde.org        # KDE 桌面环境
+
+  # === 国产手机系统网络检查 ===
+  - connectivitycheck.platform.hihonorcloud.com # 荣耀 (Honor)
+  - connectivitycheck.platform.hicloud.com      # 华为 (Huawei)
+  - connect.rom.miui.com                        # 小米 (MIUI)
+
+  # === 微软 / Windows 系统 ===
+  # Windows 网络状态指示器 (NCSI)，防误报“无网络连接”
+  - +.msftconnecttest.com
+  - +.msftncsi.com
+
+  # === 苹果 / Apple 系统 ===
+  # iOS/macOS 核心检测域名，直连以确保能正常弹出公共 Wi-Fi 登录页面
+  - +.captive.apple.com
+
+  # === 浏览器与其他 ===
+  - +.detectportal.firefox.com    # Firefox 浏览器检测强制门户
+  - +.cp.cloudflare.com           # Cloudflare 通用连通性测试

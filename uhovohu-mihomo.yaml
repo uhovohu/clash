@@ -325,7 +325,7 @@ rule-providers:
   R-private:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}                        # 内网域名 → DIRECT
   R-fakeipfilter:       {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/fakeipfilter.yaml"}                 # FakeIP过滤 → DIRECT
   R-sniffer-skip-ip:    {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/sniffer-skip-ip.yaml"}              # 嗅探豁免 IP 列表
-  R-connectivity:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/connectivity-check.mrs"}             # 网络连通性检测 → DIRECT
+  R-connectivity:       {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/connectivity-check.yaml"}           # 网络连通性检测 → DIRECT
 
   # ══════════════════════════════════════════
   # 3.Proxy

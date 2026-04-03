@@ -20,9 +20,9 @@ payload:
   - maplocatesdksnapshot.d.meituan.net # 美团地图定位 SDK 抓拍
   
   # ── 腾讯 ──
-  - adsmind.gdtimg.com                # 腾讯广点通 (GDT) 广告素材
-  - +.httpdns.qcloud.com              # 腾讯云 HTTPDNS (必须直连)
-  - +.httpdns.start.qcloud.com        # 腾讯云 HTTPDNS (必须直连)
+  #- adsmind.gdtimg.com                # 腾讯广点通 (GDT) 广告素材
+  #- +.httpdns.qcloud.com              # 腾讯云 HTTPDNS (必须直连)
+  #- +.httpdns.start.qcloud.com        # 腾讯云 HTTPDNS (必须直连)
   
   # ── 京东 ──
   - +.jddebug.com                     # 京东调试与日志收集
@@ -65,9 +65,15 @@ payload:
   
   # ── OneNav ──
   - +.onenav.h06i.com                      # OneNav 导航/书签管理工具
+
+  # ── 七牛云PCDN ──
+  - +.ahdohpiechei.com
   
   # ── 网龙 NetDragon ──
   - +.vc-brain-lq.ndcpp.com                # 某企业/教育机构后端接口 (可能与网龙 NetDragon 有关)
+  
+  # ── Firefox STUN ──
+  - stun.services.mozilla.com               
 
-  # ── blackberry ──
-  - +.blackberry.com                       # 黑莓公司 (BlackBerry) 相关服务，主要防止 webrtc 泄漏
+  # ── 高通 ──
+  - qualcomm.cn                            # 高通中国官网 IP测试在用
