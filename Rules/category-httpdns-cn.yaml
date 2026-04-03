@@ -1,0 +1,75 @@
+payload:
+  # ── 阿里 ──
+  - +.httpdns-api.aliyuncs.com
+  - +.httpdns-sc.aliyuncs.com
+  - +.httpdns.alicdn.com
+
+  # ── 百度 ──
+  - +.httpdns.baidu.com
+  - +.httpdns.baidubce.com
+  - +.httpdns.bcelive.com
+  - +.httpdns.n.shifen.com
+  - +.httpsdns.baidu.com
+
+  # ── 华为 ──
+  - +.httpdns-browser.platform.dbankcloud.cn
+  - +.httpdns.c.cdnhwc2.com
+  - +.httpdns.huaweicloud.com
+  - +.httpdns.platform.dbankcloud.cn
+  - +.httpdns.platform.dbankcloud.com
+  - +.httpdns1.cc.cdnhwc5.com
+
+  # ── 爱奇艺 ──
+  - +.dns.iqiyi.com
+  - +.dns.qiyipic.iqiyi.com
+  - +.doh.iqiyi.com
+
+  # ── 快手 ──
+  - +.hdns.ksyun.com
+  - +.kuaishou.httpdns.pro
+
+  # ── 美团 ──
+  - +.httpdns.meituan.com
+  - +.httpdnsvip.meituan.com
+
+  # ── 网易 ──
+  - +.httpdns-sdk.n.netease.com
+  - +.httpdns.music.163.com
+  - +.httpdns.n.netease.com
+  - +.lofter.httpdns.c.163.com
+  - +.music.httpdns.c.163.com
+
+  # ── OPPO ──
+  - +.httpdns.push.oppomobile.com
+  - +.httpdns.ocloud.oppomobile.com
+  - +.httpdns.ocloud.heytapmobi.com
+  - +.httpdns.push.heytapmobi.com
+
+  # ── 腾讯 ──
+  - +.dns.weixin.qq.com
+  - +.dns.weixin.qq.com.cn
+  - +.httpdns.kg.qq.com
+  - +.httpdns.qcloud.com             # 美团调用
+  - +.httpdns.start.qcloud.com       # 美团调用
+
+  # ── 京东 ──
+  - +.apidns.kwd.inkuai.com
+  - +.dns.jd.com
+  - +.httpdns.kwd.inkuai.com
+
+  # ── 微博 ──
+  - +.dns.weibo.cn
+
+  # ── 其他 ──
+  - +.doh.ptqy.gitv.tv
+  - +.dotserver.douyucdn.cn
+  - +.httpdns.bilivideo.com
+  - +.httpdns.browser.miui.com
+  - +.httpdns.cctv.com
+  - +.httpdns.danuoyi.tbcache.com
+  - +.httpdns.gslb.yy.com
+  - +.httpdns.pro
+  - +.httpdns.volcengineapi.com
+  - +.httpdns.yunxindns.com
+  - +.httpdns.zhihu.com
+  - +.httpdns.zybang.com
