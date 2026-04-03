@@ -51,7 +51,9 @@ payload:
   - +.httpdns.kg.qq.com
   - +.httpdns.qcloud.com             # 美团调用
   - +.httpdns.start.qcloud.com       # 美团调用
-
+  - +.meituan.httpdns.qcloud.com
+  - +.meituan.httpdns.start.qcloud.com
+  
   # ── 京东 ──
   - +.apidns.kwd.inkuai.com
   - +.dns.jd.com

@@ -264,6 +264,15 @@ payload:
   - appx
 
   # ── 美团 ──
+  - +.meituan.com
+  - +.meituan.net
+  - +.meituan.com.cn
+  - +.meituan.cn
+  - +.dianping.com
+  - +.meituan.net.eo.dnse1.com
+  - +.dnse1.com
+  - +.dnse2.com
+  - +.dnse.com
   - +.config2.cmpassport.com
   
   # ── 淘宝闪购 ──
@@ -302,6 +311,9 @@ payload:
   - +.1
   - +.1
   - +.1
+  
+  # ── 京东 ──
+  - +.jd.com
   
   # ── 京东养车 ──
   - +.secure.globalsign.com
@@ -349,3 +361,5 @@ payload:
   # ── 唯品会 ──
   - +.fos-admin.vip.vip.com
   - +.vda.vvic.com
+  - +.fp-it.fengkongcloud.com
+  - +.emas.etax.chinatax.gov.cn
