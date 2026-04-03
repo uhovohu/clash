@@ -127,7 +127,6 @@ sniffer:
     - "rule-set:R-sniffer-skip-ip"
     - "rule-set:R-telegram-ip"               # Telegram 服务器 IP 地址列表
     - "rule-set:R-apple-ip"                  # Apple 服务器 IP 地址列表
-    - "rule-set:R-custom-ip"
 # =======================================================
 # 4. 虚拟网卡 TUN
 # =======================================================
