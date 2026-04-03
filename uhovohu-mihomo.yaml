@@ -187,6 +187,7 @@ dns:
     "rule-set:R-tencent": system
     "rule-set:R-tendcloud": system
     "rule-set:R-tencent-dev": system
+    "rule-set:R-alipay": system
 
     
   # ── Fake-IP ──
@@ -207,6 +208,7 @@ dns:
     - "rule-set:R-aliyun-drive"
     - "rule-set:R-alibaba"
     - "rule-set:R-alibabacloud"
+    - "rule-set:R-alipay"
     - "rule-set:R-jingdong"
     - "rule-set:R-meituan"
  
@@ -524,6 +526,7 @@ rule-providers:
   R-aliyun-drive:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/aliyun-drive.mrs"}
   R-alibaba:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/alibaba.mrs"}
   R-alibabacloud:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/alibabacloud.mrs"}
+  R-alipay:             {<<: *yaml,   url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/alipay.yaml"}
   R-meituan:            {<<: *domain, url: "https://raw.githubusercontent.com/Keviin560/Shunt_Rules/main/rule/Mihomo/MeiTuan.mrs"}
   
   # ── 硬件 / 杂项 ──
@@ -859,6 +862,7 @@ rules:
   - RULE-SET,R-aliyun-drive,CN
   - RULE-SET,R-alibaba,CN
   - RULE-SET,R-alibabacloud,CN
+  - RULE-SET,R-alipay,CN
   - RULE-SET,R-jingdong,CN
   - RULE-SET,R-jingdongcloud-ip,CN,no-resolve
   - RULE-SET,R-meituan,CN
