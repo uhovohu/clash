@@ -486,7 +486,7 @@ rule-providers:
   R-aliyun-drive:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/aliyun-drive.mrs"}
   R-alibaba:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/alibaba.mrs"}
   R-alibabacloud:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/alibabacloud.mrs"}
-  R-alipay:             {<<: *yaml,   url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/alipay.yaml"}
+  R-alipay:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/alipay.yaml"}
   R-meituan:            {<<: *domain, url: "https://raw.githubusercontent.com/Keviin560/Shunt_Rules/main/rule/Mihomo/MeiTuan.mrs"}
   
   # ── 硬件 / 杂项 ──
