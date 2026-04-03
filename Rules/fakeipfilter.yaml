@@ -240,6 +240,7 @@ payload:
   - +.cmpassport.com
   - +.3gppnetwork.org
   - +.app.online-cmcc.cn
+  - +.nexusedgeio.com
   - +.10086.cn
   - +.wo.cn 
 
@@ -251,7 +252,10 @@ payload:
   - +.hmrz.wo.cn
   - +.nishub1.10010.com
   - +.enrichgw.10010.com
-
+  
+  # ── 中原银行 ──
+  - +.zyebank.com
+  - +.zybank.com.cn
   # ── 中国电信 ──
   - +.id6.me
   - +.open.e.189.cn
@@ -320,6 +324,7 @@ payload:
   - +.douyinvod.com
   - +.ahdohpiechei.com
   
+  
   # ── UU 加速器 ──
   - +.uu.163.com
   - ps.res.netease.com
@@ -337,5 +342,10 @@ payload:
   
   # ── Leikwan Host (雷管云) ──
   #- paid-v4.bgp1.leikwanhost.com
-
   
+  # ── 高通 ──
+  #- +.qualcomm.cn
+
+  # ── 唯品会 ──
+  - +.fos-admin.vip.vip.com
+  - +.vda.vvic.com
