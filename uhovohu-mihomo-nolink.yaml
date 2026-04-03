@@ -94,6 +94,7 @@ sniffer:
     - "rule-set:R-sniffer-skip-ip"
     - "rule-set:R-telegram-ip"               # Telegram 服务器 IP 地址列表
     - "rule-set:R-apple-ip"                  # Apple 服务器 IP 地址列表
+
 # =======================================================
 # 4. 虚拟网卡 TUN
 # =======================================================
@@ -156,7 +157,6 @@ dns:
     "rule-set:R-tencent-dev": system
     "rule-set:R-alipay": system
 
-    
   # ── Fake-IP ──
   fake-ip-filter:
     - "rule-set:R-private"                   # 局域网 / 私有域名：必须返回真实 IP，否则本地服务无法访问
@@ -179,7 +179,6 @@ dns:
     - "rule-set:R-jingdong"
     - "rule-set:R-meituan"
 
-    
 # =======================================================
 # 6. 策略组 Proxy Groups
 # =======================================================
