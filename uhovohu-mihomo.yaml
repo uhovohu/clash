@@ -740,7 +740,7 @@ rules:
 
   # ── Aws ──
   - RULE-SET,R-aws,Amazon                                          # AWS
-  - RULE-SET,R-aws@cn,CN                                           # AWS 中国域名
+  - RULE-SET,R-aws-cn,CN                                           # AWS 中国域名
 
   # ── Microsoft ──
   - RULE-SET,R-microsoft-cn,Microsoft                              # Microsoft 国内节点
