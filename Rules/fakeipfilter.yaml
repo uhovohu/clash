@@ -115,7 +115,8 @@ payload:
   - +.crl.microsoft.com
   - +.crl.verisign.com
   - +.crl.thawte.com
-
+  - +.status.rapidssl.com
+  
   # ── Windows 连通性检测 ──
   - +.msftconnecttest.com
   - +.msftncsi.com

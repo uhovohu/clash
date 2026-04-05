@@ -1,2 +1,9 @@
 payload:
-  # > iqiyi & pps
+  # ── 广告追踪 ──
+  - +.doubleclick.net                      # Google 广告追踪
+  - +.appsflyersdk.com                     # AppsFlyer 移动端追踪
+  - +.ampaeservices.com                    # Amazon 广告竞价
+  - +.sintral.me                           # Sintral 数据追踪
+  - +.saasexch.co                          # 币安广告追踪
+  - +.saasexch.com                         # 币安广告追踪
+  - +.saasexch.io                          # 币安广告追踪
