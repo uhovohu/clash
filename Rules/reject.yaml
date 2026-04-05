@@ -15,9 +15,12 @@ payload:
   - l10n-dm.88maru.com
 
   # ── 美团 ──
-  - al-log.d.meituan.net               # 美团日志上报
-  - route-stats.d.meituan.net          # 美团路由统计
-  - maplocatesdksnapshot.d.meituan.net # 美团地图定位 SDK 抓拍
+  - +.al-log.d.meituan.net
+  - +.metrics-picture.d.meituan.net
+  - +.maplocatesdksnapshot.d.meituan.net
+  - +.al-log.d.meituan.net               # 美团日志上报
+  - +.route-stats.d.meituan.net          # 美团路由统计
+  - +.maplocatesdksnapshot.d.meituan.net # 美团地图定位 SDK 抓拍
   
   # ── 腾讯 ──
   #- adsmind.gdtimg.com                # 腾讯广点通 (GDT) 广告素材
@@ -77,3 +80,6 @@ payload:
 
   # ── 高通 ──
   - qualcomm.cn                            # 高通中国官网 IP测试在用
+  
+  # ── voipstunt ──
+  - +.stun.voipstunt.com                   # 欧洲 VoIP 电话服务商

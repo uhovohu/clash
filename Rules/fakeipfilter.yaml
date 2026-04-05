@@ -264,6 +264,10 @@ payload:
   - appx
 
   # ── 美团 ──
+  - +.maoyan.com
+  - +.mtyun.com
+  - +.neixin.cn
+  - +.sankuai.com
   - +.meituan.com
   - +.meituan.net
   - +.meituan.com.cn
@@ -363,3 +367,6 @@ payload:
   - +.vda.vvic.com
   - +.fp-it.fengkongcloud.com
   - +.emas.etax.chinatax.gov.cn
+  
+  # ── 阿里千问 ──
+  - +.aliyuncs.com
