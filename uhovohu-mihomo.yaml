@@ -190,7 +190,7 @@ dns:
     "rule-set:R-tendcloud": system
     "rule-set:R-tencent-dev": system
     "rule-set:R-alipay": system
-  
+    
   # ── Fake-IP ──
   fake-ip-filter:
     - "rule-set:R-private"                   # 局域网 / 私有域名：必须返回真实 IP，否则本地服务无法访问
@@ -252,6 +252,7 @@ proxy-groups:
   - {name: YouTube,     type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # YouTube
   - {name: Google,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Google 全家桶
   - {name: Cloudflare,  type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Cloudflare
+  - {name: Amazon,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Amazon
   - {name: GitHub,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # GitHub
   - {name: Microsoft,   type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Microsoft 全家桶
   - {name: Adobe,       type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Adobe 全家桶
@@ -390,6 +391,10 @@ rule-providers:
   R-cloudflare-ip:      {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cloudflare.mrs"}                       # Cloudflare IP
   R-cloudflare-ipfs:    {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare-ipfs.mrs"}                # Cloudflare IPFS网关
   R-cloudflare-cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare-cn.mrs"}                  # Cloudflare中国域名 → DIRECT
+
+  # ── Aws ──
+  R-aws:                {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/aws.yaml"}                          # AWS
+  R-aws-cn:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/aws@cn.yaml"}                       # AWS中国域名 → DIRECT
  
   # ── Microsoft ──
   R-microsoft:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}                      # Microsoft全家桶
@@ -732,6 +737,10 @@ rules:
   - RULE-SET,R-cloudflare,Cloudflare                               # Cloudflare
   - RULE-SET,R-cloudflare-ipfs,Cloudflare                          # Cloudflare IPFS 网关
   - RULE-SET,R-cloudflare-ip,Cloudflare,no-resolve                 # Cloudflare IP
+
+  # ── Aws ──
+  - RULE-SET,R-aws,Amazon                                          # AWS
+  - RULE-SET,R-aws@cn,CN                                           # AWS 中国域名
 
   # ── Microsoft ──
   - RULE-SET,R-microsoft-cn,Microsoft                              # Microsoft 国内节点
