@@ -1,12 +1,21 @@
 payload:
-  - servd-anthropic-website.b-cdn.net
-  - +.anthropic.com
-  - +.claude.ai
-  - +.claude.com
-  - +.claudeusercontent.com
-  - +.claudemcpclient.com
-  - +.browser-intake-us5-datadoghq.com
-  - +.api-iam.intercom.io
-  - +.nexus-websocket-a.intercom.io
-  - +.widget.intercom.io
-  - +.sentry.io
+  # === 核心服务 ===
+  - +.anthropic.com            # Anthropic 主站核心
+  - +.claude.ai                # Claude 网页版入口
+  - +.claude.com               # Claude 备用域名
+  - +.clau.de                  # Claude 短域名（重定向）
+  - +.claudemcpclient.com      # Claude MCP 客户端通信
+  - +.claudeusercontent.com    # Claude 用户内容 / 附件
+
+  # === CDN 和基础设施 ===
+  - +.cdn.anthropic.com                 # Anthropic CDN 资源
+  - +.anthropic.com.cdn.cloudflare.net  # Cloudflare CDN 节点
+  - +.servd-anthropic-website.b-cdn.net # BunnyCDN 静态资源
+
+  # === 认证与内容 ===
+  - +.anthropic.auth0.com      # OAuth 登录认证
+  - +.anthropic-com.ghost.io   # 博客 / CMS 内容
+
+  # === 监控和数据上报（防风控防 IP 泄漏） ===
+  - +.sentry.io                # 错误监控上报
+  - +.statsigapi.net           # 功能开关 / AB 测试
