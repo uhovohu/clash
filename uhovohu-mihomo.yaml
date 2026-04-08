@@ -518,7 +518,8 @@ rule-providers:
   R-nodeseek:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/nodeseek.mrs"}                       # nodeseek自建服务
   
   # ── CN App ──
-  R-cn-add-ip:          {<<: *yaml-ip,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/cn-add-ip.yaml"}
+  R-duowan:             {<<: *yaml-ip,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/duowan.yaml"}
+  R-duowan-ip:          {<<: *yaml-ip,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/duowan-ip.yaml"}
   R-jingdong:           {<<: *domain, url: "https://raw.githubusercontent.com/Keviin560/Shunt_Rules/main/rule/Mihomo/JingDong.mrs"}
   R-jingdongcloud-ip:   {<<: *ip,     url: "https://raw.githubusercontent.com/Keviin560/Shunt_Rules/main/rule/Mihomo/JingDongCloud_IP.mrs"}  
   
@@ -863,7 +864,8 @@ rules:
   - RULE-SET,R-nodeseek,Proxy                                      # NodeSeek
   
   # ── CN App ── 
-  - RULE-SET,R-cn-add-ip,CN,no-resolve 
+  - RULE-SET,R-duowan,CN
+  - RULE-SET,R-duowan-ip,CN,no-resolve 
   - RULE-SET,R-wechat,CN
   - RULE-SET,R-tencent,CN
   - RULE-SET,R-tendcloud,CN
