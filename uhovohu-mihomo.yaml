@@ -518,8 +518,8 @@ rule-providers:
   R-nodeseek:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/nodeseek.mrs"}                       # nodeseek自建服务
   
   # ── CN App ──
-  R-duowan:             {<<: *yaml-ip,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/duowan.yaml"}
-  R-duowan-ip:          {<<: *yaml-ip,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/duowan-ip.yaml"}
+  R-duowan:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/duowan.yaml"}                       # 多玩游戏/yy语音
+  R-duowan-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/duowan-ip.yaml"}
   R-jingdong:           {<<: *domain, url: "https://raw.githubusercontent.com/Keviin560/Shunt_Rules/main/rule/Mihomo/JingDong.mrs"}
   R-jingdongcloud-ip:   {<<: *ip,     url: "https://raw.githubusercontent.com/Keviin560/Shunt_Rules/main/rule/Mihomo/JingDongCloud_IP.mrs"}  
   
