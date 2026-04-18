@@ -325,7 +325,7 @@ rule-providers:
   R-openai:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/openai.mrs"}                         # OpenAI
   
   # ── Anthropic ──
-  R-anthropic:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/anthropic.mrs"}                      # Anthropic / Claude
+  R-anthropic:          {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/anthropic.yaml"}                    # Anthropic / Claude
   
   # ── AI ──
   R-perplexity:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/perplexity.mrs"}                     # Perplexity AI搜索
