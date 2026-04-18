@@ -71,6 +71,7 @@ sniffer:
     QUIC:
       ports: [443]                           # 嗅探 QUIC HTTP/3 协议流量
   skip-domain:                               # 嗅探豁免名 遇到以下域名直接放行不拆包，防止破坏特殊协议导致断连
+    - "rule-set:R-private"                   # 局域网 / 私有域名：必须返回真实 IP，否则本地服务无法访问
     - "rule-set:R-fakeipfilter"              # 标准 Fake-IP 豁免表 NTP / STUN / 音乐 / 游戏等
     - "rule-set:R-connectivity"              # 连通性探测：返回假 IP 会导致 Windows/macOS 报断网
     - "rule-set:R-cdn-cn"                    # 国内 CDN：需要真实 IP 做就近调度
@@ -90,7 +91,6 @@ sniffer:
     - "rule-set:R-apple"                     # Apple 全家桶
 
   skip-dst-address:                          # 目的地址豁免 遇到以下 IP 地址直接放行不拆包，防止破坏特殊协议导致断连
-    - "rule-set:R-private"                   # 局域网 / 私有域名：必须返回真实 IP，否则本地服务无法访问
     - "rule-set:R-sniffer-skip-ip"
     - "rule-set:R-telegram-ip"               # Telegram 服务器 IP 地址列表
     - "rule-set:R-apple-ip"                  # Apple 服务器 IP 地址列表
@@ -144,6 +144,7 @@ dns:
 
   # ── DNS 分流 ──
   nameserver-policy:
+    "rule-set:R-private": [system]                                      # 局域网 / 私有域名：必须返回真实 IP，否则本地服务无法访问
     "rule-set:R-fakeipfilter": [system, 223.5.5.5, 119.29.29.29]        # Fake-IP 豁免域名 → 系统 DNS，确保返回真实 IP
     "rule-set:R-connectivity": [system, 223.5.5.5, 119.29.29.29]        # 连通性检测 微软/苹果 → 系统 DNS，防止误报"无网络"
     "rule-set:R-cdn-cn": [system, 223.5.5.5, 119.29.29.29]              # 国内 CDN → 系统 DNS，获得最近节点 IP
@@ -156,9 +157,10 @@ dns:
     "rule-set:R-tendcloud": [system, 223.5.5.5, 119.29.29.29]
     "rule-set:R-tencent-dev": [system, 223.5.5.5, 119.29.29.29]
     "rule-set:R-alipay": [system, 223.5.5.5, 119.29.29.29]
-   
+    
   # ── Fake-IP ──
   fake-ip-filter:
+    - "rule-set:R-private"                   # 局域网 / 私有域名：必须返回真实 IP，否则本地服务无法访问
     - "rule-set:R-fakeipfilter"              # 标准 Fake-IP 豁免表 NTP / STUN / 音乐 / 游戏等
     - "rule-set:R-connectivity"              # 连通性探测：返回假 IP 会导致 Windows/macOS 报断网
     - "rule-set:R-cdn-cn"                    # 国内 CDN：需要真实 IP 做就近调度
