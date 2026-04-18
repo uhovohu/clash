@@ -144,19 +144,19 @@ dns:
 
   # ── DNS 分流 ──
   nameserver-policy:
-    "rule-set:R-private": system             # 局域网 / 私有域名 → 系统 DNS 路由器，避免本地设备发现失败
-    "rule-set:R-fakeipfilter": system        # Fake-IP 豁免域名 → 系统 DNS，确保返回真实 IP
-    "rule-set:R-connectivity": system        # 连通性检测 微软/苹果 → 系统 DNS，防止误报"无网络"
-    "rule-set:R-cdn-cn": system              # 国内 CDN → 系统 DNS，获得最近节点 IP
-    "rule-set:R-bank-cn": system             # 国内银行 → 系统 DNS，防止 DNS 污染导致证书异常
-    "rule-set:R-securities-cn": system       # 国内证券 → 系统 DNS
-    "rule-set:R-finance-cn": system          # 国内金融 → 系统 DNS
-    "rule-set:R-ntp-cn": system
-    "rule-set:R-wechat": system
-    "rule-set:R-tencent": system
-    "rule-set:R-tendcloud": system
-    "rule-set:R-tencent-dev": system
-    "rule-set:R-alipay": system
+    "rule-set:R-private": [system, 223.5.5.5]             # 局域网 / 私有域名 → 系统 DNS 路由器，避免本地设备发现失败
+    "rule-set:R-fakeipfilter": [system, 223.5.5.5]        # Fake-IP 豁免域名 → 系统 DNS，确保返回真实 IP
+    "rule-set:R-connectivity": [system, 223.5.5.5]        # 连通性检测 微软/苹果 → 系统 DNS，防止误报"无网络"
+    "rule-set:R-cdn-cn": [system, 223.5.5.5]              # 国内 CDN → 系统 DNS，获得最近节点 IP
+    "rule-set:R-bank-cn": [system, 223.5.5.5]             # 国内银行 → 系统 DNS，防止 DNS 污染导致证书异常
+    "rule-set:R-securities-cn": [system, 223.5.5.5]       # 国内证券 → 系统 DNS
+    "rule-set:R-finance-cn": [system, 223.5.5.5]          # 国内金融 → 系统 DNS
+    "rule-set:R-ntp-cn": [system, 223.5.5.5]
+    "rule-set:R-wechat": [system, 223.5.5.5]
+    "rule-set:R-tencent": [system, 223.5.5.5]
+    "rule-set:R-tendcloud": [system, 223.5.5.5]
+    "rule-set:R-tencent-dev": [system, 223.5.5.5]
+    "rule-set:R-alipay": [system, 223.5.5.5]
    
   # ── Fake-IP ──
   fake-ip-filter:
