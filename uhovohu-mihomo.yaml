@@ -863,7 +863,7 @@ rules:
   # ── Nodeseek ──
   - RULE-SET,R-nodeseek,Proxy                                      # NodeSeek
   
-  # ── CN App ── 
+  # ── CN App ──
   - RULE-SET,R-duowan,CN
   - RULE-SET,R-duowan-ip,CN,no-resolve
   - RULE-SET,R-wechat,CN
