@@ -1,50 +1,4 @@
 payload:
-
-  # ── LAN / 私有域名 ──
-  - +.lan
-  - +.local
-  - +.localdomain
-  - +.localhost
-  - +.test
-  - +.example
-  - +.invalid
-  - +.bogon
-  - +.internal
-  - +.direct
-  - +.home.arpa
-  - +.in-addr.arpa      # 覆盖所有 RFC 1918 / RFC 6598 反向 DNS
-  - +.ip6.arpa          # 覆盖所有 IPv6 反向 DNS
-
-  # ── WPAD / mDNS 服务发现 ──
-  - +.wpad
-  - +.wpad.local
-  - +.wpad.lan
-  - +._dns.resolver.arpa
-  - +._dns-sd._udp.local
-  - +._dns-sd._udp.lan
-  - +._googlecast._tcp.local
-  - +._apple-mobdev2._tcp.local
-  - +._universal-control._tcp.local
-  - +._sleep-proxy._udp.local
-
-  # ── 路由器 / 局域网设备 ──
-  - +.smthomem2m.aux-home.com
-  - +.zte.home
-  - +.my.router
-  - +.ts.net
-  - +.hiwifi.com
-  - +.tplinkwifi.net
-  - +.tendawifi.com
-  - +.leike.cc
-  - +.plex.direct
-  - +.router.ctc
-  - +.phicomm.me
-  - +.peiluyou.com
-  - heartbeat.belkin.com
-  - +.linksys.com
-  - +.linksyssmartwifi.com
-  - +.router.asus.com
-
   # ── NTP 时间服务 ──
   # time.*.com → 枚举主流服务商（中间通配无法直接表达）
   - time.cloudflare.com
@@ -353,6 +307,35 @@ payload:
   # ── LOL 语音 ──
   - +.gcloudcs.com
   - +.gcloudsdk.com
+  
+  # ── YY 语音/多玩网 ──
+  - +.5253.com
+  - +.bcshipgo.com
+  - +.bigda.com
+  - +.blogchina.org
+  - +.c19ce66ff87253fdda68740edcb7ce3b.v.smtcdns.net
+  - +.chinaduo.com
+  - +.duowan.cn
+  - +.duowan.com
+  - +.duowan.com.cn
+  - +.dwstatic.com
+  - +.hiido.cn
+  - +.hiido.com
+  - +.hiido.net
+  - +.huanju.cn
+  - +.huanju.net
+  - +.huanjuyun.com
+  - +.joyy.com
+  - +.joyyinc.com
+  - +.joyyued.com
+  - +.pikoplay.com
+  - +.vooedit.com
+  - +.yy.com
+  - +.yy.com.cn
+  - +.yyclouds.com
+  - +.yygamedev.com
+  - +.yystatic.com
+  - +.zhiniu8.com
 
   # ── DDNS ──
   - +.dynv6.net
@@ -371,3 +354,12 @@ payload:
   
   # ── 阿里千问 ──
   - +.aliyuncs.com
+  # ── 天翼云 ──
+  - +.ctydoh.cn
+  
+  # ── 自用 ──
+  - emby.uhovohu.com
+  - uhovohu.cloud
+  - www.uhovohu.cloud
+  - www.mokuoha.com
+  - nmc01.nmcloud.cc
