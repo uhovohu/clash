@@ -67,7 +67,7 @@ ipv6: false                                  # 关闭 IPv6 解析
 log-level: warning                           # 日志级别 仅记录警告和错误，保持后台清爽并节省硬盘
 
 # ── 分流与防封锁机制 ──
-find-process-mode: off                       # 进程匹配模式: off 关闭进程规则/ strict 按需精准匹配/ always 强制查询耗性能
+find-process-mode: "off"                     # 进程匹配模式: off 关闭进程规则/ strict 按需精准匹配/ always 强制查询耗性能
 global-client-fingerprint: chrome            # 全局 TLS 指纹伪装: 伪装为正常浏览器，降低节点被墙概率 可选 chrome/ios/random 等
 
 # ── 性能与连接优化 ──
@@ -134,7 +134,7 @@ sniffer:
 tun:
   enable: true                               # 开启 TUN 虚拟网卡
   stack: mixed                               # 混合网络栈：TCP 走 system (高性能)，UDP 走 gVisor (高兼容)
-  dns-hijack: ["any:53", "tcp://any:53"]     # 双重劫持标准 DNS 端口，彻底防泄漏
+  dns-hijack: ["udp://any:53", "tcp://any:53"]   # 双重劫持标准 DNS 端口，彻底防泄漏
   #device: nikki                             #使用nikki，混入全部不修改的情况，开启接口指定为nikki
   
   #使用仅内核自行修改下面三项为true 路由控制 使用 GUI 客户端保持 false，纯内核命令行运行改为 true
@@ -158,7 +158,7 @@ dns:
 
   # ── Fake-IP ──
   enhanced-mode: fake-ip                     # 开启 Fake-IP 增强模式 秒回假 IP，极大提升网络响应速度
-  fake-ip-range: 28.0.0.1/8                  # 假 IP 池分配网段 使用 28 网段可避免与常见局域网 192.168 冲突
+  fake-ip-range: 198.18.0.1/16               # IANA 保留给 网络基准测试用的段（RFC 2544/6815），明确不会公网路由，安全可靠
   fake-ip-filter-mode: blacklist             # 黑名单过滤模式 名单内的域名不返回假 IP，要求真实解析
 
   # ── DNS ──
