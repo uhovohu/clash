@@ -92,6 +92,7 @@ sniffer:
 
   skip-dst-address:                          # 目的地址豁免 遇到以下 IP 地址直接放行不拆包，防止破坏特殊协议导致断连
     - "rule-set:R-sniffer-skip-ip"
+    - "rule-set:R-private-ip"                # 局域网 / 私有 IP 地址列表
     - "rule-set:R-telegram-ip"               # Telegram 服务器 IP 地址列表
     - "rule-set:R-apple-ip"                  # Apple 服务器 IP 地址列表
 
@@ -286,6 +287,7 @@ rule-providers:
   # 2.LAN
   # ══════════════════════════════════════════
   R-private:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/private.yaml"}                      # 内网域名 → DIRECT
+  R-private-ip:         {<<: *yaml-ip,url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.yaml"}                         # 内网IP地址 → DIRECT
   R-fakeipfilter:       {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/fakeipfilter.yaml"}                 # FakeIP过滤 → DIRECT
   R-sniffer-skip-ip:    {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/sniffer-skip-ip.yaml"}              # 嗅探豁免 IP 列表
   R-connectivity:       {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/connectivity-check.yaml"}           # 网络连通性检测 → DIRECT
@@ -635,6 +637,7 @@ rules:
   # ══════════════════════════════════════════
   # 2.LAN
   # ══════════════════════════════════════════
+  - RULE-SET,R-private-ip,DIRECT                                   # 内网 IP 地址  
   - RULE-SET,R-private,DIRECT                                      # 内网域名
   - RULE-SET,R-fakeipfilter,DIRECT                                 # FakeIP 过滤
   - RULE-SET,R-connectivity,DIRECT                                 # 网络连通性检测
