@@ -347,49 +347,6 @@ rule-providers:
   R-github:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"}                         # GitHub
   R-github1s:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github1s.mrs"}                       # GitHub在线VSCode
   R-github-copilot:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github-copilot.mrs"}                 # GitHub Copilot
-  
-  # ── Cloudflare ──
-  R-cloudflare:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare.mrs"}                     # Cloudflare
-  R-cloudflare-ip:      {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cloudflare.mrs"}                       # Cloudflare IP
-  R-cloudflare-ipfs:    {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare-ipfs.mrs"}                # Cloudflare IPFS网关
-  R-cloudflare-cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare-cn.mrs"}                  # Cloudflare中国域名 → DIRECT
-
-  # ── Aws ──
-  R-aws:                {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/aws.yaml"}                          # AWS
-  R-aws-cn:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/aws@cn.yaml"}                       # AWS中国域名 → DIRECT
-
-  # ── Microsoft ──
-  R-microsoft:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}                      # Microsoft全家桶
-  R-microsoft-dev:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft-dev.mrs"}                  # Microsoft开发者
-  R-microsoft-pki:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft-pki.mrs"}                  # Microsoft证书服务
-  R-microsoft-cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft@cn.mrs"}                   # Microsoft国内节点 → DIRECT
-  R-microsoft-dev-cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft-dev@cn.mrs"}               # Microsoft开发者国内节点 → DIRECT
-  R-microsoft-pki-cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft-pki@cn.mrs"}               # Microsoft证书国内节点 → DIRECT
-  R-bing:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bing.mrs"}                           # Bing搜索
-  R-bing-cn:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bing@cn.mrs"}                        # Bing国内节点 → DIRECT
-  R-xbox:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xbox.mrs"}                           # Xbox
-  R-xbox-cn:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xbox@cn.mrs"}                        # Xbox国内节点 → DIRECT
-  R-azure-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/azure@cn.mrs"}                       # Azure国内节点 → DIRECT
-
-  # ── Apple ──
-  R-icloud:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/icloud.mrs"}                         # iCloud
-  R-icloud-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/icloud@cn.mrs"}                      # iCloud国内节点(云上贵州) → DIRECT
-  R-itunes:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/itunes.mrs"}                         # iTunes
-  R-itunes-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/itunes@cn.mrs"}                      # iTunes国内节点 → DIRECT
-  R-apple-pki:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-pki.mrs"}                      # Apple证书服务(国际)
-  R-apple:              {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/apple.yaml"}                        # Apple全家桶
-  R-apple-ip:           {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/apple-ip.yaml"}                     # Apple IP段
-  R-apple-update:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-update.mrs"}                   # iOS/macOS系统更新 → DIRECT
-  R-apple-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"}                       # Apple中国专属域名 → DIRECT
-  R-apple-at-cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple@cn.mrs"}                       # Apple国内服务补充 → DIRECT
-  R-apple-dev-cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-dev@cn.mrs"}                   # Apple开发者国内节点 → DIRECT
-
-  # ── Android ──
-  R-android:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/android.mrs"}                        # Android系统相关
-  R-fdroid:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/f-droid.mrs"}                        # F-Droid开源应用商店
-  R-apkpure:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apkpure.mrs"}                        # APKPure
-  R-apkmirror:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apkmirror.mrs"}                      # APKMirror
-  R-apkcombo:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apkcombo.mrs"}                       # APKCombo
 
   # ── Discord ──
   R-discord:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/discord.mrs"}                        # Discord
@@ -478,6 +435,49 @@ rule-providers:
   
   # ── IP ──
   R-nodeseek:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/nodeseek.mrs"}                       # nodeseek自建服务
+  
+  # ── Cloudflare ──
+  R-cloudflare:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare.mrs"}                     # Cloudflare
+  R-cloudflare-ip:      {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cloudflare.mrs"}                       # Cloudflare IP
+  R-cloudflare-ipfs:    {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare-ipfs.mrs"}                # Cloudflare IPFS网关
+  R-cloudflare-cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare-cn.mrs"}                  # Cloudflare中国域名 → DIRECT
+
+  # ── Aws ──
+  R-aws:                {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/aws.yaml"}                          # AWS
+  R-aws-cn:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/aws@cn.yaml"}                       # AWS中国域名 → DIRECT
+
+  # ── Microsoft ──
+  R-microsoft:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}                      # Microsoft全家桶
+  R-microsoft-dev:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft-dev.mrs"}                  # Microsoft开发者
+  R-microsoft-pki:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft-pki.mrs"}                  # Microsoft证书服务
+  R-microsoft-cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft@cn.mrs"}                   # Microsoft国内节点 → DIRECT
+  R-microsoft-dev-cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft-dev@cn.mrs"}               # Microsoft开发者国内节点 → DIRECT
+  R-microsoft-pki-cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft-pki@cn.mrs"}               # Microsoft证书国内节点 → DIRECT
+  R-bing:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bing.mrs"}                           # Bing搜索
+  R-bing-cn:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bing@cn.mrs"}                        # Bing国内节点 → DIRECT
+  R-xbox:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xbox.mrs"}                           # Xbox
+  R-xbox-cn:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xbox@cn.mrs"}                        # Xbox国内节点 → DIRECT
+  R-azure-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/azure@cn.mrs"}                       # Azure国内节点 → DIRECT
+
+  # ── Apple ──
+  R-icloud:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/icloud.mrs"}                         # iCloud
+  R-icloud-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/icloud@cn.mrs"}                      # iCloud国内节点(云上贵州) → DIRECT
+  R-itunes:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/itunes.mrs"}                         # iTunes
+  R-itunes-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/itunes@cn.mrs"}                      # iTunes国内节点 → DIRECT
+  R-apple-pki:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-pki.mrs"}                      # Apple证书服务(国际)
+  R-apple:              {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/apple.yaml"}                        # Apple全家桶
+  R-apple-ip:           {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/apple-ip.yaml"}                     # Apple IP段
+  R-apple-update:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-update.mrs"}                   # iOS/macOS系统更新 → DIRECT
+  R-apple-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"}                       # Apple中国专属域名 → DIRECT
+  R-apple-at-cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple@cn.mrs"}                       # Apple国内服务补充 → DIRECT
+  R-apple-dev-cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-dev@cn.mrs"}                   # Apple开发者国内节点 → DIRECT
+
+  # ── Android ──
+  R-android:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/android.mrs"}                        # Android系统相关
+  R-fdroid:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/f-droid.mrs"}                        # F-Droid开源应用商店
+  R-apkpure:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apkpure.mrs"}                        # APKPure
+  R-apkmirror:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apkmirror.mrs"}                      # APKMirror
+  R-apkcombo:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apkcombo.mrs"}                       # APKCombo
   
   # ── CN App ──
   R-duowan:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/duowan.yaml"}                       # 多玩游戏/yy语音
@@ -697,49 +697,6 @@ rules:
   - RULE-SET,R-github1s,GitHub                                     # GitHub 在线 VSCode
   - RULE-SET,R-github-copilot,GitHub                               # GitHub Copilot
 
-  # ── Cloudflare ──
-  - RULE-SET,R-cloudflare-cn,CN                                    # Cloudflare 中国域名
-  - RULE-SET,R-cloudflare,Cloudflare                               # Cloudflare
-  - RULE-SET,R-cloudflare-ipfs,Cloudflare                          # Cloudflare IPFS 网关
-  - RULE-SET,R-cloudflare-ip,Cloudflare,no-resolve                 # Cloudflare IP
-  
-  # ── Aws ──
-  - RULE-SET,R-aws,Amazon                                          # AWS
-  - RULE-SET,R-aws-cn,CN                                           # AWS 中国域名
-
-  # ── Microsoft ──
-  - RULE-SET,R-microsoft-cn,Microsoft                              # Microsoft 国内节点
-  - RULE-SET,R-microsoft-dev-cn,Microsoft                          # Microsoft 开发者国内节点
-  - RULE-SET,R-microsoft-pki-cn,Microsoft                          # Microsoft 证书国内节点
-  - RULE-SET,R-bing-cn,Microsoft                                   # Bing 国内节点
-  - RULE-SET,R-xbox-cn,Microsoft                                   # Xbox 国内节点
-  - RULE-SET,R-azure-cn,Microsoft                                  # Azure 国内节点
-  - RULE-SET,R-microsoft,Microsoft                                 # Microsoft 全家桶
-  - RULE-SET,R-microsoft-dev,Microsoft                             # Microsoft 开发者
-  - RULE-SET,R-microsoft-pki,Microsoft                             # Microsoft 证书服务
-  - RULE-SET,R-bing,Microsoft                                      # Bing 搜索
-  - RULE-SET,R-xbox,Microsoft                                      # Xbox
-
-  # ── Apple ──
-  - RULE-SET,R-icloud-cn,Apple                                     # iCloud 国内节点（云上贵州）
-  - RULE-SET,R-itunes-cn,Apple                                     # iTunes 国内节点
-  - RULE-SET,R-apple-pki,Apple                                     # Apple 证书服务
-  - RULE-SET,R-apple-update,Apple                                  # iOS/macOS 系统更新
-  - RULE-SET,R-apple-cn,Apple                                      # Apple 中国专属域名
-  - RULE-SET,R-apple-at-cn,Apple                                   # Apple 国内服务补充
-  - RULE-SET,R-apple-dev-cn,Apple                                  # Apple 开发者国内节点
-  - RULE-SET,R-icloud,Apple                                        # iCloud
-  - RULE-SET,R-itunes,Apple                                        # iTunes
-  - RULE-SET,R-apple,Apple                                         # Apple 全家桶
-  - RULE-SET,R-apple-ip,Apple,no-resolve                           # Apple IP 段
-
-  # ── Android ──
-  - RULE-SET,R-android,Android                                     # Android 系统相关
-  - RULE-SET,R-fdroid,Android                                      # F-Droid
-  - RULE-SET,R-apkpure,Android                                     # APKPure
-  - RULE-SET,R-apkmirror,Android                                   # APKMirror
-  - RULE-SET,R-apkcombo,Android                                    # APKCombo
-
   # ── Discord ──
   - RULE-SET,R-discord,Discord                                     # Discord
 
@@ -825,7 +782,50 @@ rules:
   
   # ── Nodeseek ──
   - RULE-SET,R-nodeseek,Proxy                                      # NodeSeek
+
+  # ── Cloudflare ──
+  - RULE-SET,R-cloudflare-cn,CN                                    # Cloudflare 中国域名
+  - RULE-SET,R-cloudflare,Cloudflare                               # Cloudflare
+  - RULE-SET,R-cloudflare-ipfs,Cloudflare                          # Cloudflare IPFS 网关
+  - RULE-SET,R-cloudflare-ip,Cloudflare,no-resolve                 # Cloudflare IP
   
+  # ── Aws ──
+  - RULE-SET,R-aws,Amazon                                          # AWS
+  - RULE-SET,R-aws-cn,CN                                           # AWS 中国域名
+
+  # ── Microsoft ──
+  - RULE-SET,R-microsoft-cn,Microsoft                              # Microsoft 国内节点
+  - RULE-SET,R-microsoft-dev-cn,Microsoft                          # Microsoft 开发者国内节点
+  - RULE-SET,R-microsoft-pki-cn,Microsoft                          # Microsoft 证书国内节点
+  - RULE-SET,R-bing-cn,Microsoft                                   # Bing 国内节点
+  - RULE-SET,R-xbox-cn,Microsoft                                   # Xbox 国内节点
+  - RULE-SET,R-azure-cn,Microsoft                                  # Azure 国内节点
+  - RULE-SET,R-microsoft,Microsoft                                 # Microsoft 全家桶
+  - RULE-SET,R-microsoft-dev,Microsoft                             # Microsoft 开发者
+  - RULE-SET,R-microsoft-pki,Microsoft                             # Microsoft 证书服务
+  - RULE-SET,R-bing,Microsoft                                      # Bing 搜索
+  - RULE-SET,R-xbox,Microsoft                                      # Xbox
+
+  # ── Apple ──
+  - RULE-SET,R-icloud-cn,Apple                                     # iCloud 国内节点（云上贵州）
+  - RULE-SET,R-itunes-cn,Apple                                     # iTunes 国内节点
+  - RULE-SET,R-apple-pki,Apple                                     # Apple 证书服务
+  - RULE-SET,R-apple-update,Apple                                  # iOS/macOS 系统更新
+  - RULE-SET,R-apple-cn,Apple                                      # Apple 中国专属域名
+  - RULE-SET,R-apple-at-cn,Apple                                   # Apple 国内服务补充
+  - RULE-SET,R-apple-dev-cn,Apple                                  # Apple 开发者国内节点
+  - RULE-SET,R-icloud,Apple                                        # iCloud
+  - RULE-SET,R-itunes,Apple                                        # iTunes
+  - RULE-SET,R-apple,Apple                                         # Apple 全家桶
+  - RULE-SET,R-apple-ip,Apple,no-resolve                           # Apple IP 段
+
+  # ── Android ──
+  - RULE-SET,R-android,Android                                     # Android 系统相关
+  - RULE-SET,R-fdroid,Android                                      # F-Droid
+  - RULE-SET,R-apkpure,Android                                     # APKPure
+  - RULE-SET,R-apkmirror,Android                                   # APKMirror
+  - RULE-SET,R-apkcombo,Android                                    # APKCombo
+
   # ── CN App ──
   - RULE-SET,R-duowan,CN
   - RULE-SET,R-duowan-ip,CN,no-resolve
