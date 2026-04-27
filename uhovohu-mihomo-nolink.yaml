@@ -141,7 +141,7 @@ dns:
     - 119.29.29.29
   nameserver:                                # 国外兜底 处理所有未知的兜底域名，防止 DNS 污染 附带节点选择强制走代理出境
     - 8.8.8.8#Proxy                          # 修改为明文dns地址，因大部分家宽不支持DoH解析，有需求的用户可以自行替换为 https://1.1.1.1/dns-query#Proxy  https://8.8.8.8/dns-query#Proxy
-    - 1.1.1.1#Proxy
+    #- 1.1.1.1#Proxy
 
   # ── DNS 分流 ──
   nameserver-policy:
