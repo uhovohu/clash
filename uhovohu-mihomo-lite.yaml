@@ -221,7 +221,7 @@ proxy-groups:
   # ── Proxy App ──
   - {name: OpenAI,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT]}  # OpenAI / ChatGPT
   - {name: Anthropic,   type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT]}  # Anthropic / Claude
-  - {name: AI,          type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT]}  # AI 杂项 (Perplexity / Groq / Cerebras / HuggingFace / Cursor / ElevenLabs / ComfyUI / 兜底)
+  - {name: AI,          type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT]}  # AI 杂项 (Perplexity / 兜底)
   - {name: YouTube,     type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT]}  # YouTube
   - {name: Google,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT]}  # Google 全家桶
   - {name: GitHub,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT]}  # GitHub
@@ -289,19 +289,8 @@ rule-providers:
   R-google-ip:          {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"} 
   R-FCM:                {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/googlefcm.mrs"}                      # Firebase推送
   R-gemini:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-gemini.mrs"}                  # Gemini AI
-  R-deepmind:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-deepmind.mrs"}                # DeepMind
   R-google-play:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-play.mrs"}                    # Google Play
-  R-google-play-cn:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-play@cn.mrs"}                 # Google Play国内节点 → DIRECT
-  R-google-scholar:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-scholar.mrs"}                 # Google学术
-  R-firebase:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/firebase.mrs"}                       # Firebase开发平台
-  R-firebase-cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/firebase@cn.mrs"}                    # Firebase国内节点 → DIRECT
-  R-fonts:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/fonts.mrs"}                          # Google字体
-  R-golang:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/golang.mrs"}                         # Go语言官方
-  R-dart:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/dart.mrs"}                           # Dart语言
-  R-v8:                 {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/v8.mrs"}                             # V8引擎
-  R-goproxy:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/goproxy.mrs"}                        # Go模块代理
-  R-amp:                {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/amp.mrs"}                            # Google AMP
-  R-amp-cn:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/amp@cn.mrs"}                         # Google AMP国内节点 → DIRECT
+  R-google-play-cn:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-play@cn.mrs"}                 # Google Play国内节点
   
   # ── OpenAI ──
   R-openai:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/openai.mrs"}                         # OpenAI
@@ -311,22 +300,12 @@ rule-providers:
   
   # ── AI ──
   R-perplexity:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/perplexity.mrs"}                     # Perplexity AI搜索
-  R-groq:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/groq.mrs"}                           # Groq AI推理
-  R-cerebras:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cerebras.mrs"}                       # Cerebras AI
-  R-huggingface:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/huggingface.mrs"}                    # Hugging Face
-  R-cursor:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cursor.mrs"}                         # Cursor AI编辑器
-  R-elevenlabs:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/elevenlabs.mrs"}                     # ElevenLabs AI语音
-  R-comfy:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/comfy.mrs"}                          # ComfyUI
-  R-comfy-launcher:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/comfy-ui-launcher.mrs"}              # ComfyUI启动器
   R-ai:                 {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-chat-!cn.mrs"}           # AI聊天服务兜底
   
   # ── GitHub ──
   R-github:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"}                         # GitHub
   R-github1s:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github1s.mrs"}                       # GitHub在线VSCode
   R-github-copilot:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github-copilot.mrs"}                 # GitHub Copilot
-
-  # ── Discord ──
-  R-discord:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/discord.mrs"}                        # Discord
   
   # ── Telegram ──
   R-telegram:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/telegram.yaml"}                     # Telegram
@@ -339,10 +318,6 @@ rule-providers:
   R-twitter:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitter.mrs"}                        # Twitter/X
   R-twitter-ip:         {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/twitter.mrs"}                          # Twitter IP
   R-xai:                {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xai.mrs"}                            # xAI / Grok
-  R-spacex:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spacex.mrs"}                         # SpaceX
-  R-neuralink:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/neuralink.mrs"}                      # Neuralink
-  R-theboringcompany:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/theboringcompany.mrs"}               # The Boring Company
-  R-tesla:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tesla.mrs"}                          # Tesla
 
   # ── TikTok / 字节跳动 ──
   R-tiktok:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"}                         # TikTok → 代理
@@ -448,23 +423,11 @@ rules:
   - RULE-SET,R-youtube,YouTube                                     # YouTube
   
   # ── Google ──
-  - RULE-SET,R-google-play-cn,Google                               # Google Play 国内节点
-  - RULE-SET,R-firebase-cn,Google                                  # Firebase 国内节点
-  - RULE-SET,R-amp-cn,Google                                       # AMP 国内节点
   - RULE-SET,R-gemini,Google                                       # Gemini AI
   - RULE-SET,R-google,Google                                       # Google 全家桶
   - RULE-SET,R-google-ip,Google,no-resolve                         # Google IP
   - RULE-SET,R-FCM,Google                                          # Firebase 推送
-  - RULE-SET,R-deepmind,Google                                     # DeepMind
   - RULE-SET,R-google-play,Google                                  # Google Play
-  - RULE-SET,R-google-scholar,Google                               # Google 学术
-  - RULE-SET,R-firebase,Google                                     # Firebase 开发平台
-  - RULE-SET,R-fonts,Google                                        # Google 字体
-  - RULE-SET,R-golang,Google                                       # Go 语言官方
-  - RULE-SET,R-dart,Google                                         # Dart 语言
-  - RULE-SET,R-v8,Google                                           # V8 引擎
-  - RULE-SET,R-goproxy,Google                                      # Go 模块代理
-  - RULE-SET,R-amp,Google                                          # Google AMP
 
   # ── OpenAI ──
   - RULE-SET,R-openai,OpenAI                                       # OpenAI
@@ -474,13 +437,6 @@ rules:
 
   # ── AI ──
   - RULE-SET,R-perplexity,AI                                       # Perplexity AI 搜索
-  - RULE-SET,R-groq,AI                                             # Groq AI 推理
-  - RULE-SET,R-cerebras,AI                                         # Cerebras AI
-  - RULE-SET,R-huggingface,AI                                      # Hugging Face
-  - RULE-SET,R-cursor,AI                                           # Cursor AI 编辑器
-  - RULE-SET,R-elevenlabs,AI                                       # ElevenLabs AI 语音
-  - RULE-SET,R-comfy,AI                                            # ComfyUI
-  - RULE-SET,R-comfy-launcher,AI                                   # ComfyUI 启动器
   - RULE-SET,R-ai,AI                                               # AI 聊天服务兜底
   
   # ── GitHub ──
@@ -499,10 +455,6 @@ rules:
   - RULE-SET,R-x,X                                                 # X 补充域名
   - RULE-SET,R-twitter,X                                           # Twitter/X
   - RULE-SET,R-twitter-ip,X,no-resolve                             # Twitter IP
-  - RULE-SET,R-spacex,X                                            # SpaceX
-  - RULE-SET,R-neuralink,X                                         # Neuralink
-  - RULE-SET,R-theboringcompany,X                                  # The Boring Company
-  - RULE-SET,R-tesla,X                                             # Tesla
 
   # ── TikTok / 字节跳动 ──
   - RULE-SET,R-tiktok,TikTok                                       # TikTok
@@ -561,8 +513,8 @@ rules:
   - RULE-SET,R-netdisk-cn,DIRECT                                   # 国内网盘
   - RULE-SET,R-games-cn,DIRECT                                     # 国内游戏
   - RULE-SET,R-getui,DIRECT                                        # 国内个推推送服务
-  - RULE-SET,R-globalsign@cn,DIRECT                                # Apple 中国专属域名（云上贵州）
-  - RULE-SET,R-digicert@cn,DIRECT                                  # 字节全量
+  - RULE-SET,R-globalsign@cn,DIRECT                                # Globalsign国内节点 → DIRECT
+  - RULE-SET,R-digicert@cn,DIRECT                                  # Digicert国内节点 → DIRECT
  
   # ── GEO Final ──
   - RULE-SET,geolocation-!cn,Final                                 # 非中国域名兜底
