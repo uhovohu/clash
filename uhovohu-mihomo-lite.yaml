@@ -219,27 +219,27 @@ proxy-groups:
   - {name: Proxy,       type: select, include-all: true, filter: *FilterAll, proxies: [OUT]}                            # 全部节点手动选择入口
 
   # ── Proxy App ──
-  - {name: OpenAI,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT, OTHERS1, OTHERS2]}  # OpenAI / ChatGPT
-  - {name: Anthropic,   type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT, OTHERS1, OTHERS2]}  # Anthropic / Claude
-  - {name: AI,          type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT, OTHERS1, OTHERS2]}  # AI 杂项 (Perplexity / Groq / Cerebras / HuggingFace / Cursor / ElevenLabs / ComfyUI / 兜底)
-  - {name: YouTube,     type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT, OTHERS1, OTHERS2]}  # YouTube
-  - {name: Google,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT, OTHERS1, OTHERS2]}  # Google 全家桶
-  - {name: GitHub,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT, OTHERS1, OTHERS2]}  # GitHub
-  - {name: Microsoft,   type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT, OUT, OTHERS1, OTHERS2]}  # Microsoft 全家桶
-  - {name: Apple,       type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT, OUT, OTHERS1, OTHERS2]}  # Apple 全家桶
+  - {name: OpenAI,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT]}  # OpenAI / ChatGPT
+  - {name: Anthropic,   type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT]}  # Anthropic / Claude
+  - {name: AI,          type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT]}  # AI 杂项 (Perplexity / Groq / Cerebras / HuggingFace / Cursor / ElevenLabs / ComfyUI / 兜底)
+  - {name: YouTube,     type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT]}  # YouTube
+  - {name: Google,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT]}  # Google 全家桶
+  - {name: GitHub,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT]}  # GitHub
+  - {name: Microsoft,   type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT, OUT]}  # Microsoft 全家桶
+  - {name: Apple,       type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT, OUT]}  # Apple 全家桶
 
-  - {name: X,           type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT, OTHERS1, OTHERS2]}  # X / Twitter / 马斯克系
-  - {name: Telegram,    type: select, proxies: [Proxy, DIRECT, REJECT, OUT, OTHERS1, OTHERS2]}  # Telegram
+  - {name: X,           type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT]}  # X / Twitter / 马斯克系
+  - {name: Telegram,    type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT]}  # Telegram
 
-  - {name: TikTok,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT, OTHERS1, OTHERS2]}  # TikTok / 字节跳动海外
-  - {name: Netflix,     type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT, OTHERS1, OTHERS2]}  # Netflix
-  - {name: Spotify,     type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT, OTHERS1, OTHERS2]}  # Spotify
+  - {name: TikTok,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT]}  # TikTok / 字节跳动海外
+  - {name: Netflix,     type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT]}  # Netflix
+  - {name: Spotify,     type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT]}  # Spotify
   
-  - {name: Steam,       type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT, OUT, OTHERS1, OTHERS2]}  # Steam
+  - {name: Steam,       type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT, OUT]}  # Steam
 
   # ── CN / Final ──
-  - {name: CN,          type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT, OUT, OTHERS1, OTHERS2]}  # 默认国内直连
-  - {name: Final,       type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT, OTHERS1, OTHERS2]}  # 未匹配流量
+  - {name: CN,          type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT, OUT]}  # 默认国内直连
+  - {name: Final,       type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT, OUT]}  # 未匹配流量
 # =======================================================
 # 7. 规则源 Rule Providers
 # =======================================================
