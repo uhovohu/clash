@@ -488,9 +488,6 @@ rules:
   - RULE-SET,R-github1s,GitHub                                     # GitHub 在线 VSCode
   - RULE-SET,R-github-copilot,GitHub                               # GitHub Copilot
 
-  # ── Discord ──
-  - RULE-SET,R-discord,Discord                                     # Discord
-
   # ── Telegram ──
   - RULE-SET,R-telegram,Telegram                                   # Telegram
   - RULE-SET,R-telegram-ip,Telegram,no-resolve                     # Telegram IP
