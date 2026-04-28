@@ -19,6 +19,12 @@ payload:
   # ── 监控和数据上报（防风控防 IP 泄漏） ──
   - +.sentry.io                # 错误监控上报
   - +.statsigapi.net           # 功能开关 / AB 测试
+  - +.browser-intake-us5-datadoghq.com
+
+  # ── 客服 / 第三方 widget ──
+  - intercom.io
+  - intercomcdn.com
+  - cdn.usefathom.com
   
   # ── NTP time ──          # Claude Code 在运行时，会暗中请求这些 NTP 服务器来校验你的真实系统时区 有需求请取消注释
   #- +.pool.ntp.org         # 全球开源 NTP 池

@@ -253,6 +253,7 @@ rule-providers:
   
   # ── Anthropic ──
   R-anthropic:          {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/anthropic.yaml"}                    # Anthropic / Claude
+  R-anthropic-ip:       {<<: *yaml-ip,url: "https://kookiao:tkmove110@sub.uhovohu.cloud/rules/clash/anthropic-ip.yaml"}
   
   # ── AI ──
   R-perplexity:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/perplexity.mrs"}                     # Perplexity AI搜索
@@ -386,6 +387,7 @@ rules:
 
   # ── Anthropic ──
   - RULE-SET,R-anthropic,Anthropic                                 # Anthropic / Claude
+  - RULE-SET,R-anthropic-ip,Anthropic
 
   # ── AI ──
   - RULE-SET,R-perplexity,AI                                       # Perplexity AI 搜索

@@ -1,0 +1,9 @@
+payload:
+# 查询命令
+#curl -s "https://stat.ripe.net/data/announced-prefixes/data.json?resource=AS399358" \
+#  | jq -r '.data.prefixes[].prefix'
+
+  - 160.79.104.0/23        # AS399358 自治系统号 包含其全部已宣告路由
+  - 2607:6bc0::/48
+  - 209.249.57.0/24     
+  - 2607:6bc0:11::/48
