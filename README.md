@@ -2,7 +2,10 @@ uhovohu-mihomo.yaml 包含链式代理配置
 请尽量使用最新内核
 理论上mihomo内核高于v1.18.6可用
 
-
+![zashboard-pc-dark](https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/zashboard-pc-dark.png)
+![zashboard-pc-light](https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/zashboard-pc-light.png)
+![zashboard-phone-dark](https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/zashboard-phone-dark.png)
+![zashboard-phone-light](https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/zashboard-phone-light.png)
 > [!WARNING]
 > ## ⚠️ 免责声明 / Disclaimer
 > 
