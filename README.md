@@ -4,10 +4,13 @@ uhovohu-mihomo.yaml 包含链式代理配置
 
 ### 更新了策略组图标  建议使用 zashboard 面板
 ### 设置：外观 -- 策略组图标尺寸 24 -- 策略组图标间距 6
-<img src="https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/zashboard-pc-dark.png" width="45%">
-<img src="https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/zashboard-pc-light.png" width="45%">
-<img src="https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/zashboard-phone-dark.png" width="45%">
-<img src="https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/zashboard-phone-light.png" width="45%">
+| <img src="https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/zashboard-phone-dark.png" width="100%"> | <img src="https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/zashboard-phone-light.png" width="100%"> |
+|:---:|:---:|
+| Dark | Light |
+
+| <img src="https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/zashboard-pc-dark.png" width="100%"> | <img src="https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/zashboard-pc-light.png" width="100%"> |
+|:---:|:---:|
+| Dark | Light |
 > [!WARNING]
 > ## ⚠️ 免责声明 / Disclaimer
 > 
