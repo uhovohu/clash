@@ -203,57 +203,57 @@ FilterOthers: &FilterOthers '^(?!.*(?:(?i)=>|群|邀请|返利|循环|官网|客
 proxy-groups:
  
   # ── Proxy ──
-  - {name: Proxy,       type: select, include-all: true, filter: *FilterAll}                            # 全部节点手动选择入口
+  - {name: Proxy,       type: select, include-all: true, filter: *FilterAll, icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/proxy.png"}                                            # 全部节点手动选择入口
 
   # ── Proxy App ──
-  - {name: OpenAI,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # OpenAI / ChatGPT
-  - {name: Anthropic,   type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Anthropic / Claude
-  - {name: AI,          type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # AI 杂项 (Perplexity / Groq / Cerebras / HuggingFace / Cursor / ElevenLabs / ComfyUI / 兜底)
-  - {name: Crypto,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # 加密货币
-  - {name: YouTube,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # YouTube
-  - {name: Google,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Google 全家桶
-  - {name: Cloudflare,  type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Cloudflare
-  - {name: Amazon,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Amazon
-  - {name: GitHub,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # GitHub
-  - {name: Microsoft,   type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Microsoft 全家桶
-  - {name: Adobe,       type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Adobe 全家桶
-  - {name: Apple,       type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Apple 全家桶
-  - {name: Android,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Android / Google Play
+  - {name: OpenAI,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/chatgpt.png"}     # OpenAI / ChatGPT
+  - {name: Anthropic,   type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/claude.png"}      # Anthropic / Claude
+  - {name: AI,          type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/ai.png"}          # AI 杂项 (Perplexity / Groq / Cerebras / HuggingFace / Cursor / ElevenLabs / ComfyUI / 兜底)
+  - {name: Crypto,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/crypto.png"}      # 加密货币
+  - {name: YouTube,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/youtube.png"}     # YouTube
+  - {name: Google,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/google.png"}      # Google 全家桶
+  - {name: Cloudflare,  type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/cloudflare.png"}  # Cloudflare
+  - {name: Amazon,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/amazon.png"}      # Amazon
+  - {name: GitHub,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/github.png"}      # GitHub
+  - {name: Microsoft,   type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/microsoft.png"}   # Microsoft 全家桶
+  - {name: Adobe,       type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/adobe.png"}       # Adobe 全家桶
+  - {name: Apple,       type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/apple.png"}       # Apple 全家桶
+  - {name: Android,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/android.png"}     # Android / Google Play
 
-  - {name: X,           type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # X / Twitter / 马斯克系
-  - {name: Meta,        type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Meta (Facebook / Instagram / WhatsApp)
-  - {name: Telegram,    type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Telegram
-  - {name: Discord,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Discord
-  - {name: Social,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # 社交杂项 (Reddit / Tumblr / LINE)
+  - {name: X,           type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/x.png"}           # X / Twitter / 马斯克系
+  - {name: Meta,        type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/instagram.png"}   # Meta (Facebook / Instagram / WhatsApp)
+  - {name: Telegram,    type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/telegram.png"}    # Telegram
+  - {name: Discord,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/discord.png"}     # Discord
+  - {name: Social,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/social.png"}      # 社交杂项 (Reddit / Tumblr / LINE)
 
-  - {name: TikTok,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # TikTok / 字节跳动海外
-  - {name: Netflix,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Netflix
-  - {name: Spotify,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Spotify
-  - {name: Media,       type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # 流媒体杂项 (Hulu / Prime Video / DAZN / HBO / Disney+ / Vimeo / Twitch / Rumble / Plex)
-  - {name: Bilibili,    type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Bilibili
+  - {name: TikTok,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/tiktok.png"}      # TikTok / 字节跳动海外
+  - {name: Netflix,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/netflix.png"}     # Netflix
+  - {name: Spotify,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/spotify.png"}     # Spotify
+  - {name: Media,       type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/media.png"}       # 流媒体杂项 (Hulu / Prime Video / DAZN / HBO / Disney+ / Vimeo / Twitch / Rumble / Plex)
+  - {name: Bilibili,    type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/bilibili.png"}    # Bilibili
   
-  - {name: Steam,       type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Steam
-  - {name: Epic,        type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # Epic Games
-  - {name: TapTap,      type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # TapTap
+  - {name: Steam,       type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/steam.png"}       # Steam
+  - {name: Epic,        type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/epic.png"}        # Epic Games
+  - {name: TapTap,      type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/taptap.png"}      # TapTap
   
-  - {name: Speedtest,   type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # 测速
+  - {name: Speedtest,   type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/speedtest.png"}   # 测速
  
   # ── R18 默认注释 ──
-  # - {name: R18, type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}       # 成人内容
+  #- {name: R18,         type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/r18.png"}              # 成人内容
 
   # ── CN / Final ──
-  - {name: CN,          type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # 默认国内直连
-  - {name: Final,       type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2]}  # 未匹配流量
+  - {name: CN,          type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/cn.png"}          # 默认国内直连
+  - {name: Final,       type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/final.png"}       # 未匹配流量
 
   # ── Regions ──
-  - {name: HK,          type: select, include-all: true, filter: *FilterHK}      # 香港节点
-  - {name: TW,          type: select, include-all: true, filter: *FilterTW}      # 台湾节点
-  - {name: JP,          type: select, include-all: true, filter: *FilterJP}      # 日本节点
-  - {name: KR,          type: select, include-all: true, filter: *FilterKR}      # 韩国节点
-  - {name: SG,          type: select, include-all: true, filter: *FilterSG}      # 新加坡节点
-  - {name: US,          type: select, include-all: true, filter: *FilterUS}      # 美国节点
-  - {name: OTHERS1,     type: select, include-all: true, filter: *FilterOthers}  # 其他节点 A
-  - {name: OTHERS2,     type: select, include-all: true, filter: *FilterOthers}  # 其他节点 B
+  - {name: HK,          type: select, include-all: true, filter: *FilterHK, icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/hk.png"}                                                # 香港节点
+  - {name: TW,          type: select, include-all: true, filter: *FilterTW, icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/tw.png"}                                                # 台湾节点
+  - {name: JP,          type: select, include-all: true, filter: *FilterJP, icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/jp.png"}                                                # 日本节点
+  - {name: KR,          type: select, include-all: true, filter: *FilterKR, icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/kr.png"}                                                # 韩国节点
+  - {name: SG,          type: select, include-all: true, filter: *FilterSG, icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/sg.png"}                                                # 新加坡节点
+  - {name: US,          type: select, include-all: true, filter: *FilterUS, icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/us.png"}                                                # 美国节点
+  - {name: OTHERS1,     type: select, include-all: true, filter: *FilterOthers, icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/others.png"}                                        # 其他节点 A
+  - {name: OTHERS2,     type: select, include-all: true, filter: *FilterOthers, icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/others.png"}                                        # 其他节点 B
 
 # =======================================================
 # 7. 规则源 Rule Providers

@@ -176,30 +176,31 @@ FilterAll: &FilterAll '^(?!.*(?:(?i)=>|群|邀请|返利|循环|官网|客服|�
 proxy-groups:
   
   # ── Proxy ──
-  - {name: Proxy,       type: select, include-all: true, filter: *FilterAll}                            # 全部节点手动选择入口
+  - {name: Proxy,       type: select, include-all: true, filter: *FilterAll, icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/proxy.png"}                                        # 全部节点手动选择入口
 
   # ── Proxy App ──
-  - {name: OpenAI,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT]}  # OpenAI / ChatGPT
-  - {name: Anthropic,   type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT]}  # Anthropic / Claude
-  - {name: AI,          type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT]}  # AI 杂项 (Perplexity / 兜底)
-  - {name: YouTube,     type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT]}  # YouTube
-  - {name: Google,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT]}  # Google 全家桶
-  - {name: GitHub,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT]}  # GitHub
-  - {name: Microsoft,   type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT]}  # Microsoft 全家桶
-  - {name: Apple,       type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT]}  # Apple 全家桶
+  - {name: OpenAI,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/chatgpt.png"}    # OpenAI / ChatGPT
+  - {name: Anthropic,   type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/claude.png"}     # Anthropic / Claude
+  - {name: AI,          type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/ai.png"}         # AI 杂项 (Perplexity / 兜底)
+  - {name: YouTube,     type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/youtube.png"}    # YouTube
+  - {name: Google,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/google.png"}     # Google 全家桶
+  - {name: GitHub,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/github.png"}     # GitHub
+  - {name: Microsoft,   type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/microsoft.png"}  # Microsoft 全家桶
+  - {name: Apple,       type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/apple.png"}      # Apple 全家桶
 
-  - {name: X,           type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT]}  # X / Twitter / 马斯克系
-  - {name: Telegram,    type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT]}  # Telegram
+  - {name: X,           type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/x.png"}          # X / Twitter / 马斯克系
+  - {name: Telegram,    type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/telegram.png"}   # Telegram
 
-  - {name: TikTok,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT]}  # TikTok / 字节跳动海外
-  - {name: Netflix,     type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT]}  # Netflix
-  - {name: Spotify,     type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT]}  # Spotify
+  - {name: TikTok,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/tiktok.png"}     # TikTok / 字节跳动海外
+  - {name: Netflix,     type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/netflix.png"}    # Netflix
+  - {name: Spotify,     type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/spotify.png"}    # Spotify
   
-  - {name: Steam,       type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT]}  # Steam
+  - {name: Steam,       type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/steam.png"}      # Steam
 
   # ── CN / Final ──
-  - {name: CN,          type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT]}  # 默认国内直连
-  - {name: Final,       type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT]}  # 未匹配流量
+  - {name: CN,          type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/cn.png"}         # 默认国内直连
+  - {name: Final,       type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/final.png"}      # 未匹配流量
+
 # =======================================================
 # 7. 规则源 Rule Providers
 # =======================================================
