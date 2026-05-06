@@ -2,7 +2,7 @@ uhovohu-mihomo.yaml 包含链式代理配置
 请尽量使用最新内核
 理论上mihomo内核高于v1.18.6可用
 
-### 建议使用 zashboard 面板
+### 更新了策略组图标  建议使用 zashboard 面板
 ### 设置：外观 -- 策略组图标尺寸 24 -- 策略组图标间距 6
 <img src="https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/zashboard-pc-dark.png" width="45%">
 <img src="https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/zashboard-pc-light.png" width="45%">
