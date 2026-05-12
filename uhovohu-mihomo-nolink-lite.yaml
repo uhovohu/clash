@@ -356,7 +356,6 @@ rules:
   # ══════════════════════════════════════════
   # 1.REJECT
   # ══════════════════════════════════════════
-  - AND,((NETWORK,UDP),(DST-PORT,443)),REJECT                      # QUIC 封锁（强制 TCP）
   - RULE-SET,R-icloudprivaterelay,REJECT,no-resolve                # iCloud 私有中继
   - RULE-SET,R-ads,REJECT                                          # 全量广告拦截
   - RULE-SET,R-httpdns-cn,REJECT                                   # 国内 HTTPDNS 劫持

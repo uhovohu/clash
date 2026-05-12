@@ -665,7 +665,6 @@ rules:
   # ══════════════════════════════════════════
   # 1.REJECT
   # ══════════════════════════════════════════
-  - AND,((NETWORK,UDP),(DST-PORT,443)),REJECT                      # QUIC 封锁（强制 TCP）
   - RULE-SET,R-icloudprivaterelay,REJECT,no-resolve                # iCloud 私有中继
   - RULE-SET,R-reject,REJECT 
   - RULE-SET,R-reject-ip,REJECT,no-resolve
