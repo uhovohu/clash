@@ -5,6 +5,7 @@ payload:
   - +.claude.com               # Claude 备用域名
   - +.clau.de                  # Claude 短域名（重定向）
   - +.claudemcpclient.com      # Claude MCP 客户端通信
+  - +.claudemcpcontent.com
   - +.claudeusercontent.com    # Claude 用户内容 / 附件
 
   # ── CDN 和基础设施 ──
