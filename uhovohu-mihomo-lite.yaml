@@ -402,15 +402,6 @@ rules:
   # ══════════════════════════════════════════
   # 3.Proxy
   # ══════════════════════════════════════════
-  # ── YouTube ──
-  - RULE-SET,R-youtube,YouTube                                     # YouTube
-  
-  # ── Google ──
-  - RULE-SET,R-gemini,Google                                       # Gemini AI
-  - RULE-SET,R-google,Google                                       # Google 全家桶
-  - RULE-SET,R-google-ip,Google,no-resolve                         # Google IP
-  - RULE-SET,R-FCM,Google                                          # Firebase 推送
-  - RULE-SET,R-google-play,Google                                  # Google Play
 
   # ── OpenAI ──
   - RULE-SET,R-openai,OpenAI                                       # OpenAI
@@ -459,6 +450,16 @@ rules:
   - RULE-SET,R-steam,Steam                                         # Steam
   - RULE-SET,R-steamunlocked,Steam                                 # SteamUnlocked
   - RULE-SET,R-steaminventory,Steam                                # Steam 库存助手
+  
+  # ── YouTube ──
+  - RULE-SET,R-youtube,YouTube                                     # YouTube
+  
+  # ── Google ──
+  - RULE-SET,R-gemini,Google                                       # Gemini AI
+  - RULE-SET,R-google,Google                                       # Google 全家桶
+  - RULE-SET,R-google-ip,Google,no-resolve                         # Google IP
+  - RULE-SET,R-FCM,Google                                          # Firebase 推送
+  - RULE-SET,R-google-play,Google                                  # Google Play
 
   # ── Microsoft ──
   - RULE-SET,R-microsoft-cn,Microsoft                              # Microsoft 国内节点

@@ -645,32 +645,6 @@ rules:
   # ══════════════════════════════════════════
   # 3.Proxy
   # ══════════════════════════════════════════
-  # ── YouTube ──
-  - RULE-SET,R-youtube,YouTube                                     # YouTube
-  
-  # ── Google ──
-  - RULE-SET,R-google-play-cn,Google                               # Google Play 国内节点
-  - RULE-SET,R-firebase-cn,Google                                  # Firebase 国内节点
-  - RULE-SET,R-amp-cn,Google                                       # AMP 国内节点
-  - RULE-SET,R-gemini,Google                                       # Gemini AI
-  - RULE-SET,R-google,Google                                       # Google 全家桶
-  - RULE-SET,R-google-ip,Google,no-resolve                         # Google IP
-  - RULE-SET,R-FCM,Google                                          # Firebase 推送
-  - RULE-SET,R-deepmind,Google                                     # DeepMind
-  - RULE-SET,R-google-play,Google                                  # Google Play
-  - RULE-SET,R-google-scholar,Google                               # Google 学术
-  - RULE-SET,R-firebase,Google                                     # Firebase 开发平台
-  - RULE-SET,R-fonts,Google                                        # Google 字体
-  - RULE-SET,R-golang,Google                                       # Go 语言官方
-  - RULE-SET,R-dart,Google                                         # Dart 语言
-  - RULE-SET,R-v8,Google                                           # V8 引擎
-  - RULE-SET,R-goproxy,Google                                      # Go 模块代理
-  - RULE-SET,R-amp,Google                                          # Google AMP
-
-  # ── Adobe ──
-  - RULE-SET,R-adobe-cn,Adobe                                      # Adobe 国内节点
-  - RULE-SET,R-adobe-activation,Adobe                              # Adobe 激活服务
-  - RULE-SET,R-adobe,Adobe                                         # Adobe 全家桶
 
   # ── OpenAI ──
   - RULE-SET,R-openai,OpenAI                                       # OpenAI
@@ -783,6 +757,28 @@ rules:
   
   # ── Nodeseek ──
   - RULE-SET,R-nodeseek,Proxy                                      # NodeSeek
+  
+  # ── YouTube ──
+  - RULE-SET,R-youtube,YouTube                                     # YouTube
+  
+  # ── Google ──
+  - RULE-SET,R-google-play-cn,Google                               # Google Play 国内节点
+  - RULE-SET,R-firebase-cn,Google                                  # Firebase 国内节点
+  - RULE-SET,R-amp-cn,Google                                       # AMP 国内节点
+  - RULE-SET,R-gemini,Google                                       # Gemini AI
+  - RULE-SET,R-google,Google                                       # Google 全家桶
+  - RULE-SET,R-google-ip,Google,no-resolve                         # Google IP
+  - RULE-SET,R-FCM,Google                                          # Firebase 推送
+  - RULE-SET,R-deepmind,Google                                     # DeepMind
+  - RULE-SET,R-google-play,Google                                  # Google Play
+  - RULE-SET,R-google-scholar,Google                               # Google 学术
+  - RULE-SET,R-firebase,Google                                     # Firebase 开发平台
+  - RULE-SET,R-fonts,Google                                        # Google 字体
+  - RULE-SET,R-golang,Google                                       # Go 语言官方
+  - RULE-SET,R-dart,Google                                         # Dart 语言
+  - RULE-SET,R-v8,Google                                           # V8 引擎
+  - RULE-SET,R-goproxy,Google                                      # Go 模块代理
+  - RULE-SET,R-amp,Google                                          # Google AMP
 
   # ── Cloudflare ──
   - RULE-SET,R-cloudflare-cn,CN                                    # Cloudflare 中国域名
@@ -826,6 +822,11 @@ rules:
   - RULE-SET,R-apkpure,Android                                     # APKPure
   - RULE-SET,R-apkmirror,Android                                   # APKMirror
   - RULE-SET,R-apkcombo,Android                                    # APKCombo
+  
+  # ── Adobe ──
+  - RULE-SET,R-adobe-cn,Adobe                                      # Adobe 国内节点
+  - RULE-SET,R-adobe-activation,Adobe                              # Adobe 激活服务
+  - RULE-SET,R-adobe,Adobe                                         # Adobe 全家桶
 
   # ── CN App ──
   - RULE-SET,R-duowan,CN
