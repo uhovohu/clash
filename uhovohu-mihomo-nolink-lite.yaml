@@ -325,7 +325,8 @@ rule-providers:
   R-apple-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"}                       # Apple中国专属域名 → DIRECT
   R-apple-at-cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple@cn.mrs"}                       # Apple国内服务补充 → DIRECT
   R-apple-dev-cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-dev@cn.mrs"}                   # Apple开发者国内节点 → DIRECT
-
+  R-appleakamai:        {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/appleakamai.yaml"}                  # Apple akamai节点
+  
   # ══════════════════════════════════════════
   # 4.Final
   # ══════════════════════════════════════════
@@ -455,6 +456,7 @@ rules:
   - RULE-SET,R-icloud,Apple                                        # iCloud
   - RULE-SET,R-itunes,Apple                                        # iTunes
   - RULE-SET,R-apple,Apple                                         # Apple 全家桶
+  - RULE-SET,R-appleakamai,Apple                                   # Apple akamai节点
   - RULE-SET,R-apple-ip,Apple,no-resolve                           # Apple IP 段
 
   # ══════════════════════════════════════════
