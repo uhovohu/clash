@@ -1,0 +1,168 @@
+payload:
+# > WeChat.list（微信平台网络服务域名）
+# - 分类：即时通信平台 / 移动社交服务
+# - 来源：官方文档 / 本地流量分析 / 手动校验 / 持续维护
+# - 特征：覆盖微信核心通信、登录接口、小程序、支付及多媒体资源服务
+# - 说明：微信客户端大量使用自研 mmtls 长连接通信协议，部分服务节点通过自有 DNS 与 CDN 分发
+# - 用途：本规则集用于防御性安全研究，禁止用于任何非法用途
+# - 维护：https://github.com/Thoseyearsbrian/Aegis
+# - 更新时间：2026-04-21
+# - 校对时间：2026-04-21
+
+# > Core Communication（核心通信服务）
+
+- +.weixin.qq.com # 微信核心服务域名
+- +.api.weixin.qq.com # 微信官方 API 网关
+- +.qyapi.weixin.qq.com # 企业微信 API 网关
+- +.servicewechat.cn # 微信小程序中国区服务域
+- +.connect.wechat.com # 微信账号连接服务
+- +.routerlong.weixin.qq.com # 微信长连接接入节点
+- +.notifylong.weixin.qq.com # 微信长连接通知节点
+- +.es.wx.qq.com # 微信客户端安全检测接口
+- +.add-pcdnwxlogin.teg.tencent-cloud.net # 微信登录加速节点
+- +.sglong.weixin.qq.com # 微信海外长连接节点（SG）
+- +.frlong.weixin.qq.com # 微信海外长连接节点（FR）
+- +.dns.weixin.qq.com.cn # 微信内部 DNS 服务
+- +.paydns.wechatpay.cn # 微信支付 DNS 服务
+- +.wxsmw.wxs.qq.com # 微信小程序安全接口
+- +.res.servicewechat.com # 微信小程序资源服务
+- +.launchwxacode.wxqcloud.qq.com.cn # 微信小程序码生成服务
+- +.mp.weixin.qq.com # 微信公众平台服务
+- +.dldir1v6.qq.com # 腾讯客户端资源下载 CDN
+- +.res.wx.qq.com # 微信前端静态资源
+- +.res2.wx.qq.com # 微信前端静态资源（备用节点）
+- +.res.wx.qq.com.cn # 微信 JS SDK 静态资源（兼容节点）
+- +.gtimg.wechatpay.cn # 微信支付静态资源 CDN
+- +.wxaintpcos.wxqcloud.qq.com.cn # 腾讯云 COS 对象存储
+- +.dldir1.qq.com # 腾讯客户端资源下载
+- +.tenpay.wechatpay.cn # 微信支付交易接口
+- +.wx.gtimg.com # 微信静态资源 CDN
+- +.prewxacode.wxqcloud.qq.com.cn # 微信小程序码预览服务
+- +.wxapp.tc.qq.com # 微信小程序资源 CDN
+- +.marscdnbypass-wxapp.tc.qq.com # 微信小程序 CDN 加速节点
+- +.wx.tenpay.com # 微信支付接口服务
+- +.api.mch.weixin.qq.com # 微信支付 API 网关
+- +.api2.mch.weixin.qq.com # 微信支付 API 备用网关
+- +.payapp.weixin.qq.com # 微信支付中间页服务
+- +.pay.weixin.qq.com # 微信支付商户平台
+- +.log.weixin.qq.com # 微信支付日志上报服务
+- +.cube.weixinbridge.com # 微信 JSBridge 通信服务
+- +.localhost.weixin.qq.com # 微信客户端本地通信接口
+- +.apd-pcdnwxstat.teg.tencent-cloud.net # 腾讯网络质量检测服务
+- +.servicewechat.com # 微信小程序服务域
+- +.sh.servicewechat.com # 微信小程序服务节点（SH）
+- +.wxqcloud.qq.com.cn # 腾讯云微信服务节点
+- +.apd-pcdnieghplogin.teg.tencent-cloud.net # 腾讯云登录调度节点
+- +.open.weixin.qq.com # 微信开放平台 OAuth 服务
+- +.szsupport.weixin.qq.com # 微信客服与安全验证服务
+- +.wechat.com # 微信国际版主域
+- +.wechatpay.com # 微信支付国际服务域
+- +.wechatpay.cn # 微信支付中国区服务域
+- +.tenpay.com # 腾讯 Tenpay 支付平台主域
+- +.short.weixin.qq.com # 微信短链接服务
+- +.weixin110.qq.com # 微信安全中心服务
+- +.security.wechat.com # 微信安全与账号保护服务
+- +.open.work.weixin.qq.com # 企业微信开放平台服务
+- +.work.weixin.qq.com # 企业微信主站与管理后台
+- +.mmbiz.weixin.qq.com # 微信公众号文章与内容服务
+- +.mmbiz.qcloudimg.com # 微信公众号图片 CDN（历史资源节点）
+- +.developers.weixin.qq.com # 微信开发者平台服务
+- +.long.weixin.qq.com # 微信通用长连接调度节点
+- +.wx.qq.com # 微信 Web 版服务入口
+- +.channels.weixin.qq.com # 微信视频号服务
+- +.live.weixin.qq.com # 微信直播服务
+- +.find.weixin.qq.com # 微信发现页相关服务
+- +.scan.weixin.qq.com # 微信扫码登录与二维码接口
+- +.szextshort.weixin.qq.com # 微信短链接跳转服务
+- +.szminorshort.weixin.qq.com # 微信短链接跳转备用节点
+- +.extshort.weixin.qq.com # 微信短链接解析服务
+
+# > Media & File Transfer（多媒体与文件传输）
+
+- +.mmcdn.qpic.cn # 微信多媒体 CDN 分发服务
+- +.mmchatpic.qpic.cn # 微信聊天图片 CDN 接口
+- +.mmsns.qpic.cn # 微信朋友圈图片 CDN
+- +.qlogo.cn # 腾讯头像 CDN 主域
+- +.wx.qlogo.cn # 微信用户头像 CDN
+- +.thirdwx.qlogo.cn # 第三方登录头像 CDN
+- +.mmbiz.qlogo.cn # 微信公众号头像 CDN
+- +.mmbiz2.qlogo.cn # 微信公众号头像 CDN（备用节点）
+- +.qpic.cn # 腾讯图片 CDN 主域
+- +.wx.qpic.cn # 微信图片资源 CDN
+- +.mmbiz.qpic.cn # 微信公众号图片 CDN
+- +.mmbiz2.qpic.cn # 微信公众号图片 CDN（备用节点）
+- +.p.qpic.cn # 腾讯图片 CDN
+- +.shp.qpic.cn # 腾讯图片 CDN
+- +.ugc.qpic.cn # 微信用户生成内容 CDN
+- +.store.qpic.cn # 微信图片与文件资源 CDN
+- +.imgcache.qq.com # 腾讯图片缓存 CDN
+- +.wximg.qq.com # 微信 Web 图片资源服务
+- +.wximg.gtimg.com # 微信图片 CDN（腾讯多媒体资源网络）
+- +.txc.qq.com # 腾讯多媒体上传与处理服务
+- +.game.gtimg.cn # 腾讯 CDN 静态资源网络
+- +.gtimg.cn # 腾讯静态资源 CDN 主域
+- +.cmmsns.qpic.cn # 微信社交图片 CDN
+- +.vd.qq.com # 视频号与聊天视频分发服务
+- +.v.qq.com # 腾讯视频与视频号 CDN
+- +.video.store.qq.com # 视频上传与资源库接口
+- +.audio.chat.qq.com # 微信音频通话相关接口
+- +.dl.stream.qqmusic.qq.com # 音频文件资源调用接口
+- +.dl.music.qq.com # 音乐小程序音频资源加载域名
+
+# > WeChat Desktop & Web（微信 PC / Web）
+
+- +.login.weixin.qq.com # 微信网页登录入口
+- +.login.wx.qq.com # 微信 Web 登录二维码接口
+- +.web.wechat.com # 微信 Web 客户端服务
+- +.wx2.qq.com # 微信 Web 通信节点
+- +.wx8.qq.com # 微信 Web 备用通信节点
+- +.passport.wechat.com # 多端登录验证中转接口
+- +.support.wechat.com # 微信帮助中心 Web 页面
+- +.filehelper.weixin.qq.com # 文件助手 Web 接口
+- +.update.wechat.com # 微信客户端更新检查接口
+- +.dl.wechat.com # 微信客户端安装包下载服务
+- +.wework.qpic.cn # 企业微信图像资源域名
+
+# > WeChat SDKs & Tracking（微信 SDK 接口）
+
+- +.isdspeed.qq.com # SDK 网络测速与质量评估上传接口
+- +.support.weixin.qq.com # 微信开放平台支持与文档页面
+
+# > Tencent Push Notification Service（腾讯移动推送服务）
+
+- +.guid.tpns.sh.tencent.com # 腾讯移动推送服务域名
+- +.access1.tpns.sh.tencent.com # 腾讯移动推送接入域名
+
+# > Security & Safe Browsing（微信安全与链接防护）
+
+- +.safebrowsing.urlsec.qq.com # 腾讯安全浏览钓鱼与恶意链接拦截服务
+- +.urlsec.qq.com # 腾讯 URL 安全检测服务
+
+# > WeChat Mini Program Services（微信小程序云开发与托管服务）
+
+- +.tcb.qcloud.la # 微信小程序云开发服务
+- +.cloudbase.net # 微信小程序 CloudBase 服务
+- +.wx.cloud.tencent.com # 微信小程序云托管服务
+
+# ── QQ / 微信登录 ──
+- localhost.ptlogin2.qq.com
+- localhost.sec.qq.com
+- +.weixin.qq.com
+- +.kk-rays.com
+  
+# ── QQ / 腾讯音乐 ──
+- +.qq.com
+- +.tc.qq.com
+- +.qqmusic.qq.com
+- +.music.tc.qq.com
+- +.tencentmusic.com
+
+# QQ音乐
+- +.y.qq.com
+- streamoc.music.tc.qq.com
+- mobileoc.music.tc.qq.com
+- isure.stream.qqmusic.qq.com
+- dl.stream.qqmusic.qq.com
+- aqqmusic.tc.qq.com
+- amobile.music.tc.qq.com
+

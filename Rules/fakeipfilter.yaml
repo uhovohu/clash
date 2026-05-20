@@ -83,12 +83,6 @@ payload:
   - swcdn.apple.com
   - swdist.apple.com
 
-  # ── QQ / 微信登录 ──
-  - localhost.ptlogin2.qq.com
-  - localhost.sec.qq.com
-  - +.weixin.qq.com
-  - +.kk-rays.com
-
   # 网易云音乐
   - +.music.163.com
   - +.126.net
@@ -108,15 +102,6 @@ payload:
   - api-jooxtt.sanook.com
   - api.joox.com
   - joox.com
-  
-  # QQ音乐
-  - +.y.qq.com
-  - streamoc.music.tc.qq.com
-  - mobileoc.music.tc.qq.com
-  - isure.stream.qqmusic.qq.com
-  - dl.stream.qqmusic.qq.com
-  - aqqmusic.tc.qq.com
-  - amobile.music.tc.qq.com
   
   # 虾米音乐
   - +.xiami.com
@@ -351,15 +336,8 @@ payload:
   - +.vda.vvic.com
   - +.fp-it.fengkongcloud.com
   - +.emas.etax.chinatax.gov.cn
+  - +.bqihjehbevhbvg.ctydoh.cn    #天翼云
+  - +.ctydoh.cn
   
   # ── 阿里千问 ──
   - +.aliyuncs.com
-  # ── 天翼云 ──
-  - +.ctydoh.cn
-  
-  # ── 自用 ──
-  - emby.uhovohu.com
-  - uhovohu.cloud
-  - www.uhovohu.cloud
-  - www.mokuoha.com
-  - nmc01.nmcloud.cc
