@@ -160,7 +160,8 @@ dns:
     "rule-set:R-netease": [system, 223.5.5.5, 119.29.29.29]              # 网易云音乐
     "rule-set:R-meituan": [system, 223.5.5.5, 119.29.29.29]              # 美团
     "rule-set:R-jingdong": [system, 223.5.5.5, 119.29.29.29]             # 京东
-    "rule-set:R-huawei": [system, 223.5.5.5, 119.29.29.29]               # 京东
+    "rule-set:R-huawei": [system, 223.5.5.5, 119.29.29.29]               # 华为
+    "rule-set:R-xioami": [system, 223.5.5.5, 119.29.29.29]               # 小米
     "rule-set:R-tencent": [system, 223.5.5.5, 119.29.29.29]              # 腾讯
     "rule-set:R-tendcloud": [system, 223.5.5.5, 119.29.29.29]            # 腾讯云
     "rule-set:R-tencent-dev": [system, 223.5.5.5, 119.29.29.29]          # 腾讯开发者
@@ -186,6 +187,7 @@ dns:
     - "rule-set:R-meituan"
     - "rule-set:R-jingdong"
     - "rule-set:R-huawei"
+    - "rule-set:R-xiaomi"
     - "rule-set:R-tencent"
     - "rule-set:R-tendcloud"
     - "rule-set:R-tencent-dev"
@@ -495,7 +497,8 @@ rule-providers:
   R-duowan:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/duowan.yaml"}                       # 多玩游戏/yy语音
   R-duowan-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/duowan-ip.yaml"}
   
-  R-huawei:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/huawei.yaml"}
+  R-huawei:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/huawei.yaml"}
+  R-xiaomi:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/xiaomi.yaml"}
   
   R-tencent:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tencent.mrs"}
   R-tendcloud:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tendcloud.mrs"}
@@ -833,6 +836,7 @@ rules:
   - RULE-SET,R-duowan,CN
   - RULE-SET,R-duowan-ip,CN,no-resolve
   - RULE-SET,R-huawei,CN
+  - RULE-SET,R-xiaomi,CN
   - RULE-SET,R-tencent,CN
   - RULE-SET,R-tendcloud,CN
   - RULE-SET,R-tencent-dev,CN
