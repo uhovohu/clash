@@ -360,7 +360,7 @@ rule-providers:
   
   # ── Anthropic ──
   R-anthropic:          {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/anthropic.yaml"}                    # Anthropic / Claude
-  R-anthropic-ip:       {<<: *yaml-ip,url: "https://kookiao:tkmove110@sub.uhovohu.cloud/rules/clash/anthropic-ip.yaml"}
+  R-anthropic-ip:       {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/anthropic-ip.yaml"}
   
   # ── AI ──
   R-perplexity:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/perplexity.mrs"}                     # Perplexity AI搜索
@@ -371,7 +371,7 @@ rule-providers:
   R-elevenlabs:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/elevenlabs.mrs"}                     # ElevenLabs AI语音
   R-comfy:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/comfy.mrs"}                          # ComfyUI
   R-comfy-launcher:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/comfy-ui-launcher.mrs"}              # ComfyUI启动器
-  R-ai:                 {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-chat-!cn.mrs"}           # AI聊天服务兜底
+  R-ai:                 {<<: *ymal,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/category-ai-chat-!cn.ymal"}         # AI服务兜底
   
   # ── Crypto ──
   R-crypto:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-cryptocurrency.mrs"}        # 加密货币
@@ -394,13 +394,8 @@ rule-providers:
   R-line:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/line.mrs"}                           # LINE
 
   # ── Meta ──
-  R-instagram:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/instagram.mrs"}                      # Instagram
-  R-facebook:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/facebook.mrs"}                       # Facebook
-  R-facebook-dev:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/facebook-dev.mrs"}                   # Facebook开发者
+  R-meta:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/meta.mrs"}                           # Facebook / Instagram / Facebook Developers / WhatsApp / hreads / Messenger / Graph / Analytics
   R-meta-ads:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/meta@ads.mrs"}                       # Meta广告 → REJECT
-  R-messenger:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/messenger.mrs"}                      # Messenger
-  R-threads:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/threads.mrs"}                        # Threads
-  R-whatsapp:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/whatsapp.mrs"}                       # WhatsApp
 
   # ── Elon Musk ──
   R-x-ads:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/x@ads.mrs"}                          # X广告 → REJECT
@@ -720,12 +715,7 @@ rules:
 
   # ── Meta ──
   - RULE-SET,R-meta-ads,REJECT                                     # Meta 广告
-  - RULE-SET,R-instagram,Meta                                      # Instagram
-  - RULE-SET,R-facebook,Meta                                       # Facebook
-  - RULE-SET,R-facebook-dev,Meta                                   # Facebook 开发者
-  - RULE-SET,R-messenger,Meta                                      # Messenger
-  - RULE-SET,R-threads,Meta                                        # Threads
-  - RULE-SET,R-whatsapp,Meta                                       # WhatsApp
+  - RULE-SET,R-meta,Meta                                           # Facebook / Instagram / Facebook Developers / WhatsApp / hreads / Messenger / Graph / Analytics
 
   # ── Elon Musk ──
   - RULE-SET,R-x-ads,REJECT                                        # X 广告
