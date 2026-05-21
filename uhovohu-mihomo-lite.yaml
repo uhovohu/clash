@@ -178,7 +178,7 @@ dns:
     "rule-set:R-securities-cn": [system, 223.5.5.5, 119.29.29.29]       # 国内证券 → 系统 DNS
     "rule-set:R-finance-cn": [system, 223.5.5.5, 119.29.29.29]          # 国内金融 → 系统 DNS
     "rule-set:R-ntp-cn": [system, 223.5.5.5, 119.29.29.29]
-    "rule-set:R-R-wechat": [system, 223.5.5.5, 119.29.29.29]
+    "rule-set:R-wechat": [system, 223.5.5.5, 119.29.29.29]
     "rule-set:R-alipay": [system, 223.5.5.5, 119.29.29.29]
     "rule-set:R-netease": [system, 223.5.5.5, 119.29.29.29]
     "rule-set:R-meituan": [system, 223.5.5.5, 119.29.29.29]
