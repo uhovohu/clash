@@ -147,19 +147,28 @@ dns:
 
   # ── DNS 分流 ──
   nameserver-policy:
-    "rule-set:R-private": [system]                                      # 局域网 / 私有域名：必须返回真实 IP，否则本地服务无法访问
-    "rule-set:R-fakeipfilter": [system, 223.5.5.5, 119.29.29.29]        # Fake-IP 豁免域名 → 系统 DNS，确保返回真实 IP
-    "rule-set:R-connectivity": [system, 223.5.5.5, 119.29.29.29]        # 连通性检测 微软/苹果 → 系统 DNS，防止误报"无网络"
-    "rule-set:R-cdn-cn": [system, 223.5.5.5, 119.29.29.29]              # 国内 CDN → 系统 DNS，获得最近节点 IP
-    "rule-set:R-bank-cn": [system, 223.5.5.5, 119.29.29.29]             # 国内银行 → 系统 DNS，防止 DNS 污染导致证书异常
-    "rule-set:R-securities-cn": [system, 223.5.5.5, 119.29.29.29]       # 国内证券 → 系统 DNS
-    "rule-set:R-finance-cn": [system, 223.5.5.5, 119.29.29.29]          # 国内金融 → 系统 DNS
-    "rule-set:R-ntp-cn": [system, 223.5.5.5, 119.29.29.29]
-    "rule-set:R-wechat": [system, 223.5.5.5, 119.29.29.29]
-    "rule-set:R-tencent": [system, 223.5.5.5, 119.29.29.29]
-    "rule-set:R-tendcloud": [system, 223.5.5.5, 119.29.29.29]
-    "rule-set:R-tencent-dev": [system, 223.5.5.5, 119.29.29.29]
-    "rule-set:R-alipay": [system, 223.5.5.5, 119.29.29.29]
+    "rule-set:R-private": [system]
+    "rule-set:R-fakeipfilter": [system, 223.5.5.5, 119.29.29.29]         # Fake-IP 豁免域名
+    "rule-set:R-connectivity": [system, 223.5.5.5, 119.29.29.29]         # 连通性检测 微软/苹果
+    "rule-set:R-cdn-cn": [system, 223.5.5.5, 119.29.29.29]               # 国内 CDN
+    "rule-set:R-bank-cn": [system, 223.5.5.5, 119.29.29.29]              # 国内银行
+    "rule-set:R-securities-cn": [system, 223.5.5.5, 119.29.29.29]        # 国内证券
+    "rule-set:R-finance-cn": [system, 223.5.5.5, 119.29.29.29]           # 国内金融
+    "rule-set:R-ntp-cn": [system, 223.5.5.5, 119.29.29.29]               # 国内 NTP
+    "rule-set:R-wechat": [system, 223.5.5.5, 119.29.29.29]               # 微信
+    "rule-set:R-alipay": [system, 223.5.5.5, 119.29.29.29]               # 支付宝
+    "rule-set:R-netease": [system, 223.5.5.5, 119.29.29.29]              # 网易云音乐
+    "rule-set:R-meituan": [system, 223.5.5.5, 119.29.29.29]              # 美团
+    "rule-set:R-jingdong": [system, 223.5.5.5, 119.29.29.29]             # 京东
+    "rule-set:R-huawei": [system, 223.5.5.5, 119.29.29.29]               # 京东
+    "rule-set:R-tencent": [system, 223.5.5.5, 119.29.29.29]              # 腾讯
+    "rule-set:R-tendcloud": [system, 223.5.5.5, 119.29.29.29]            # 腾讯云
+    "rule-set:R-tencent-dev": [system, 223.5.5.5, 119.29.29.29]          # 腾讯开发者
+    "rule-set:R-tencent-games": [system, 223.5.5.5, 119.29.29.29]        # 腾讯游戏
+    "rule-set:R-aliyun": [system, 223.5.5.5, 119.29.29.29]               # 阿里云
+    "rule-set:R-aliyun-drive": [system, 223.5.5.5, 119.29.29.29]         # 阿里云盘
+    "rule-set:R-alibaba": [system, 223.5.5.5, 119.29.29.29]              # 阿里巴巴
+    "rule-set:R-alibabacloud": [system, 223.5.5.5, 119.29.29.29]         # 阿里云服务
     
   # ── Fake-IP ──
   fake-ip-filter:
@@ -172,6 +181,11 @@ dns:
     - "rule-set:R-finance-cn"                # 国内金融
     - "rule-set:R-ntp-cn"                    # 国内 NTP：假 IP 导致时间同步失败
     - "rule-set:R-wechat"
+    - "rule-set:R-alipay"
+    - "rule-set:R-netease"
+    - "rule-set:R-meituan"
+    - "rule-set:R-jingdong"
+    - "rule-set:R-huawei"
     - "rule-set:R-tencent"
     - "rule-set:R-tendcloud"
     - "rule-set:R-tencent-dev"
@@ -179,9 +193,6 @@ dns:
     - "rule-set:R-aliyun-drive"
     - "rule-set:R-alibaba"
     - "rule-set:R-alibabacloud"
-    - "rule-set:R-alipay"
-    - "rule-set:R-jingdong"
-    - "rule-set:R-meituan"
    
 # =======================================================
 # 6. 策略组 Proxy Groups
@@ -478,15 +489,23 @@ rule-providers:
   R-apkmirror:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apkmirror.mrs"}                      # APKMirror
   R-apkcombo:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apkcombo.mrs"}                       # APKCombo
   
-  # ── CN App ──
-  R-duowan:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/duowan.yaml"}                       # 多玩游戏/yy语音
-  R-duowan-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/duowan-ip.yaml"}
-  R-jingdong:           {<<: *domain, url: "https://raw.githubusercontent.com/Keviin560/Shunt_Rules/main/rule/Mihomo/JingDong.mrs"}
-  R-jingdongcloud-ip:   {<<: *ip,     url: "https://raw.githubusercontent.com/Keviin560/Shunt_Rules/main/rule/Mihomo/JingDongCloud_IP.mrs"}  
-  
+  # ── CN App ──  
   R-wechat:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/wechat.yaml"}
   R-wechat-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/wechat-ip.yaml"}
- 
+  
+  R-alipay:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/alipay.yaml"}
+  
+  R-netease:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/netease.yaml"}
+  R-meituan:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/meituan.yaml"}  
+
+  R-jingdong:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/jingdong.yaml"}
+  R-jingdongcloud-ip:   {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/jingdongcloud-ip.yaml"}
+  
+  R-duowan:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/duowan.yaml"}                       # 多玩游戏/yy语音
+  R-duowan-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/duowan-ip.yaml"}
+  
+  R-huawei:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/huawei.yaml"}
+  
   R-tencent:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tencent.mrs"}
   R-tendcloud:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tendcloud.mrs"}
   R-tencent-dev:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tencent-dev.mrs"}
@@ -495,8 +514,6 @@ rule-providers:
   R-aliyun-drive:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/aliyun-drive.mrs"}
   R-alibaba:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/alibaba.mrs"}
   R-alibabacloud:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/alibabacloud.mrs"}
-  R-alipay:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/alipay.yaml"}
-  R-meituan:            {<<: *domain, url: "https://raw.githubusercontent.com/Keviin560/Shunt_Rules/main/rule/Mihomo/MeiTuan.mrs"}
   
   # ── 硬件 / 杂项 ──
   R-nvidia-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/nvidia@cn.mrs"}                      # Nvidia国内节点 → DIRECT
@@ -824,10 +841,16 @@ rules:
   - RULE-SET,R-adobe,Adobe                                         # Adobe 全家桶
 
   # ── CN App ──
-  - RULE-SET,R-duowan,CN
-  - RULE-SET,R-duowan-ip,CN,no-resolve
   - RULE-SET,R-wechat,CN
   - RULE-SET,R-wechat-ip,CN,no-resolve
+  - RULE-SET,R-alipay,CN
+  - RULE-SET,R-netease,CN
+  - RULE-SET,R-meituan,CN
+  - RULE-SET,R-jingdong,CN
+  - RULE-SET,R-jingdongcloud-ip,CN,no-resolve
+  - RULE-SET,R-duowan,CN
+  - RULE-SET,R-duowan-ip,CN,no-resolve
+  - RULE-SET,R-huawei,CN
   - RULE-SET,R-tencent,CN
   - RULE-SET,R-tendcloud,CN
   - RULE-SET,R-tencent-dev,CN
@@ -836,10 +859,6 @@ rules:
   - RULE-SET,R-aliyun-drive,CN
   - RULE-SET,R-alibaba,CN
   - RULE-SET,R-alibabacloud,CN
-  - RULE-SET,R-alipay,CN
-  - RULE-SET,R-jingdong,CN
-  - RULE-SET,R-jingdongcloud-ip,CN,no-resolve
-  - RULE-SET,R-meituan,CN
 
   # ── 硬件 / 杂项 ──
   - RULE-SET,R-nvidia-cn,CN                                        # Nvidia 国内节点

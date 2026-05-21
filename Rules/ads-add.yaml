@@ -7,3 +7,6 @@ payload:
   - +.saasexch.co                          # 币安广告追踪
   - +.saasexch.com                         # 币安广告追踪
   - +.saasexch.io                          # 币安广告追踪
+  # ── 错误上报 ──
+  - +.ingest.sentry.io                     # Sentry 错误上报 币安 claude
+  - +.sentry.io                            # Sentry 错误上报 币安 app

@@ -83,3 +83,10 @@ payload:
   
   # ── voipstunt ──
   - +.stun.voipstunt.com                   # 欧洲 VoIP 电话服务商
+  
+  # ── Intercom 客户支持聊天服务 ──
+  - nexus-websocket-a.intercom.io         # Intercom 客户支持聊天服务 WebSocket 连接
+  - browser-intake-us5-datadoghq.com      # Intercom 数据收集/监测接口 (Datadog)
+  
+  # ── 插件迷 ──
+  - weather-api.extfans.com

@@ -39,6 +39,7 @@ payload:
   - +.huobicfg.s3.amazonaws.com
   - +.huobicfg.s3.ap-northeast-1.amazonaws.com
   - +.l10n-pro.octu88.com
+  - +.l10n-pro.88maru.com
   - +.open.woodpeckerlog.com
   - +.access.pushsdk.com
   - +.report.daumoon.com

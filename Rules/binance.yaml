@@ -5,9 +5,6 @@ payload:
   - +.accounts.binance.me
   - +.addfd325e6e3.cdn4.forter.com
   - +.api.binance.com
-  - +.api.saasexch.co
-  - +.api.saasexch.com
-  - +.api.saasexch.io
   - +.bin.bnbstatic.com
   - +.bnliveplay-ag.bblivestream.com
   - +.cdn.forter.com
@@ -40,3 +37,4 @@ payload:
   - +.saasexch.info
   - +.static.tylhh.net
   - +.bsappapi.com
+  - +.bscdnweb.com

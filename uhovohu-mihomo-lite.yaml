@@ -178,7 +178,12 @@ dns:
     "rule-set:R-securities-cn": [system, 223.5.5.5, 119.29.29.29]       # 国内证券 → 系统 DNS
     "rule-set:R-finance-cn": [system, 223.5.5.5, 119.29.29.29]          # 国内金融 → 系统 DNS
     "rule-set:R-ntp-cn": [system, 223.5.5.5, 119.29.29.29]
-    
+    "rule-set:R-R-wechat": [system, 223.5.5.5, 119.29.29.29]
+    "rule-set:R-alipay": [system, 223.5.5.5, 119.29.29.29]
+    "rule-set:R-netease": [system, 223.5.5.5, 119.29.29.29]
+    "rule-set:R-meituan": [system, 223.5.5.5, 119.29.29.29]
+    "rule-set:R-jingdong": [system, 223.5.5.5, 119.29.29.29]
+
   # ── Fake-IP ──
   fake-ip-filter:
     - "rule-set:R-private"                   # 局域网 / 私有域名：必须返回真实 IP，否则本地服务无法访问
@@ -189,6 +194,11 @@ dns:
     - "rule-set:R-securities-cn"             # 国内证券
     - "rule-set:R-finance-cn"                # 国内金融
     - "rule-set:R-ntp-cn"                    # 国内 NTP：假 IP 导致时间同步失败
+    - "rule-set:R-R-wechat"
+    - "rule-set:R-alipay"
+    - "rule-set:R-netease"
+    - "rule-set:R-meituan"
+    - "rule-set:R-jingdong"
      
 # =======================================================
 # 6. 策略组 Proxy Groups
@@ -359,9 +369,17 @@ rule-providers:
   R-apple-dev-cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-dev@cn.mrs"}                   # Apple开发者国内节点 → DIRECT
   R-appleakamai:        {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/appleakamai.yaml"}                  # Apple akamai节点
   
-  # ── WeChat ──
+  # ── CN App ──
   R-wechat:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/wechat.yaml"}
   R-wechat-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/wechat-ip.yaml"}
+  
+  R-alipay:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/alipay.yaml"}
+  
+  R-netease:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/netease.yaml"}
+  R-meituan:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/meituan.yaml"}  
+
+  R-jingdong:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/jingdong.yaml"}
+  R-jingdongcloud-ip:   {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/jingdongcloud-ip.yaml"}
   
   # ══════════════════════════════════════════
   # 4.Final
@@ -495,9 +513,14 @@ rules:
   - RULE-SET,R-appleakamai,Apple                                   # Apple akamai节点
   - RULE-SET,R-apple-ip,Apple,no-resolve                           # Apple IP 段
 
-  # ── WeChat ──
-  - RULE-SET,R-wechat,DIRECT
-  - RULE-SET,R-wechat-ip,DIRECT,no-resolve
+  # ── CN App ──
+  - RULE-SET,R-wechat,CN
+  - RULE-SET,R-wechat-ip,CN,no-resolve
+  - RULE-SET,R-alipay,CN
+  - RULE-SET,R-netease,CN
+  - RULE-SET,R-meituan,CN
+  - RULE-SET,R-jingdong,CN
+  - RULE-SET,R-jingdongcloud-ip,CN,no-resolve
 
   # ══════════════════════════════════════════
   # 6.Final

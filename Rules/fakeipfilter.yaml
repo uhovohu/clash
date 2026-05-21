@@ -82,10 +82,6 @@ payload:
   - swdownload.apple.com
   - swcdn.apple.com
   - swdist.apple.com
-
-  # 网易云音乐
-  - +.music.163.com
-  - +.126.net
   
   # 百度音乐
   - musicapi.taihe.com
@@ -202,22 +198,6 @@ payload:
 
   # ── 公安 一网通办 ──
   - appx
-
-  # ── 美团 ──
-  - +.maoyan.com
-  - +.mtyun.com
-  - +.neixin.cn
-  - +.sankuai.com
-  - +.meituan.com
-  - +.meituan.net
-  - +.meituan.com.cn
-  - +.meituan.cn
-  - +.dianping.com
-  - +.meituan.net.eo.dnse1.com
-  - +.dnse1.com
-  - +.dnse2.com
-  - +.dnse.com
-  - +.config2.cmpassport.com
   
   # ── 淘宝闪购 ──
   - +.wgo.mmstat.com
@@ -250,17 +230,6 @@ payload:
 
   # ── 什么值得买 ──
   - +.onepass.geetest.com
-  - +.aaid.uyunad.com
-  - +.1
-  - +.1
-  - +.1
-  - +.1
-  
-  # ── 京东 ──
-  - +.jd.com
-  
-  # ── 京东养车 ──
-  - +.secure.globalsign.com
   - +.aaid.uyunad.com
   - +.1
   - +.1
@@ -340,4 +309,4 @@ payload:
   - +.ctydoh.cn
   
   # ── 阿里千问 ──
-  - +.aliyuncs.com
+  - +.aliyuncs.com  
