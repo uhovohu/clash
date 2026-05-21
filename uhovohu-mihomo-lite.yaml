@@ -194,7 +194,7 @@ dns:
     - "rule-set:R-securities-cn"             # 国内证券
     - "rule-set:R-finance-cn"                # 国内金融
     - "rule-set:R-ntp-cn"                    # 国内 NTP：假 IP 导致时间同步失败
-    - "rule-set:R-R-wechat"
+    - "rule-set:R-wechat"
     - "rule-set:R-alipay"
     - "rule-set:R-netease"
     - "rule-set:R-meituan"
