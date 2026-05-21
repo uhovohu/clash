@@ -423,12 +423,12 @@ rule-providers:
   R-tesla:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tesla.mrs"}                          # Tesla
 
   # ── TikTok / 字节跳动 ──
-  R-tiktok:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"}                         # TikTok → 代理
+  R-tiktok:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/tiktok.yaml"}                       # TikTok → 代理
   
   R-bytedance-ai-!cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bytedance-ai-!cn.mrs"}               # 字节AI海外(豆包/Coze国际版) → 代理
   R-bytedance-!cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bytedance@!cn.mrs"}                  # 字节海外域名 → 代理
 
-  R-bytedance:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bytedance.mrs"}                      # 字节全量兜底(抖音/飞书/头条) → DIRECT
+  R-bytedance:          {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/bytedance.yaml"}                    # 字节全量兜底(抖音/飞书/头条) → DIRECT
 
   # ── Netflix ──
   R-netflix:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"}                        # Netflix
