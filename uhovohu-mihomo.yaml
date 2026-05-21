@@ -486,17 +486,8 @@ rule-providers:
   R-aws-cn:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/aws@cn.yaml"}                       # AWS中国域名 → DIRECT
  
   # ── Microsoft ──
-  R-microsoft:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}                      # Microsoft全家桶
-  R-microsoft-dev:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft-dev.mrs"}                  # Microsoft开发者
-  R-microsoft-pki:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft-pki.mrs"}                  # Microsoft证书服务
-  R-microsoft-cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft@cn.mrs"}                   # Microsoft国内节点 → DIRECT
-  R-microsoft-dev-cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft-dev@cn.mrs"}               # Microsoft开发者国内节点 → DIRECT
-  R-microsoft-pki-cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft-pki@cn.mrs"}               # Microsoft证书国内节点 → DIRECT
-  R-bing:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bing.mrs"}                           # Bing搜索
-  R-bing-cn:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bing@cn.mrs"}                        # Bing国内节点 → DIRECT
-  R-xbox:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xbox.mrs"}                           # Xbox
-  R-xbox-cn:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xbox@cn.mrs"}                        # Xbox国内节点 → DIRECT
-  R-azure-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/azure@cn.mrs"}                       # Azure国内节点 → DIRECT
+  R-microsoft:          {<<: *yaml, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.yaml"}                      # Microsoft全家桶
+  R-microsoft-cn:       {<<: *yaml, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft@cn.yaml"}                   # Microsoft国内节点 → DIRECT
 
   # ── Apple ──
   R-icloud:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/icloud.mrs"}                         # iCloud
@@ -833,16 +824,7 @@ rules:
 
   # ── Microsoft ──
   - RULE-SET,R-microsoft-cn,Microsoft                              # Microsoft 国内节点
-  - RULE-SET,R-microsoft-dev-cn,Microsoft                          # Microsoft 开发者国内节点
-  - RULE-SET,R-microsoft-pki-cn,Microsoft                          # Microsoft 证书国内节点
-  - RULE-SET,R-bing-cn,Microsoft                                   # Bing 国内节点
-  - RULE-SET,R-xbox-cn,Microsoft                                   # Xbox 国内节点
-  - RULE-SET,R-azure-cn,Microsoft                                  # Azure 国内节点
   - RULE-SET,R-microsoft,Microsoft                                 # Microsoft 全家桶
-  - RULE-SET,R-microsoft-dev,Microsoft                             # Microsoft 开发者
-  - RULE-SET,R-microsoft-pki,Microsoft                             # Microsoft 证书服务
-  - RULE-SET,R-bing,Microsoft                                      # Bing 搜索
-  - RULE-SET,R-xbox,Microsoft                                      # Xbox
 
   # ── Apple ──
   - RULE-SET,R-icloud-cn,Apple                                     # iCloud 国内节点（云上贵州）
