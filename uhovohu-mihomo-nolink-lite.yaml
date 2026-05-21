@@ -273,7 +273,7 @@ rule-providers:
   R-ai:                 {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/category-ai-chat-!cn.yaml"}         # AI服务兜底
   
   # ── GitHub ──
-  R-github:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"}                         # GitHub
+  R-github:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/github.yaml"}                       # GitHub / VSCode
   R-github1s:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github1s.mrs"}                       # GitHub在线VSCode
   R-github-copilot:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github-copilot.mrs"}                 # GitHub Copilot
   
@@ -313,8 +313,8 @@ rule-providers:
   R-steaminventory:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steaminventoryhelper.mrs"}           # Steam库存助手
   
   # ── Microsoft ──
-  R-microsoft:          {<<: *yaml, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.yaml"}                      # Microsoft全家桶
-  R-microsoft-cn:       {<<: *yaml, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft@cn.yaml"}                   # Microsoft国内节点 → DIRECT
+  R-microsoft:          {<<: *yaml,   url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.yaml"}                     # Microsoft全家桶
+  R-microsoft-cn:       {<<: *yaml,   url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft@cn.yaml"}                  # Microsoft国内节点 → DIRECT
 
   # ── Apple ──
   R-icloud:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/icloud.mrs"}                         # iCloud
