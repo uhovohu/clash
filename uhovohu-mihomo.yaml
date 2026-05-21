@@ -665,14 +665,14 @@ rules:
   # ══════════════════════════════════════════
   # 1.REJECT
   # ══════════════════════════════════════════
-  - RULE-SET,R-icloudprivaterelay,REJECT,no-resolve                # iCloud 私有中继
-  - RULE-SET,R-reject,REJECT 
-  - RULE-SET,R-reject-ip,REJECT,no-resolve
-  - RULE-SET,R-ads,REJECT                                          # 全量广告拦截
-  - RULE-SET,R-ads-add,REJECT                                      # 增强广告拦截
-  - RULE-SET,R-ads-add-ip,REJECT,no-resolve                        # 增强广告拦截 IP
-  - RULE-SET,R-httpdns-cn,REJECT                                   # 国内 HTTPDNS 劫持
-  - RULE-SET,R-win-spy,REJECT                                      # Windows 隐私追踪
+  - RULE-SET,R-icloudprivaterelay,REJECT-DROP,no-resolve                # iCloud 私有中继
+  - RULE-SET,R-reject,REJECT-DROP 
+  - RULE-SET,R-reject-ip,REJECT-DROP,no-resolve
+  - RULE-SET,R-ads,REJECT-DROP                                          # 全量广告拦截
+  - RULE-SET,R-ads-add,REJECT-DROP                                      # 增强广告拦截
+  - RULE-SET,R-ads-add-ip,REJECT-DROP,no-resolve                        # 增强广告拦截 IP
+  - RULE-SET,R-httpdns-cn,REJECT-DROP                                   # 国内 HTTPDNS 劫持
+  - RULE-SET,R-win-spy,REJECT-DROP                                      # Windows 隐私追踪
 
   # ══════════════════════════════════════════
   # 2.LAN
@@ -725,12 +725,12 @@ rules:
   - RULE-SET,R-line,Social                                         # LINE
 
   # ── Meta ──
-  - RULE-SET,R-meta-ads,REJECT                                     # Meta 广告
+  - RULE-SET,R-meta-ads,REJECT-DROP                                     # Meta 广告
   - RULE-SET,R-meta,Meta                                           # Facebook / Instagram / Facebook Developers / WhatsApp / hreads / Messenger / Graph / Analytics
 
   # ── Elon Musk ──
-  - RULE-SET,R-x-ads,REJECT                                        # X 广告
-  - RULE-SET,R-twitter-ads,REJECT                                  # Twitter 广告
+  - RULE-SET,R-x-ads,REJECT-DROP                                        # X 广告
+  - RULE-SET,R-twitter-ads,REJECT-DROP                                  # Twitter 广告
   - RULE-SET,R-xai,X                                               # xAI / Grok
   - RULE-SET,R-x,X                                                 # X 补充域名
   - RULE-SET,R-twitter,X                                           # Twitter/X
@@ -762,7 +762,7 @@ rules:
   - RULE-SET,R-plex,Media                                          # Plex
 
   # ── Spotify ──
-  - RULE-SET,R-spotify-ads,REJECT                                  # Spotify 广告
+  - RULE-SET,R-spotify-ads,REJECT-DROP                                  # Spotify 广告
   - RULE-SET,R-spotify,Spotify                                     # Spotify
 
   # ── Steam ──
@@ -932,7 +932,7 @@ rules:
   # - RULE-SET,R-swag,R18                                          # swag.live — 台湾成人直播 / 视频平台
   # - RULE-SET,R-theporndude,R18                                   # theporndude.com — 成人网站导航 / 评测
   # - RULE-SET,R-tube8,R18                                         # tube8.com — 成人视频平台（MindGeek 旗下）
-  # - RULE-SET,R-xhamster-ads,REJECT                               # xhamster 广告域名 → 拦截
+  # - RULE-SET,R-xhamster-ads,REJECT-DROP                               # xhamster 广告域名 → 拦截
   # - RULE-SET,R-xhamster,R18                                      # xhamster.com — 成人视频平台
   # - RULE-SET,R-xingkongwuxianmedia,R18                           # 星空无限传媒 — 国产成人视频制作公司
   # - RULE-SET,R-xnxx,R18                                          # xnxx.com — 成人视频平台

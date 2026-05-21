@@ -402,10 +402,10 @@ rules:
   # ══════════════════════════════════════════
   # 1.REJECT
   # ══════════════════════════════════════════
-  - RULE-SET,R-icloudprivaterelay,REJECT,no-resolve                # iCloud 私有中继
-  - RULE-SET,R-ads,REJECT                                          # 全量广告拦截
-  - RULE-SET,R-httpdns-cn,REJECT                                   # 国内 HTTPDNS 劫持
-  - RULE-SET,R-win-spy,REJECT                                      # Windows 隐私追踪
+  - RULE-SET,R-icloudprivaterelay,REJECT-DROP,no-resolve                # iCloud 私有中继
+  - RULE-SET,R-ads,REJECT-DROP                                          # 全量广告拦截
+  - RULE-SET,R-httpdns-cn,REJECT-DROP                                   # 国内 HTTPDNS 劫持
+  - RULE-SET,R-win-spy,REJECT-DROP                                      # Windows 隐私追踪
 
   # ══════════════════════════════════════════
   # 2.LAN
@@ -440,8 +440,8 @@ rules:
   - RULE-SET,R-telegram-ip,Telegram,no-resolve                     # Telegram IP
 
   # ── Elon Musk ──
-  - RULE-SET,R-x-ads,REJECT                                        # X 广告
-  - RULE-SET,R-twitter-ads,REJECT                                  # Twitter 广告
+  - RULE-SET,R-x-ads,REJECT-DROP                                        # X 广告
+  - RULE-SET,R-twitter-ads,REJECT-DROP                                  # Twitter 广告
   - RULE-SET,R-xai,X                                               # xAI / Grok
   - RULE-SET,R-x,X                                                 # X 补充域名
   - RULE-SET,R-twitter,X                                           # Twitter/X
@@ -458,7 +458,7 @@ rules:
   - RULE-SET,R-netflix-ip,Netflix,no-resolve                       # Netflix IP
   
   # ── Spotify ──
-  - RULE-SET,R-spotify-ads,REJECT                                  # Spotify 广告
+  - RULE-SET,R-spotify-ads,REJECT-DROP                                  # Spotify 广告
   - RULE-SET,R-spotify,Spotify                                     # Spotify
 
   # ── Steam ──
