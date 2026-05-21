@@ -371,7 +371,7 @@ rule-providers:
   R-elevenlabs:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/elevenlabs.mrs"}                     # ElevenLabs AI语音
   R-comfy:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/comfy.mrs"}                          # ComfyUI
   R-comfy-launcher:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/comfy-ui-launcher.mrs"}              # ComfyUI启动器
-  R-ai:                 {<<: *ymal,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/category-ai-chat-!cn.ymal"}         # AI服务兜底
+  R-ai:                 {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/category-ai-chat-!cn.yaml"}         # AI服务兜底
   
   # ── Crypto ──
   R-crypto:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-cryptocurrency.mrs"}        # 加密货币
