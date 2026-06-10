@@ -218,57 +218,57 @@ FilterOthers: &FilterOthers '^(?!.*(?:(?i)=>|群|邀请|返利|循环|官网|客
 proxy-groups:
  
   # ── Proxy ──
-  - {name: Proxy,       type: select, include-all: true, filter: *FilterAll, icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/proxy.png"}                                            # 全部节点手动选择入口
+  - {name: Proxy,       type: select, include-all: true, filter: *FilterAll, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/proxy.png"}                                            # 全部节点手动选择入口
 
   # ── Proxy App ──
-  - {name: OpenAI,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/chatgpt.png"}     # OpenAI / ChatGPT
-  - {name: Anthropic,   type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/claude.png"}      # Anthropic / Claude
-  - {name: AI,          type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/ai.png"}          # AI 杂项 (Perplexity / Groq / Cerebras / HuggingFace / Cursor / ElevenLabs / ComfyUI / 兜底)
-  - {name: Crypto,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/crypto.png"}      # 加密货币
-  - {name: YouTube,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/youtube.png"}     # YouTube
-  - {name: Google,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/google.png"}      # Google 全家桶
-  - {name: Cloudflare,  type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/cloudflare.png"}  # Cloudflare
-  - {name: Amazon,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/amazon.png"}      # Amazon
-  - {name: GitHub,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/github.png"}      # GitHub
-  - {name: Microsoft,   type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/microsoft.png"}   # Microsoft 全家桶
-  - {name: Adobe,       type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/adobe.png"}       # Adobe 全家桶
-  - {name: Apple,       type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/apple.png"}       # Apple 全家桶
-  - {name: Android,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/android.png"}     # Android / Google Play
+  - {name: OpenAI,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/chatgpt.png"}     # OpenAI / ChatGPT
+  - {name: Anthropic,   type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/claude.png"}      # Anthropic / Claude
+  - {name: AI,          type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/ai.png"}          # AI 杂项 (Perplexity / Groq / Cerebras / HuggingFace / Cursor / ElevenLabs / ComfyUI / 兜底)
+  - {name: Crypto,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/crypto.png"}      # 加密货币
+  - {name: YouTube,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/youtube.png"}     # YouTube
+  - {name: Google,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/google.png"}      # Google 全家桶
+  - {name: Cloudflare,  type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/cloudflare.png"}  # Cloudflare
+  - {name: Amazon,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/amazon.png"}      # Amazon
+  - {name: GitHub,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/github.png"}      # GitHub
+  - {name: Microsoft,   type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/microsoft.png"}   # Microsoft 全家桶
+  - {name: Adobe,       type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/adobe.png"}       # Adobe 全家桶
+  - {name: Apple,       type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/apple.png"}       # Apple 全家桶
+  - {name: Android,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/android.png"}     # Android / Google Play
 
-  - {name: X,           type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/x.png"}           # X / Twitter / 马斯克系
-  - {name: Meta,        type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/instagram.png"}   # Meta (Facebook / Instagram / WhatsApp)
-  - {name: Telegram,    type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/telegram.png"}    # Telegram
-  - {name: Discord,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/discord.png"}     # Discord
-  - {name: Social,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/social.png"}      # 社交杂项 (Reddit / Tumblr / LINE)
+  - {name: X,           type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/x.png"}           # X / Twitter / 马斯克系
+  - {name: Meta,        type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/instagram.png"}   # Meta (Facebook / Instagram / WhatsApp)
+  - {name: Telegram,    type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/telegram.png"}    # Telegram
+  - {name: Discord,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/discord.png"}     # Discord
+  - {name: Social,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/social.png"}      # 社交杂项 (Reddit / Tumblr / LINE)
 
-  - {name: TikTok,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/tiktok.png"}      # TikTok / 字节跳动海外
-  - {name: Netflix,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/netflix.png"}     # Netflix
-  - {name: Spotify,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/spotify.png"}     # Spotify
-  - {name: Media,       type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/media.png"}       # 流媒体杂项 (Hulu / Prime Video / DAZN / HBO / Disney+ / Vimeo / Twitch / Rumble / Plex)
-  - {name: Bilibili,    type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/bilibili.png"}    # Bilibili
+  - {name: TikTok,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/tiktok.png"}      # TikTok / 字节跳动海外
+  - {name: Netflix,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/netflix.png"}     # Netflix
+  - {name: Spotify,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/spotify.png"}     # Spotify
+  - {name: Media,       type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/media.png"}       # 流媒体杂项 (Hulu / Prime Video / DAZN / HBO / Disney+ / Vimeo / Twitch / Rumble / Plex)
+  - {name: Bilibili,    type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/bilibili.png"}    # Bilibili
   
-  - {name: Steam,       type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/steam.png"}       # Steam
-  - {name: Epic,        type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/epic.png"}        # Epic Games
-  - {name: TapTap,      type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/taptap.png"}      # TapTap
+  - {name: Steam,       type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/steam.png"}       # Steam
+  - {name: Epic,        type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/epic.png"}        # Epic Games
+  - {name: TapTap,      type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/taptap.png"}      # TapTap
   
-  - {name: Speedtest,   type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/speedtest.png"}   # 测速
+  - {name: Speedtest,   type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/speedtest.png"}   # 测速
  
   # ── R18 默认注释 ──
-  #- {name: R18,         type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/r18.png"}              # 成人内容
+  #- {name: R18,         type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/r18.png"}              # 成人内容
 
   # ── CN / Final ──
-  - {name: CN,          type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/cn.png"}          # 默认国内直连
-  - {name: Final,       type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/final.png"}       # 未匹配流量
+  - {name: CN,          type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/cn.png"}          # 默认国内直连
+  - {name: Final,       type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/final.png"}       # 未匹配流量
 
   # ── Regions ──
-  - {name: HK,          type: select, include-all: true, filter: *FilterHK, icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/hk.png"}                                                # 香港节点
-  - {name: TW,          type: select, include-all: true, filter: *FilterTW, icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/tw.png"}                                                # 台湾节点
-  - {name: JP,          type: select, include-all: true, filter: *FilterJP, icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/jp.png"}                                                # 日本节点
-  - {name: KR,          type: select, include-all: true, filter: *FilterKR, icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/kr.png"}                                                # 韩国节点
-  - {name: SG,          type: select, include-all: true, filter: *FilterSG, icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/sg.png"}                                                # 新加坡节点
-  - {name: US,          type: select, include-all: true, filter: *FilterUS, icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/us.png"}                                                # 美国节点
-  - {name: OTHERS1,     type: select, include-all: true, filter: *FilterOthers, icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/others.png"}                                        # 其他节点 A
-  - {name: OTHERS2,     type: select, include-all: true, filter: *FilterOthers, icon: "https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/others.png"}                                        # 其他节点 B
+  - {name: HK,          type: select, include-all: true, filter: *FilterHK, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/hk.png"}                                                # 香港节点
+  - {name: TW,          type: select, include-all: true, filter: *FilterTW, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/tw.png"}                                                # 台湾节点
+  - {name: JP,          type: select, include-all: true, filter: *FilterJP, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/jp.png"}                                                # 日本节点
+  - {name: KR,          type: select, include-all: true, filter: *FilterKR, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/kr.png"}                                                # 韩国节点
+  - {name: SG,          type: select, include-all: true, filter: *FilterSG, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/sg.png"}                                                # 新加坡节点
+  - {name: US,          type: select, include-all: true, filter: *FilterUS, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/us.png"}                                                # 美国节点
+  - {name: OTHERS1,     type: select, include-all: true, filter: *FilterOthers, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/others.png"}                                        # 其他节点 A
+  - {name: OTHERS2,     type: select, include-all: true, filter: *FilterOthers, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/others.png"}                                        # 其他节点 B
 
 # =======================================================
 # 7. 规则源 Rule Providers
@@ -290,22 +290,22 @@ rule-providers:
   # 1.REJECT
   # ══════════════════════════════════════════
   R-icloudprivaterelay: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/icloudprivaterelay.mrs"}             # iCloud私有中继 → REJECT
-  R-reject:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/reject.yaml"}
-  R-reject-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/reject-ip.yaml"}
+  R-reject:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/reject.yaml"}
+  R-reject-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/reject-ip.yaml"}
   R-ads:                {<<: *domain, url: "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.mrs"}       # 全量广告拦截 → REJECT
-  R-ads-add:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/ads-add.yaml"}
-  R-ads-add-ip:         {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/ads-add-ip.yaml"}
-  R-httpdns-cn:         {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/category-httpdns-cn.yaml"}          # 国内HTTPDNS劫持 → REJECT
+  R-ads-add:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/ads-add.yaml"}
+  R-ads-add-ip:         {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/ads-add-ip.yaml"}
+  R-httpdns-cn:         {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/category-httpdns-cn.yaml"}          # 国内HTTPDNS劫持 → REJECT
   R-win-spy:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/win-spy.mrs"}                        # Windows隐私追踪 → REJECT
 
   # ══════════════════════════════════════════
   # 2.LAN
   # ══════════════════════════════════════════
-  R-private:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/private.yaml"}                      # 内网域名 → DIRECT
+  R-private:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/private.yaml"}                      # 内网域名 → DIRECT
   R-private-ip:         {<<: *yaml-ip,url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.yaml"}                         # 内网IP地址 → DIRECT
-  R-fakeipfilter:       {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/fakeipfilter.yaml"}                 # FakeIP过滤 → DIRECT
-  R-sniffer-skip-ip:    {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/sniffer-skip-ip.yaml"}              # 嗅探豁免 IP 列表
-  R-connectivity:       {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/connectivity-check.yaml"}           # 网络连通性检测 → DIRECT
+  R-fakeipfilter:       {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/fakeipfilter.yaml"}                 # FakeIP过滤 → DIRECT
+  R-sniffer-skip-ip:    {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/sniffer-skip-ip.yaml"}              # 嗅探豁免 IP 列表
+  R-connectivity:       {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/connectivity-check.yaml"}           # 网络连通性检测 → DIRECT
 
   # ══════════════════════════════════════════
   # 3.Proxy
@@ -342,8 +342,8 @@ rule-providers:
   R-openai:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/openai.mrs"}                         # OpenAI
   
   # ── Anthropic ──
-  R-anthropic:          {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/anthropic.yaml"}                    # Anthropic / Claude
-  R-anthropic-ip:       {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/anthropic-ip.yaml"}
+  R-anthropic:          {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/anthropic.yaml"}                    # Anthropic / Claude
+  R-anthropic-ip:       {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/anthropic-ip.yaml"}
   
   # ── AI ──
   R-perplexity:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/perplexity.mrs"}                     # Perplexity AI搜索
@@ -354,22 +354,22 @@ rule-providers:
   R-elevenlabs:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/elevenlabs.mrs"}                     # ElevenLabs AI语音
   R-comfy:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/comfy.mrs"}                          # ComfyUI
   R-comfy-launcher:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/comfy-ui-launcher.mrs"}              # ComfyUI启动器
-  R-ai:                 {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/category-ai-chat-!cn.yaml"}         # AI服务兜底
+  R-ai:                 {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/category-ai-chat-!cn.yaml"}         # AI服务兜底
   
   # ── Crypto ──
   R-crypto:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-cryptocurrency.mrs"}        # 加密货币
 
   # ── GitHub ──
-  R-github:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/github.yaml"}                       # GitHub / VSCode
+  R-github:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/github.yaml"}                       # GitHub / VSCode
   R-github1s:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github1s.mrs"}                       # GitHub在线VSCode
   R-github-copilot:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github-copilot.mrs"}                 # GitHub Copilot
 
   # ── Discord ──
-  R-discord:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/discord.yaml"}                      # Discord
+  R-discord:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/discord.yaml"}                      # Discord
   
   # ── Telegram ──
-  R-telegram:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/telegram.yaml"}                     # Telegram
-  R-telegram-ip:        {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/telegram-ip.yaml"}                  # Telegram IP
+  R-telegram:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/telegram.yaml"}                     # Telegram
+  R-telegram-ip:        {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/telegram-ip.yaml"}                  # Telegram IP
   
   # ── Social ──
   R-reddit:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/reddit.mrs"}                         # Reddit
@@ -393,12 +393,12 @@ rule-providers:
   R-tesla:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tesla.mrs"}                          # Tesla
 
   # ── TikTok / 字节跳动 ──
-  R-tiktok:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/tiktok.yaml"}                       # TikTok → 代理
+  R-tiktok:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/tiktok.yaml"}                       # TikTok → 代理
   
   R-bytedance-ai-!cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bytedance-ai-!cn.mrs"}               # 字节AI海外(豆包/Coze国际版) → 代理
   R-bytedance-!cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bytedance@!cn.mrs"}                  # 字节海外域名 → 代理
 
-  R-bytedance:          {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/bytedance.yaml"}                    # 字节全量兜底(抖音/飞书/头条) → DIRECT
+  R-bytedance:          {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/bytedance.yaml"}                    # 字节全量兜底(抖音/飞书/头条) → DIRECT
 
   # ── Netflix ──
   R-netflix:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"}                        # Netflix
@@ -454,8 +454,8 @@ rule-providers:
   R-cloudflare-cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare-cn.mrs"}                  # Cloudflare中国域名 → DIRECT
 
   # ── Aws ──
-  R-aws:                {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/aws.yaml"}                          # AWS
-  R-aws-cn:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/aws@cn.yaml"}                       # AWS中国域名 → DIRECT
+  R-aws:                {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/aws.yaml"}                          # AWS
+  R-aws-cn:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/aws@cn.yaml"}                       # AWS中国域名 → DIRECT
 
   # ── Microsoft ──
   R-microsoft:          {<<: *yaml,   url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.yaml"}                     # Microsoft全家桶
@@ -467,13 +467,13 @@ rule-providers:
   R-itunes:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/itunes.mrs"}                         # iTunes
   R-itunes-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/itunes@cn.mrs"}                      # iTunes国内节点 → DIRECT
   R-apple-pki:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-pki.mrs"}                      # Apple证书服务(国际)
-  R-apple:              {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/apple.yaml"}                        # Apple全家桶
-  R-apple-ip:           {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/apple-ip.yaml"}                     # Apple IP段
+  R-apple:              {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/apple.yaml"}                        # Apple全家桶
+  R-apple-ip:           {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/apple-ip.yaml"}                     # Apple IP段
   R-apple-update:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-update.mrs"}                   # iOS/macOS系统更新 → DIRECT
   R-apple-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"}                       # Apple中国专属域名 → DIRECT
   R-apple-at-cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple@cn.mrs"}                       # Apple国内服务补充 → DIRECT
   R-apple-dev-cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-dev@cn.mrs"}                   # Apple开发者国内节点 → DIRECT
-  R-appleakamai:        {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/appleakamai.yaml"}                  # Apple akamai节点
+  R-appleakamai:        {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/appleakamai.yaml"}                  # Apple akamai节点
   
   # ── Android ──
   R-android:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/android.mrs"}                        # Android系统相关
@@ -483,22 +483,22 @@ rule-providers:
   R-apkcombo:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apkcombo.mrs"}                       # APKCombo
   
   # ── CN App ──  
-  R-wechat:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/wechat.yaml"}
-  R-wechat-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/wechat-ip.yaml"}
+  R-wechat:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/wechat.yaml"}
+  R-wechat-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/wechat-ip.yaml"}
   
-  R-alipay:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/alipay.yaml"}
+  R-alipay:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/alipay.yaml"}
   
-  R-netease:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/netease.yaml"}
-  R-meituan:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/meituan.yaml"}  
+  R-netease:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/netease.yaml"}
+  R-meituan:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/meituan.yaml"}  
 
-  R-jingdong:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/jingdong.yaml"}
-  R-jingdongcloud-ip:   {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/jingdongcloud-ip.yaml"}
+  R-jingdong:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/jingdong.yaml"}
+  R-jingdongcloud-ip:   {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/jingdongcloud-ip.yaml"}
   
-  R-duowan:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/duowan.yaml"}                       # 多玩游戏/yy语音
-  R-duowan-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/duowan-ip.yaml"}
+  R-duowan:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/duowan.yaml"}                       # 多玩游戏/yy语音
+  R-duowan-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/duowan-ip.yaml"}
   
-  R-huawei:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/huawei.yaml"}
-  R-xiaomi:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/Rules/xiaomi.yaml"}
+  R-huawei:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/huawei.yaml"}
+  R-xiaomi:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/xiaomi.yaml"}
   
   R-tencent:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tencent.mrs"}
   R-tendcloud:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tendcloud.mrs"}
