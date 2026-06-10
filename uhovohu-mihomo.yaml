@@ -691,7 +691,7 @@ rules:
 
   # ── Anthropic ──
   - RULE-SET,R-anthropic,Anthropic                                 # Anthropic / Claude
-  - RULE-SET,R-anthropic-ip,Anthropic
+  - RULE-SET,R-anthropic-ip,Anthropic,no-resolve
 
   # ── AI ──
   - RULE-SET,R-perplexity,AI                                       # Perplexity AI 搜索
