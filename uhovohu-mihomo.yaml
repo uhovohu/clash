@@ -387,7 +387,7 @@ rule-providers:
   R-ai:                 {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/category-ai-chat-!cn.yaml"}                # AI服务兜底
   
   # ── Crypto ──
-  R-crypto:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-cryptocurrency.mrs"}        # 加密货币
+  R-crypto:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/category-cryptocurrency.yaml"}             # 加密货币
 
   # ── GitHub ──
   R-github:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/github.yaml"}                              # GitHub / VSCode
