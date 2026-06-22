@@ -1,0 +1,27 @@
+payload: 
+  - +.ggn.live
+  - +.primepoker.io
+  - +.natural8.com
+  - +.ggpoker.ca
+  - +.goodchoice.kr
+  - +.ggpoker.com
+  - +.up24.biz
+  - +.cashier-natural8in.com
+  - +.ggvegas.com
+  - +.ggpass.com
+  - +.cashier-natural8.com
+  - +.gg-global-cdn.com
+  - +.good-game-service.com
+  - +.geetest.com            # 极验（验证码）
+  - +.iconify.design         # 图标库
+  #- +.gstatic.com            # Google
+  #- +.googleapis.com         # Google
+  #- +.ytimg.com              # Google（YouTube 静态资源）
+  #- +.google.com             # Google
+  #- +.segment.io             # Twilio Segment（用户数据分析）
+  #- +.segment.com            # Twilio Segment（用户数据分析）
+  #- +.jtvnw.net              # Twitch / Amazon（直播静态资源）
+  #- +.godaddy.com            # GoDaddy（域名注册商）
+  #- +.sentry.io              # Sentry（错误监控）
+  #- +.cloudflare.com         # Cloudflare
+  #- +.amazonaws.com          # Amazon AWS

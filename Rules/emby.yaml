@@ -1,5 +1,6 @@
 payload:
   # ── UHD 国际线路 ──
+  - +.uhdnow.com
   - +.v1.uhdnow.com
   - +.global.uhdnow.com
   - +.v1-vod1.uhdnow.com

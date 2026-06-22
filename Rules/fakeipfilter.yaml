@@ -310,4 +310,18 @@ payload:
   - +.ctydoh.cn
   
   # ── 阿里千问 ──
-  - +.aliyuncs.com  
+  - +.aliyuncs.com
+  
+  # ── 美图 ──
+  - +.meitustat.com
+ 
+  # ── 自用 ──
+  - www.mokuoha.com
+  - www.uhovohu.cloud
+  - tcssd.uhovohu.com
+  - emby.uhovohu.com
+  - cloud.uhovohu.top
+  - nmc01.nmcloud.cc
+  - 45425ae6-b739-4ea7-b94b-b5ceffca11f9.moonddns.com
+
+  

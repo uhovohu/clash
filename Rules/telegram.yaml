@@ -1,6 +1,7 @@
 payload:
   - api.imem.app
   - api.swiftgram.app
+  - updates.64gr.am
   - +.cdn-telegram.org
   - +.comments.app
   - +.contest.com

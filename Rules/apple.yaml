@@ -1599,3 +1599,4 @@ payload:
   - +.ocsp2.apple.com
   - +.xp.apple.com
   - +.fides-pol.apple.com
+  - +.ls.apple.com

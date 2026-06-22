@@ -90,3 +90,10 @@ payload:
   
   # ── 插件迷 ──
   - weather-api.extfans.com
+
+  - 1e10adc3949ba59abn6ubiemehc32r7pac5wsxhdwwq.dahhxxttxs.com  # 未知
+  # ── Apple ──
+  - fides-pol.apple.com                   # 未知测试中
+  - hi.frcoal                             # ios更新屏蔽 不存在的顶级域名
+  - test.tunnel.com
+  - websitereview.corp.apple.com          # Safari 欺诈网站检测内部域名，.corp 段为 Apple 内网，外部 DNS 无法解析，可直接拒绝

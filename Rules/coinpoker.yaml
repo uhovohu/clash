@@ -1,0 +1,113 @@
+payload:
+  # ———— CoinPoker 核心（必须走代理）————
+  - +.coinpoker.com                            # 主站
+  - +.coinpoker.biz                            # 主游戏前端
+  - +.quantumsprout.net                        # 后端 API
+  - +.coincashier-m1.com                       # 支付收银台
+  - +.thecloudinfra.com                        # WebSocket 实时通信
+  - +.cliprushgaming.com                       # 游戏相关子品牌
+  - +.coinpoker1.com                           # CF 加速 CDN
+  - pro-in-app-device-m-v2.csftr.com           # CF 加速 CDN
+  - r2.cpcloudbridge.com
+  - pages-app.com
+  - m-gsosikpxom-ovjrmipdpv-net-pragmaticplay.cpcasino.cloud
+
+  # ———— CloudFront 基础设施 ————
+  - d2bykaxvqgqb85.cloudfront.net
+  - d36vgdcqgezjgr.cloudfront.net
+  - d2df0cv2coy003.cloudfront.net
+  - d7nyfwsarnqp7.cloudfront.net
+  - d26s3bt6yeixto.cloudfront.net
+  - d12n4sdz9sv2g7.cloudfront.net
+  - d1bk2jo4nt0s4w.cloudfront.net
+  - d3nxjax74tiuet.cloudfront.net
+  - d1f41kibrpebrc.cloudfront.net
+  
+  # ———— AWS 基础设施 ————
+  - ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws
+  - e1-0850197d5e074be58352ddc860645af6.ecs.us-east-1.on.aws
+  - 5z-2b6b7616f94640c2840d1841e1ac24c3.ecs.us-east-1.on.aws
+
+  # ———— 监控 / 分析 ————
+  - o4510980300996608.ingest.de.sentry.io      # Sentry 报错收集
+  - +.dynatrace.com                            # APM 性能监控
+  - +.amplitude.com                            # 行为分析
+  - +.datafa.st                                # 轻量统计
+  - +.clevertap-prod.com                       # 用户留存分析
+  - +.branch.io                                # Branch 归因
+  - app.link                                   # Branch 深度链接
+  - +.analytics.yahoo.com                      # Yahoo 统计（sp / cms / ups 等子域合并）
+  - s.yimg.com                                 # Yahoo 静态资源
+
+  # ———— 广告大厂 ————
+  - +.adform.net                               # Adform DSP（含 a1 / c1 / dmp 子域）
+  - +.adsrvr.org                               # The Trade Desk DSP
+  - +.openx.net                                # OpenX 广告交易
+  - +.casalemedia.com                          # Index Exchange
+  - +.gumgum.com                               # GumGum 广告
+  - +.id5-sync.com                             # ID5 身份同步
+  - +.eu-1-id5-sync.com                        # ID5 身份同步（欧洲，含 lb / lbs 子域）
+  - +.bidswitch.net                            # IPONWEB 竞价
+  - +.pippio.com                               # LiveRamp 数据
+  - +.rlcdn.com                                # LiveRamp CDN
+  - +.eyeota.net                               # Eyeota 受众数据
+  - +.rubiconproject.com                       # Magnite 广告
+  - +.teads.tv                                 # Teads 视频广告
+  - +.exelator.com                             # Nielsen 数据
+  - +.crwdcntrl.net                            # Lotame 数据
+  - +.outbrain.com                             # Outbrain 原生广告
+  - +.yieldlab.net                             # Yieldlab 广告
+  - +.pubmatic.com                             # PubMatic 广告
+  - +.360yield.com                             # PubMatic 旗下
+  - +.smartadserver.com                        # Smart AdServer
+  - +.3lift.com                                # TripleLift 广告
+  - +.sharethrough.com                         # Sharethrough 广告
+
+  # ———— 广告小厂 / 不明 ————
+  - tcp.signfuli.com                           # 不明
+  - +.adrsbl.io                                # 不明
+  - +.adradv.io                                # 不明
+  - +.bidr.io                                  # Beeswax DSP
+  - +.datawrkz.com                             # 不明（含 secure / nodetracker 子域）
+  - eu.b2c.com                                 # 不明
+  - apixeu.b2c.com                             # 不明
+  - +.seadform.net                             # 不明
+  - +.lijit.com                                # Sovrn 广告
+  - +.match2one.net                            # 程序化广告
+  - +.adition.com                              # Virtual Minds 广告
+  - +.zeotap.com                               # Zeotap 数据平台
+  - +.fwmrm.net                                # FreeWheel 视频广告
+  - +.richaudience.com                         # 广告平台
+  - +.audrte.com                               # Audigent 数据
+  - +.weborama.fr                              # Weborama 数据
+  - +.semasio.net                              # Semasio 受众
+  - +.smaato.net                               # Smaato 广告
+  - +.onaudience.com                           # 受众数据
+  - +.onetag-sys.com                           # OneTag 广告
+  - +.contentexchange.me                       # 广告交换
+  - +.adscale.de                               # 广告平台
+  - +.userreport.com                           # 用户调研
+  - +.pgammedia.com                            # 不明
+  - +.agkn.com                                 # Neustar 数据
+  - +.exoclick.com                             # ExoClick 广告
+  - +.w55c.net                                 # MediaMath
+  - +.mathtag.com                              # MediaMath
+  - +.mediarithmics.com                        # 数据平台
+  - +.kargo.com                                # Kargo 广告
+  - +.ovjrmipdpv.net
+  - +.ltguevmavv.com
+  - +.everesttech.net
+  - +.stackharbor.biz
+  - +.omnitagjs.com
+  - +.admanmedia.com
+  - d.turn.com
+  - t.adx.opera.com
+  - cm.adsafety.net
+  # ———— 暂时注释 ————
+  #- +.googleapis.com                          # Google Cloud
+  #- +.gstatic.com                             # Google 静态资源
+  #- +.google-analytics.com                    # Google 统计
+  #- +.sentry.io                               # 前端报错收集
+  #- +.cloudfront.net                          # AWS CloudFront 静态资源
+  #- +.cloudflare.com                          # Cloudflare
+  #- +.cloudflareinsights.com                  # Cloudflare Web Analytics

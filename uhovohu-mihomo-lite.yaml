@@ -262,19 +262,19 @@ rule-providers:
   # ══════════════════════════════════════════
   # 1.REJECT
   # ══════════════════════════════════════════
-  R-icloudprivaterelay: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/icloudprivaterelay.mrs"}             # iCloud私有中继 → REJECT
+  R-icloudprivaterelay: {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/icloudprivaterelay.yaml"}                  # iCloud私有中继 → REJECT
   R-ads:                {<<: *domain, url: "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.mrs"}       # 全量广告拦截 → REJECT
-  R-httpdns-cn:         {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/category-httpdns-cn.yaml"}          # 国内HTTPDNS劫持 → REJECT
+  R-httpdns-cn:         {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/category-httpdns-cn.yaml"}                 # 国内HTTPDNS劫持 → REJECT
   R-win-spy:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/win-spy.mrs"}                        # Windows隐私追踪 → REJECT
 
   # ══════════════════════════════════════════
   # 2.LAN
   # ══════════════════════════════════════════
-  R-private:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/private.yaml"}                      # 内网域名 → DIRECT
+  R-private:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/private.yaml"}                             # 内网域名 → DIRECT
   R-private-ip:         {<<: *yaml-ip,url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.yaml"}                         # 内网IP地址 → DIRECT
-  R-fakeipfilter:       {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/fakeipfilter.yaml"}                 # FakeIP过滤 → DIRECT
-  R-sniffer-skip-ip:    {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/sniffer-skip-ip.yaml"}              # 嗅探豁免 IP 列表
-  R-connectivity:       {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/connectivity-check.yaml"}           # 网络连通性检测 → DIRECT
+  R-fakeipfilter:       {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/fakeipfilter.yaml"}                        # FakeIP过滤 → DIRECT
+  R-sniffer-skip-ip:    {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/sniffer-skip-ip.yaml"}                     # 嗅探豁免 IP 列表
+  R-connectivity:       {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/connectivity-check.yaml"}                  # 网络连通性检测 → DIRECT
 
   # ══════════════════════════════════════════
   # 3.Proxy
@@ -295,21 +295,21 @@ rule-providers:
   R-openai:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/openai.mrs"}                         # OpenAI
   
   # ── Anthropic ──
-  R-anthropic:          {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/anthropic.yaml"}                    # Anthropic / Claude
+  R-anthropic:          {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/anthropic.yaml"}                           # Anthropic / Claude
   R-anthropic-ip:       {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/anthropic-ip.yaml"}
   
   # ── AI ──
   R-perplexity:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/perplexity.mrs"}                     # Perplexity AI搜索
-  R-ai:                 {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/category-ai-chat-!cn.yaml"}         # AI服务兜底
+  R-ai:                 {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/category-ai-chat-!cn.yaml"}                # AI服务兜底
   
   # ── GitHub ──
-  R-github:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/github.yaml"}                       # GitHub / VSCode
+  R-github:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/github.yaml"}                              # GitHub / VSCode
   R-github1s:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github1s.mrs"}                       # GitHub在线VSCode
   R-github-copilot:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github-copilot.mrs"}                 # GitHub Copilot
   
   # ── Telegram ──
-  R-telegram:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/telegram.yaml"}                     # Telegram
-  R-telegram-ip:        {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/telegram-ip.yaml"}                  # Telegram IP
+  R-telegram:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/telegram.yaml"}                            # Telegram
+  R-telegram-ip:        {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/telegram-ip.yaml"}                         # Telegram IP
   
   # ── Elon Musk ──
   R-x-ads:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/x@ads.mrs"}                          # X广告 → REJECT
@@ -320,12 +320,12 @@ rule-providers:
   R-xai:                {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xai.mrs"}                            # xAI / Grok
 
   # ── TikTok / 字节跳动 ──
-  R-tiktok:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/tiktok.yaml"}                       # TikTok → 代理
+  R-tiktok:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/tiktok.yaml"}                              # TikTok → 代理
   
   R-bytedance-ai-!cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bytedance-ai-!cn.mrs"}               # 字节AI海外(豆包/Coze国际版) → 代理
   R-bytedance-!cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bytedance@!cn.mrs"}                  # 字节海外域名 → 代理
 
-  R-bytedance:          {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/bytedance.yaml"}                    # 字节全量兜底(抖音/飞书/头条) → DIRECT
+  R-bytedance:          {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/bytedance.yaml"}                           # 字节全量兜底(抖音/飞书/头条) → DIRECT
 
   # ── Netflix ──
   R-netflix:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"}                        # Netflix
@@ -352,13 +352,13 @@ rule-providers:
   R-itunes:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/itunes.mrs"}                         # iTunes
   R-itunes-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/itunes@cn.mrs"}                      # iTunes国内节点 → DIRECT
   R-apple-pki:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-pki.mrs"}                      # Apple证书服务(国际)
-  R-apple:              {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/apple.yaml"}                        # Apple全家桶
-  R-apple-ip:           {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/apple-ip.yaml"}                     # Apple IP段
+  R-apple:              {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/apple.yaml"}                               # Apple全家桶
+  R-apple-ip:           {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/apple-ip.yaml"}                            # Apple IP段
   R-apple-update:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-update.mrs"}                   # iOS/macOS系统更新 → DIRECT
   R-apple-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"}                       # Apple中国专属域名 → DIRECT
   R-apple-at-cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple@cn.mrs"}                       # Apple国内服务补充 → DIRECT
   R-apple-dev-cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-dev@cn.mrs"}                   # Apple开发者国内节点 → DIRECT
-  R-appleakamai:        {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/appleakamai.yaml"}                  # Apple akamai节点
+  R-appleakamai:        {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/appleakamai.yaml"}                         # Apple akamai节点
   
   # ── CN App ──
   R-wechat:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/wechat.yaml"}
@@ -402,10 +402,10 @@ rules:
   # ══════════════════════════════════════════
   # 1.REJECT
   # ══════════════════════════════════════════
-  - RULE-SET,R-icloudprivaterelay,REJECT-DROP,no-resolve                # iCloud 私有中继
-  - RULE-SET,R-ads,REJECT-DROP                                          # 全量广告拦截
-  - RULE-SET,R-httpdns-cn,REJECT-DROP                                   # 国内 HTTPDNS 劫持
-  - RULE-SET,R-win-spy,REJECT-DROP                                      # Windows 隐私追踪
+  - RULE-SET,R-icloudprivaterelay,REJECT-DROP,no-resolve           # iCloud 私有中继
+  - RULE-SET,R-ads,REJECT-DROP                                     # 全量广告拦截
+  - RULE-SET,R-httpdns-cn,REJECT-DROP                              # 国内 HTTPDNS 劫持
+  - RULE-SET,R-win-spy,REJECT-DROP                                 # Windows 隐私追踪
 
   # ══════════════════════════════════════════
   # 2.LAN
