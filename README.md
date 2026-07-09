@@ -1,6 +1,3 @@
-uhovohu-mihomo.yaml 包含链式代理配置 
-
-
 
 ### 使用说明
 本配置具备dns防泄漏
