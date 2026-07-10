@@ -1,7 +1,7 @@
 
 ### 使用说明
 本配置具备dns防泄漏
-各平台app设置：关闭ipv6 关闭dns覆写 开启tun模式（ niiki等 TCP模式：TPROXY  UDP模式：TUN ）
+各平台app设置：关闭ipv6 关闭dns覆写 开启tun模式（ nikki等 TCP模式：TPROXY  UDP模式：TUN ）
 
 请尽量使用最新内核
 理论上mihomo内核高于v1.18.6 链式代理配置可用
