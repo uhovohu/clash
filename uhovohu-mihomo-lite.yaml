@@ -481,6 +481,7 @@ rules:
   - RULE-SET,R-google-ip,Google,no-resolve                         # Google IP
   - RULE-SET,R-FCM,Google                                          # Firebase 推送
   - RULE-SET,R-google-play,Google                                  # Google Play
+  - RULE-SET,R-google-play-cn,Google                               # Google Play 国内节点
 
   # ── Microsoft ──
   - RULE-SET,R-microsoft-cn,Microsoft                              # Microsoft 国内节点
