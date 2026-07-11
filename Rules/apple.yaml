@@ -1600,3 +1600,12 @@ payload:
   - +.xp.apple.com
   - +.fides-pol.apple.com
   - +.ls.apple.com
+  - imap.mail.me.com
+  - smtp.mail.me.com           # Apple 邮件服务器，部分地区解析到内网地址
+  # ── Apple 软件更新 ──
+  - mesu.apple.com
+  - swscan.apple.com
+  - swquery.apple.com
+  - swdownload.apple.com
+  - swcdn.apple.com
+  - swdist.apple.com

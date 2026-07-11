@@ -2,6 +2,7 @@ payload:
   # ———— CoinPoker 核心（必须走代理）————
   - +.coinpoker.com                            # 主站
   - +.coinpoker.biz                            # 主游戏前端
+  - +.pokerbaazicdn.com
   - +.quantumsprout.net                        # 后端 API
   - +.coincashier-m1.com                       # 支付收银台
   - +.thecloudinfra.com                        # WebSocket 实时通信
@@ -22,11 +23,15 @@ payload:
   - d1bk2jo4nt0s4w.cloudfront.net
   - d3nxjax74tiuet.cloudfront.net
   - d1f41kibrpebrc.cloudfront.net
+  - d11vj49eiwzxhj.cloudfront.net
+  - d36r46gbgvqx8s.cloudfront.net
   
   # ———— AWS 基础设施 ————
   - ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws
   - e1-0850197d5e074be58352ddc860645af6.ecs.us-east-1.on.aws
   - 5z-2b6b7616f94640c2840d1841e1ac24c3.ecs.us-east-1.on.aws
+  - k6-e4e4123be8e54363900a90353991ca93.ecs.us-west-1.on.aws
+  - md-eecad2978f7a43f5b7838c919258e6de.ecs.us-east-2.on.aws
 
   # ———— 监控 / 分析 ————
   - o4510980300996608.ingest.de.sentry.io      # Sentry 报错收集
@@ -103,6 +108,15 @@ payload:
   - d.turn.com
   - t.adx.opera.com
   - cm.adsafety.net
+  - tags.adsafety.net
+  - ads.smartstream.tv
+  - gfdsa.hhewjzfa.com
+  - +.snippet.anjcdn.org
+  - +.snippet.anjouangaming.org
+  - +.coinpokerbackend.com
+  - +.viralrespawn.com
+  - +.localhubweb.com
+  - +.assets.eascdn.net
   # ———— 暂时注释 ————
   #- +.googleapis.com                          # Google Cloud
   #- +.gstatic.com                             # Google 静态资源

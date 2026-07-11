@@ -284,7 +284,7 @@ proxy-groups:
   - {name: Speedtest,   type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/speedtest.png"}   # 测速
  
   # ── R18 默认注释 ──
-  #- {name: R18,         type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/r18.png"}              # 成人内容
+  #- {name: R18,         type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/r18.png"}         # 成人内容
 
   # ── CN / Final ──
   - {name: CN,          type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/cn.png"}          # 默认国内直连
@@ -396,7 +396,8 @@ rule-providers:
 
   # ── Discord ──
   R-discord:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/discord.yaml"}                             # Discord
-  
+  R-discord-ip:         {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/discord-ip.yaml"}
+ 
   # ── Telegram ──
   R-telegram:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/telegram.yaml"}                            # Telegram
   R-telegram-ip:        {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/telegram-ip.yaml"}                         # Telegram IP
@@ -427,6 +428,9 @@ rule-providers:
   
   R-bytedance-ai-!cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bytedance-ai-!cn.mrs"}               # 字节AI海外(豆包/Coze国际版) → 代理
   R-bytedance-!cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bytedance@!cn.mrs"}                  # 字节海外域名 → 代理
+
+  R-douyin:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/douyin.yaml"} 
+  R-douyin-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/douyin-ip.yaml"} 
 
   R-bytedance:          {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/bytedance.yaml"}                           # 字节全量兜底(抖音/飞书/头条) → DIRECT
 
@@ -475,7 +479,7 @@ rule-providers:
   R-speedtest:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs"}                # Speedtest测速
   
   # ── Nodeseek ──
-  R-nodeseek:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/nodeseek.mrs"}                       # nodeseek自建服务
+  R-nodeseek:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/nodeseek.yaml"}                            # nodeseek自建服务
   
   # ── Cloudflare ──
   R-cloudflare:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare.mrs"}                     # Cloudflare
@@ -534,7 +538,7 @@ rule-providers:
   R-tendcloud:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tendcloud.mrs"}
   R-tencent-dev:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tencent-dev.mrs"}
   R-tencent-games:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tencent-games.mrs"}
-  R-aliyun:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/aliyun.mrs"}
+  R-aliyun:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/aliyun.yaml"}
   R-aliyun-drive:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/aliyun-drive.mrs"}
   R-alibaba:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/alibaba.mrs"}
   R-alibabacloud:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/alibabacloud.mrs"}
@@ -714,6 +718,7 @@ rules:
 
   # ── Discord ──
   - RULE-SET,R-discord,Discord                                     # Discord
+  - RULE-SET,R-discord-ip,Discord,no-resolve
 
   # ── Telegram ──
   - RULE-SET,R-telegram,Telegram                                   # Telegram
@@ -725,12 +730,12 @@ rules:
   - RULE-SET,R-line,Social                                         # LINE
 
   # ── Meta ──
-  - RULE-SET,R-meta-ads,REJECT-DROP                                     # Meta 广告
+  - RULE-SET,R-meta-ads,REJECT-DROP                                # Meta 广告
   - RULE-SET,R-meta,Meta                                           # Facebook / Instagram / Facebook Developers / WhatsApp / hreads / Messenger / Graph / Analytics
 
   # ── Elon Musk ──
-  - RULE-SET,R-x-ads,REJECT-DROP                                        # X 广告
-  - RULE-SET,R-twitter-ads,REJECT-DROP                                  # Twitter 广告
+  - RULE-SET,R-x-ads,REJECT-DROP                                   # X 广告
+  - RULE-SET,R-twitter-ads,REJECT-DROP                             # Twitter 广告
   - RULE-SET,R-xai,X                                               # xAI / Grok
   - RULE-SET,R-x,X                                                 # X 补充域名
   - RULE-SET,R-twitter,X                                           # Twitter/X
@@ -744,6 +749,8 @@ rules:
   - RULE-SET,R-tiktok,TikTok                                       # TikTok
   - RULE-SET,R-bytedance-ai-!cn,TikTok                             # 字节 AI 海外（豆包/Coze 国际版）
   - RULE-SET,R-bytedance-!cn,TikTok                                # 字节海外域名
+  - RULE-SET,R-douyin,CN
+  - RULE-SET,R-douyin-ip,CN,no-resolve
   - RULE-SET,R-bytedance,CN                                        # 字节全量兜底（抖音/飞书/头条）
 
   # ── Netflix ──
@@ -762,7 +769,7 @@ rules:
   - RULE-SET,R-plex,Media                                          # Plex
 
   # ── Spotify ──
-  - RULE-SET,R-spotify-ads,REJECT-DROP                                  # Spotify 广告
+  - RULE-SET,R-spotify-ads,REJECT-DROP                             # Spotify 广告
   - RULE-SET,R-spotify,Spotify                                     # Spotify
 
   # ── Steam ──

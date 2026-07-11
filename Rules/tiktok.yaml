@@ -346,6 +346,8 @@ payload:
     - 1747104766.rsc.cdn77.org
     - 1948508213.rsc.cdn77.org
     - lp1-mus.pstatp.com.wsglb0.com
+    - +.api.snapkit.com
+    
     # 其他 CDN
     #- +.ovscdns.net
     #- +.worldfcdn.com

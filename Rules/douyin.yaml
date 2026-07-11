@@ -1,0 +1,72 @@
+payload:
+    # ── 字节系核心业务 ──
+    - +.amemv.com          # 抖音主API/长连接/直播 (35子域)
+    - +.douyinvod.com      # 视频CDN (110子域)
+    - +.idouyinvod.com     # 视频CDN (33子域)
+    - +.douyinpic.com      # 图片 (14子域)
+    - +.douyinstatic.com   # 静态资源 (24子域)
+    - +.snssdk.com         # 字节公共API
+    - +.zijieapi.com       # 字节公共API (14子域)
+    - +.bdurl.net          # 埋点上报
+    - +.bytedance.com      # 官网/基建
+    - +.bytednsdoc.com     # 静态CDN
+    - +.bytegecko.com      # Gecko离线包
+    - +.bytecdn.com
+    - +.byteimg.com
+    - +.bytehwm.com
+    - +.ecombdapi.com      # 抖音电商
+    - +.ecombdpage.com     # 抖音电商
+    - +.qishui.com         # 汽水音乐
+    - +.baike.com          # 百科(字节)
+    - +.huoshanimg.com     # 火山图片
+    - +.searchpstatp.com   # 字节旧CDN
+
+    # ── PCDN/调度轮换域(随机子域海量,均为抖音P2P-CDN基建)──
+    - +.pkoplink.com       # 270子域
+    - +.ydycdn.com         # 133子域
+    - +.cjjd14.com         # 80子域
+    - +.qrstuvwxyzab.com   # 60子域
+    - +.qtaeixd.com        # 58子域
+    - +.ctydoh.cn          # 37子域
+    - +.bdcgslb.com        # 34子域,字节GSLB
+    - +.dahhxxttxs.com     # 33子域
+    - +.z1cdn.com          # 18子域
+    - +.sjxydc.com
+    - +.yslidc.com
+    - +.jspcdn.cn
+    - +.xinqiucc.com
+    - +.qiezibenpao.com
+    - +.tianwenca.com
+    - +.vegslb.com
+    - +.dizgslb.com
+    - +.jomoxc.com
+    - +.wuchuyun.net
+    - +.hnzkclouds.com
+    - +.comfylink.com
+    - +.jikeiot.cloud
+    - +.ugsdk.cn
+    # ── douyin ──
+    - +.taqc3qiuoro0kbeq7o5i5cim623i8t0knms2pji0asics822rr7qumu.manlaxycloud.com
+    - +.taqc3qiuoro0kbeq7o5i5cim623i8t0knms2pji0asics822rr7qumu.manlaxycloud.com
+    - +.ahdohpiechei.com
+    - +.douyinvod.com.cloudjscdn.cn
+    - +.vodzj-p3-dk.unigslb.cn
+    - +.douyinvod.com.z.glb4.com
+    - +.douyinvod.com.a.bdydns.com
+    - +.kuiniuca.com
+
+    # ── 第三方CDN/GSLB(被抖音调度使用)──
+    - +.bsgslb.cn          # 白山云
+    - +.smtcdns.com        # DNSPod智能DNS
+    - +.qnqcdn.net         # 七牛
+    - +.ksyungslb.com      # 金山云GSLB
+    - +.wasu.tv            # 华数
+
+# ── 已剔除,未入规则 ──
+# apple.com / sandbox.itunes.apple.com   IAP内购,应走你的苹果规则
+# github.com / githubusercontent.com     内嵌浏览器访问,非抖音业务
+# qq.com                                 QQ登录SDK,应走腾讯规则
+# rapidssl.com / digicert.com            证书OCSP,建议全局DIRECT
+# ks-live.com                            快手直播域,来源存疑
+# yingt.fun                              ⚠ 305次hits,归属不明,建议单独排查
+# 2001:4860:4860::8888                   ⚠ Google DNS,App内硬编码DoH探测

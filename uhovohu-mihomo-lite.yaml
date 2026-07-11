@@ -325,6 +325,9 @@ rule-providers:
   R-bytedance-ai-!cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bytedance-ai-!cn.mrs"}               # 字节AI海外(豆包/Coze国际版) → 代理
   R-bytedance-!cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bytedance@!cn.mrs"}                  # 字节海外域名 → 代理
 
+  R-douyin:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/douyin.yaml"} 
+  R-douyin-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/douyin-ip.yaml"}
+
   R-bytedance:          {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/bytedance.yaml"}                           # 字节全量兜底(抖音/飞书/头条) → DIRECT
 
   # ── Netflix ──
@@ -440,8 +443,8 @@ rules:
   - RULE-SET,R-telegram-ip,Telegram,no-resolve                     # Telegram IP
 
   # ── Elon Musk ──
-  - RULE-SET,R-x-ads,REJECT-DROP                                        # X 广告
-  - RULE-SET,R-twitter-ads,REJECT-DROP                                  # Twitter 广告
+  - RULE-SET,R-x-ads,REJECT-DROP                                   # X 广告
+  - RULE-SET,R-twitter-ads,REJECT-DROP                             # Twitter 广告
   - RULE-SET,R-xai,X                                               # xAI / Grok
   - RULE-SET,R-x,X                                                 # X 补充域名
   - RULE-SET,R-twitter,X                                           # Twitter/X
@@ -451,6 +454,8 @@ rules:
   - RULE-SET,R-tiktok,TikTok                                       # TikTok
   - RULE-SET,R-bytedance-ai-!cn,TikTok                             # 字节 AI 海外（豆包/Coze 国际版）
   - RULE-SET,R-bytedance-!cn,TikTok                                # 字节海外域名
+  - RULE-SET,R-douyin,CN
+  - RULE-SET,R-douyin-ip,CN,no-resolve
   - RULE-SET,R-bytedance,CN                                        # 字节全量兜底（抖音/飞书/头条）
 
   # ── Netflix ──
@@ -458,7 +463,7 @@ rules:
   - RULE-SET,R-netflix-ip,Netflix,no-resolve                       # Netflix IP
   
   # ── Spotify ──
-  - RULE-SET,R-spotify-ads,REJECT-DROP                                  # Spotify 广告
+  - RULE-SET,R-spotify-ads,REJECT-DROP                             # Spotify 广告
   - RULE-SET,R-spotify,Spotify                                     # Spotify
 
   # ── Steam ──
