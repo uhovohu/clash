@@ -70,16 +70,15 @@
 
 
 
-### 更新了github的用户名，文件链接有所变化
-> 例 
-> 
+### github的用户名更新，文件链接有所变化
+
 > 变更前 https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/uhovohu-mihomo-nolink.yaml
 > 
 > 变更后 https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/uhovohu-mihomo-nolink.yaml
 > 
 > 请将 uhovohu-glitch 替换为 uhovohu
 
-> 各app规则使用过程如有遗漏请提交 issue 我会及时修正补充
+> 各app规则使用过程如有遗漏请提交 issue
 
 > [!WARNING]
 > ## ⚠️ 免责声明 / Disclaimer
