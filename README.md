@@ -10,6 +10,10 @@
 
 ## 客户端通用设置
 
+<table>
+<tr>
+<td valign="top">
+
 **mihomo 内核类 App:**
 
 | 设置项 | 推荐值 |
@@ -18,6 +22,9 @@
 | DNS 覆写 | 关闭 |
 | TUN 模式 | 开启 |
 | DNS 模式 | fake-ip |
+
+</td>
+<td valign="top">
 
 **OpenClash / Nikki 等路由器插件:**
 
@@ -28,6 +35,10 @@
 | DNS 模式 | fake-ip |
 | TCP 代理模式 | TPROXY |
 | UDP 代理模式 | TUN |
+
+</td>
+</tr>
+</table>
 
 # 链式代理说明
 
