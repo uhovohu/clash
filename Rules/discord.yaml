@@ -33,7 +33,7 @@ payload:
     - +.discord.center
     - +.discord.me
     - +.discord.st
-    - +.discordInvites.net
+    - +.discordinvites.net
     - +.discordbee.com
     - +.discordbotlist.com
     - +.discordexpert.com
@@ -48,3 +48,8 @@ payload:
     - +.dyno.gg
     - +.findadiscord.com
     - +.mee6.xyz
+    - +.static.klipy.com
+    - +.media.tenor.com
+    - +.c.tenor.com
+    - +.dc-telemetry.net
+    - o64374.ingest.sentry.io                      # 崩溃上报

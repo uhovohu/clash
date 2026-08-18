@@ -51,12 +51,10 @@ payload:
   - +.stun.tuna.tsinghua.edu.cn # 清华大学：高校网络环境下非常稳定
 
   # ── CRL 证书吊销列表 ──
-  - +.crl.globalsign.com
   - +.crl.microsoft.com
   - +.crl.verisign.com
   - +.crl.thawte.com
   - +.status.rapidssl.com
-  
   # ── Windows 连通性检测 ──
   - +.msftconnecttest.com
   - +.msftncsi.com
@@ -262,6 +260,4 @@ payload:
   - +.ctydoh.cn
   
   # ── 美图 ──
-  - +.meitustat.com
-
-  
+  - +.meitustat.com 

@@ -1,0 +1,24 @@
+payload:
+  - +.coinbase.com
+  - api.onfido.com
+  - api.sprig.com
+  - c.riskified.com
+  - use1-turn.fpjs.io
+  - api.cloudinary.com
+  - res.cloudinary.com
+  #- ocsp.godaddy.com
+  
+  # Coinbase 基础设施域，App 和 Exchange 的部分后端/遥测端点走这里
+  - +.cbhq.net
+
+  # Coinbase Wallet 的深链/短链域（go.cb-w.com，WalletConnect 跳转常见）
+  - +.cb-w.com
+
+  # 可选：Base 链（Coinbase 孵化的 L2），如果你用 Base 生态就加上
+  - +.base.org
+  - +.base.app
+  - +.wallet-api-production.s3.amazonaws.com
+  - +.onramper.com
+  - +.production.xmtp.network
+  - +.wallet.elephant-blue.org
+  - img.riskified.com

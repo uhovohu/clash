@@ -62,10 +62,10 @@ profile:                                     # 记忆功能
 # ── Sniffer ──
 sniffer:
   enable: true                               # 核心开关 开启流量嗅探
+  override-destination: true                 # 嗅探到域名后改用域名连接
   sniff:
     HTTP:
       ports: [80, 8080]                      # 嗅探 HTTP 协议的标准端口及常见的非标大端口
-      override-destination: true             # 局部覆盖 强制用嗅探到的真实域名替换 HTTP 请求中的假 IP
     TLS:
       ports: [443]                           # 嗅探 HTTPS/TLS 加密流量，通过读取握手包中的 SNI 获取真实域名
     QUIC:
@@ -375,7 +375,7 @@ rules:
   # ══════════════════════════════════════════
   # 1.REJECT
   # ══════════════════════════════════════════
-  - RULE-SET,R-icloudprivaterelay,REJECT-DROP,no-resolve           # iCloud 私有中继
+  - RULE-SET,R-icloudprivaterelay,REJECT-DROP                      # iCloud 私有中继
   - RULE-SET,R-ads,REJECT-DROP                                     # 全量广告拦截
   - RULE-SET,R-httpdns-cn,REJECT-DROP                              # 国内 HTTPDNS 劫持
   - RULE-SET,R-win-spy,REJECT-DROP                                 # Windows 隐私追踪

@@ -22,7 +22,6 @@ payload:
     - +.cex.io
     - +.clearpool.finance
     - +.hbabit.com
-    - +.coinbase.com
     - +.coindesk.com
     - +.coingecko.com
     - +.coinglass.com
@@ -185,3 +184,4 @@ payload:
     - +.okx.com.cdn.cloudflare.net
     - +.oklink.com
     - +.hyperliquid.xyz
+    - +.czilladx.com

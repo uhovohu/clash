@@ -12,6 +12,7 @@ payload:
   - r2.cpcloudbridge.com
   - pages-app.com
   - m-gsosikpxom-ovjrmipdpv-net-pragmaticplay.cpcasino.cloud
+  - +.coinpoker.ai
 
   # ———— CloudFront 基础设施 ————
   - d2bykaxvqgqb85.cloudfront.net
@@ -25,42 +26,49 @@ payload:
   - d1f41kibrpebrc.cloudfront.net
   - d11vj49eiwzxhj.cloudfront.net
   - d36r46gbgvqx8s.cloudfront.net
-  
+  - dxvwdy1olq9a3.cloudfront.net
+
+  - dm7lr0s4n6vk6.webdevicejs.com
+  - 8a9c0892fa3ac9b4b459c997ef9ccfb752e954cb.csftr.com
+
   # ———— AWS 基础设施 ————
   - ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws
   - e1-0850197d5e074be58352ddc860645af6.ecs.us-east-1.on.aws
   - 5z-2b6b7616f94640c2840d1841e1ac24c3.ecs.us-east-1.on.aws
   - k6-e4e4123be8e54363900a90353991ca93.ecs.us-west-1.on.aws
   - md-eecad2978f7a43f5b7838c919258e6de.ecs.us-east-2.on.aws
+  - sl-11a463aaedf44600a99367660fd6fa70.ecs.us-east-1.on.aws
 
   # ———— 监控 / 分析 ————
-  - o4510980300996608.ingest.de.sentry.io      # Sentry 报错收集
-  - +.dynatrace.com                            # APM 性能监控
-  - +.amplitude.com                            # 行为分析
+  - +.amplitude.com
+  - +.dynatrace.com
+  - o4510980300996608.ingest.de.sentry.io
+  - o567116.ingest.us.sentry.io                # Sentry 报错收集(de 区域,tracking 未覆盖)
   - +.datafa.st                                # 轻量统计
-  - +.clevertap-prod.com                       # 用户留存分析
-  - +.branch.io                                # Branch 归因
-  - app.link                                   # Branch 深度链接
   - +.analytics.yahoo.com                      # Yahoo 统计（sp / cms / ups 等子域合并）
   - s.yimg.com                                 # Yahoo 静态资源
-
+  
+  #- api2.branch.io
+  #- app.link
   # ———— 广告大厂 ————
+  - +.eu-4-id5-sync.com
+  - +.eu-3-id5-sync.com
+  - +.eu-1-id5-sync.com 
+  - +.id5-sync.com
+  - +.rlcdn.com 
+  - +.outbrain.com
   - +.adform.net                               # Adform DSP（含 a1 / c1 / dmp 子域）
   - +.adsrvr.org                               # The Trade Desk DSP
   - +.openx.net                                # OpenX 广告交易
   - +.casalemedia.com                          # Index Exchange
   - +.gumgum.com                               # GumGum 广告
-  - +.id5-sync.com                             # ID5 身份同步
-  - +.eu-1-id5-sync.com                        # ID5 身份同步（欧洲，含 lb / lbs 子域）
   - +.bidswitch.net                            # IPONWEB 竞价
   - +.pippio.com                               # LiveRamp 数据
-  - +.rlcdn.com                                # LiveRamp CDN
   - +.eyeota.net                               # Eyeota 受众数据
   - +.rubiconproject.com                       # Magnite 广告
   - +.teads.tv                                 # Teads 视频广告
   - +.exelator.com                             # Nielsen 数据
   - +.crwdcntrl.net                            # Lotame 数据
-  - +.outbrain.com                             # Outbrain 原生广告
   - +.yieldlab.net                             # Yieldlab 广告
   - +.pubmatic.com                             # PubMatic 广告
   - +.360yield.com                             # PubMatic 旗下
@@ -69,6 +77,7 @@ payload:
   - +.sharethrough.com                         # Sharethrough 广告
 
   # ———— 广告小厂 / 不明 ————
+  - +.everesttech.net
   - tcp.signfuli.com                           # 不明
   - +.adrsbl.io                                # 不明
   - +.adradv.io                                # 不明
@@ -101,7 +110,6 @@ payload:
   - +.kargo.com                                # Kargo 广告
   - +.ovjrmipdpv.net
   - +.ltguevmavv.com
-  - +.everesttech.net
   - +.stackharbor.biz
   - +.omnitagjs.com
   - +.admanmedia.com
@@ -117,6 +125,15 @@ payload:
   - +.viralrespawn.com
   - +.localhubweb.com
   - +.assets.eascdn.net
+  - +.bpi.rtactivate.com
+  - +.sync.aniview.com
+  - eu1.clevertap-prod.com
+  - ds-cdn.prod-east.frontend.public.atl-paas.net
+  - +.atl-paas.net
+  - +.betagammabox.ai
+  
+
+
   # ———— 暂时注释 ————
   #- +.googleapis.com                          # Google Cloud
   #- +.gstatic.com                             # Google 静态资源
