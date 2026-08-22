@@ -210,6 +210,7 @@ payload:
   - +.orayimg.com
 
   # ── LOL 语音 ──
+  - +.riotgames.com
   - +.gcloudcs.com
   - +.gcloudsdk.com
   
@@ -260,4 +261,4 @@ payload:
   - +.ctydoh.cn
   
   # ── 美图 ──
-  - +.meitustat.com 
+  - +.meitustat.com
