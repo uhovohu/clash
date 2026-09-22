@@ -5,6 +5,7 @@
 ## DNS 说明
 
 - 兜底 `nameserver` 使用明文 53 端口的 `8.8.8.8`,目的是最大限度兼容家庭宽带环境——部分家宽运营商会拦截或劣化加密 DNS。
+- 兜底 `nameserver` 附带参数 `&disable-qtype-65=true`,用于禁止经此 DNS 查询 HTTPS 记录(类型 65)。该参数自 mihomo 内核 **v1.19.19** 起支持;更早版本的内核会直接忽略它(不会报错,但也不会生效),请尽量升级到 v1.19.19 及以上版本。
 - 若在 Windows 平台使用本配置后仍检测到 DNS 泄漏,请参考以下教程关闭「多宿主名称解析策略」(Smart Multi-Homed Name Resolution):
   https://wildprobe.com/soft-technical/dnsleak/
 
