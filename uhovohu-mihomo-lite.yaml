@@ -85,7 +85,8 @@ profile:                                     # 记忆功能
 # ── Sniffer ──
 sniffer:
   enable: true                               # 核心开关 开启流量嗅探
-  override-destination: true                 # 嗅探到域名后改用域名连接
+  parse-pure-ip: true                        # 对纯 IP 连接也进行嗅探，补全分流判断
+  override-destination: false                # 嗅探域名仅用于规则匹配，不改写连接目标，避免 SNI 不一致导致连错
   sniff:
     HTTP:
       ports: [80, 8080]                      # 嗅探 HTTP 协议的标准端口及常见的非标大端口
@@ -147,7 +148,7 @@ dns:
   listen: 0.0.0.0:1053                       # DNS 服务监听端口
   ipv6: false                                # 关闭 IPv6 解析 保持与全局设置一致
   respect-rules: true                        # DNS 请求遵循分流规则，由规则决定 DNS 查询走向而非固定出口
-  prefer-h3: false                           # 优先使用 DoH/DoT 的 HTTP/3 传输，提升解析速度和稳定性
+  prefer-h3: false                           # 是否优先使用 DoH/DoT 的 HTTP/3 传输，关闭以保证兼容性
 
   # ── Fake-IP ──
   enhanced-mode: fake-ip                     # 开启 Fake-IP 增强模式 秒回假 IP，极大提升网络响应速度
@@ -165,8 +166,9 @@ dns:
     - 223.5.5.5
     - 119.29.29.29
   nameserver:                                # 国外兜底 处理所有未知的兜底域名，防止 DNS 污染 附带节点选择强制走代理出境
-    - 8.8.8.8#Proxy                          # 修改为明文dns地址，因大部分家宽不支持DoH解析，有需求的用户可以自行替换为 https://1.1.1.1/dns-query#Proxy  https://8.8.8.8/dns-query#Proxy
-    #- 1.1.1.1#Proxy
+    # 使用明文 DNS 地址，因大部分家宽不支持 DoH 解析，有需求的用户可以自行替换为 https://1.1.1.1/dns-query#Proxy&disable-qtype-65=true 或 https://8.8.8.8/dns-query#Proxy&disable-qtype-65=true
+    - 8.8.8.8#Proxy&disable-qtype-65=true
+    #- 1.1.1.1#Proxy&disable-qtype-65=true
 
   # ── DNS 分流 ──
   nameserver-policy:
@@ -177,12 +179,12 @@ dns:
     "rule-set:R-bank-cn": [system, 223.5.5.5, 119.29.29.29]             # 国内银行 → 系统 DNS，防止 DNS 污染导致证书异常
     "rule-set:R-securities-cn": [system, 223.5.5.5, 119.29.29.29]       # 国内证券 → 系统 DNS
     "rule-set:R-finance-cn": [system, 223.5.5.5, 119.29.29.29]          # 国内金融 → 系统 DNS
-    "rule-set:R-ntp-cn": [system, 223.5.5.5, 119.29.29.29]
-    "rule-set:R-wechat": [system, 223.5.5.5, 119.29.29.29]
-    "rule-set:R-alipay": [system, 223.5.5.5, 119.29.29.29]
-    "rule-set:R-netease": [system, 223.5.5.5, 119.29.29.29]
-    "rule-set:R-meituan": [system, 223.5.5.5, 119.29.29.29]
-    "rule-set:R-jingdong": [system, 223.5.5.5, 119.29.29.29]
+    "rule-set:R-ntp-cn": [system, 223.5.5.5, 119.29.29.29]              # 国内 NTP
+    "rule-set:R-wechat": [system, 223.5.5.5, 119.29.29.29]              # 微信
+    "rule-set:R-alipay": [system, 223.5.5.5, 119.29.29.29]              # 支付宝
+    "rule-set:R-netease": [system, 223.5.5.5, 119.29.29.29]             # 网易云音乐
+    "rule-set:R-meituan": [system, 223.5.5.5, 119.29.29.29]             # 美团
+    "rule-set:R-jingdong": [system, 223.5.5.5, 119.29.29.29]            # 京东
 
   # ── Fake-IP ──
   fake-ip-filter:
@@ -289,7 +291,7 @@ rule-providers:
   R-FCM:                {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/googlefcm.mrs"}                      # Firebase推送
   R-gemini:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-gemini.mrs"}                  # Gemini AI
   R-google-play:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-play.mrs"}                    # Google Play
-  R-google-play-cn:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-play@cn.mrs"}                 # Google Play国内节点
+  R-google-play-cn:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-play@cn.mrs"}                 # Google Play国内节点 → DIRECT
   
   # ── OpenAI ──
   R-openai:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/openai.mrs"}                         # OpenAI
@@ -521,8 +523,8 @@ rules:
   - RULE-SET,R-netdisk-cn,DIRECT                                   # 国内网盘
   - RULE-SET,R-games-cn,DIRECT                                     # 国内游戏
   - RULE-SET,R-getui,DIRECT                                        # 国内个推推送服务
-  - RULE-SET,R-globalsign@cn,DIRECT                                # Globalsign国内节点 → DIRECT
-  - RULE-SET,R-digicert@cn,DIRECT                                  # Digicert国内节点 → DIRECT
+  - RULE-SET,R-globalsign@cn,DIRECT                                # Globalsign 国内节点
+  - RULE-SET,R-digicert@cn,DIRECT                                  # Digicert 国内节点
  
   # ── GEO Final ──
   - RULE-SET,geolocation-!cn,Final                                 # 非中国域名兜底

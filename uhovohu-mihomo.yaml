@@ -85,7 +85,8 @@ profile:                                     # 记忆功能
 # ── Sniffer ──
 sniffer:
   enable: true                               # 核心开关 开启流量嗅探
-  override-destination: true                 # 嗅探到域名后改用域名连接
+  parse-pure-ip: true                        # 对纯 IP 连接也进行嗅探，补全分流判断
+  override-destination: false                # 嗅探域名仅用于规则匹配，不改写连接目标，避免 SNI 不一致导致连错
   sniff:
     HTTP:
       ports: [80, 8080]                      # 嗅探 HTTP 协议的标准端口及常见的非标大端口
@@ -147,7 +148,7 @@ dns:
   listen: 0.0.0.0:1053                       # DNS 服务监听端口
   ipv6: false                                # 关闭 IPv6 解析 保持与全局设置一致
   respect-rules: true                        # DNS 请求遵循分流规则，由规则决定 DNS 查询走向而非固定出口
-  prefer-h3: false                           # 优先使用 DoH/DoT 的 HTTP/3 传输，提升解析速度和稳定性
+  prefer-h3: false                           # 是否优先使用 DoH/DoT 的 HTTP/3 传输，关闭以保证兼容性
 
   # ── Fake-IP ──
   enhanced-mode: fake-ip                     # 开启 Fake-IP 增强模式 秒回假 IP，极大提升网络响应速度
@@ -165,34 +166,35 @@ dns:
     - 223.5.5.5
     - 119.29.29.29
   nameserver:                                # 国外兜底 处理所有未知的兜底域名，防止 DNS 污染 附带节点选择强制走代理出境
-    - 8.8.8.8#Proxy                          # 修改为明文dns地址，因大部分家宽不支持DoH解析，有需求的用户可以自行替换为 https://1.1.1.1/dns-query#Proxy  https://8.8.8.8/dns-query#Proxy
-    #- 1.1.1.1#Proxy
+    # 使用明文 DNS 地址，因大部分家宽不支持 DoH 解析，有需求的用户可以自行替换为 https://1.1.1.1/dns-query#Proxy&disable-qtype-65=true 或 https://8.8.8.8/dns-query#Proxy&disable-qtype-65=true
+    - 8.8.8.8#Proxy&disable-qtype-65=true
+    #- 1.1.1.1#Proxy&disable-qtype-65=true
 
   # ── DNS 分流 ──
   nameserver-policy:
-    "rule-set:R-private": [system]
-    "rule-set:R-fakeipfilter": [system, 223.5.5.5, 119.29.29.29]         # Fake-IP 豁免域名
-    "rule-set:R-connectivity": [system, 223.5.5.5, 119.29.29.29]         # 连通性检测 微软/苹果
-    "rule-set:R-cdn-cn": [system, 223.5.5.5, 119.29.29.29]               # 国内 CDN
-    "rule-set:R-bank-cn": [system, 223.5.5.5, 119.29.29.29]              # 国内银行
-    "rule-set:R-securities-cn": [system, 223.5.5.5, 119.29.29.29]        # 国内证券
-    "rule-set:R-finance-cn": [system, 223.5.5.5, 119.29.29.29]           # 国内金融
-    "rule-set:R-ntp-cn": [system, 223.5.5.5, 119.29.29.29]               # 国内 NTP
-    "rule-set:R-wechat": [system, 223.5.5.5, 119.29.29.29]               # 微信
-    "rule-set:R-alipay": [system, 223.5.5.5, 119.29.29.29]               # 支付宝
-    "rule-set:R-netease": [system, 223.5.5.5, 119.29.29.29]              # 网易云音乐
-    "rule-set:R-meituan": [system, 223.5.5.5, 119.29.29.29]              # 美团
-    "rule-set:R-jingdong": [system, 223.5.5.5, 119.29.29.29]             # 京东
-    "rule-set:R-huawei": [system, 223.5.5.5, 119.29.29.29]               # 华为
-    "rule-set:R-xiaomi": [system, 223.5.5.5, 119.29.29.29]               # 小米
-    "rule-set:R-tencent": [system, 223.5.5.5, 119.29.29.29]              # 腾讯
-    "rule-set:R-tendcloud": [system, 223.5.5.5, 119.29.29.29]            # 腾讯云
-    "rule-set:R-tencent-dev": [system, 223.5.5.5, 119.29.29.29]          # 腾讯开发者
-    "rule-set:R-tencent-games": [system, 223.5.5.5, 119.29.29.29]        # 腾讯游戏
-    "rule-set:R-aliyun": [system, 223.5.5.5, 119.29.29.29]               # 阿里云
-    "rule-set:R-aliyun-drive": [system, 223.5.5.5, 119.29.29.29]         # 阿里云盘
-    "rule-set:R-alibaba": [system, 223.5.5.5, 119.29.29.29]              # 阿里巴巴
-    "rule-set:R-alibabacloud": [system, 223.5.5.5, 119.29.29.29]         # 阿里云服务
+    "rule-set:R-private": [system]                                      # 局域网 / 私有域名：必须返回真实 IP，否则本地服务无法访问
+    "rule-set:R-fakeipfilter": [system, 223.5.5.5, 119.29.29.29]        # Fake-IP 豁免域名 → 系统 DNS，确保返回真实 IP
+    "rule-set:R-connectivity": [system, 223.5.5.5, 119.29.29.29]        # 连通性检测 微软/苹果 → 系统 DNS，防止误报"无网络"
+    "rule-set:R-cdn-cn": [system, 223.5.5.5, 119.29.29.29]              # 国内 CDN → 系统 DNS，获得最近节点 IP
+    "rule-set:R-bank-cn": [system, 223.5.5.5, 119.29.29.29]             # 国内银行 → 系统 DNS，防止 DNS 污染导致证书异常
+    "rule-set:R-securities-cn": [system, 223.5.5.5, 119.29.29.29]       # 国内证券 → 系统 DNS
+    "rule-set:R-finance-cn": [system, 223.5.5.5, 119.29.29.29]          # 国内金融 → 系统 DNS
+    "rule-set:R-ntp-cn": [system, 223.5.5.5, 119.29.29.29]              # 国内 NTP
+    "rule-set:R-wechat": [system, 223.5.5.5, 119.29.29.29]              # 微信
+    "rule-set:R-alipay": [system, 223.5.5.5, 119.29.29.29]              # 支付宝
+    "rule-set:R-netease": [system, 223.5.5.5, 119.29.29.29]             # 网易云音乐
+    "rule-set:R-meituan": [system, 223.5.5.5, 119.29.29.29]             # 美团
+    "rule-set:R-jingdong": [system, 223.5.5.5, 119.29.29.29]            # 京东
+    "rule-set:R-huawei": [system, 223.5.5.5, 119.29.29.29]              # 华为
+    "rule-set:R-xiaomi": [system, 223.5.5.5, 119.29.29.29]              # 小米
+    "rule-set:R-tencent": [system, 223.5.5.5, 119.29.29.29]             # 腾讯
+    "rule-set:R-tendcloud": [system, 223.5.5.5, 119.29.29.29]           # 腾讯云
+    "rule-set:R-tencent-dev": [system, 223.5.5.5, 119.29.29.29]         # 腾讯开发者
+    "rule-set:R-tencent-games": [system, 223.5.5.5, 119.29.29.29]       # 腾讯游戏
+    "rule-set:R-aliyun": [system, 223.5.5.5, 119.29.29.29]              # 阿里云
+    "rule-set:R-aliyun-drive": [system, 223.5.5.5, 119.29.29.29]        # 阿里云盘
+    "rule-set:R-alibaba": [system, 223.5.5.5, 119.29.29.29]             # 阿里巴巴
+    "rule-set:R-alibabacloud": [system, 223.5.5.5, 119.29.29.29]        # 阿里云服务
     
   # ── Fake-IP ──
   fake-ip-filter:
@@ -545,7 +547,6 @@ rule-providers:
   
   # ── 硬件 / 杂项 ──
   R-nvidia-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/nvidia@cn.mrs"}                      # Nvidia国内节点 → DIRECT
-  R-amd-cn:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/amd@cn.mrs"}                         # AMD国内节点 → DIRECT
   R-intel-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/intel@cn.mrs"}                       # Intel国内节点 → DIRECT
   R-synology-cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/synology@cn.mrs"}                    # 群晖国内节点 → DIRECT
   R-amazon-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/amazon@cn.mrs"}                      # Amazon国内节点 → DIRECT
@@ -885,7 +886,6 @@ rules:
 
   # ── 硬件 / 杂项 ──
   - RULE-SET,R-nvidia-cn,CN                                        # Nvidia 国内节点
-  - RULE-SET,R-amd-cn,CN                                           # AMD 国内节点
   - RULE-SET,R-intel-cn,CN                                         # Intel 国内节点
   - RULE-SET,R-synology-cn,CN                                      # 群晖国内节点
   - RULE-SET,R-amazon-cn,CN                                        # Amazon国内节点
@@ -980,8 +980,8 @@ rules:
   - RULE-SET,R-netdisk-cn,DIRECT                                   # 国内网盘
   - RULE-SET,R-games-cn,DIRECT                                     # 国内游戏
   - RULE-SET,R-getui,DIRECT                                        # 国内个推推送服务
-  - RULE-SET,R-globalsign@cn,DIRECT                                # Apple 中国专属域名（云上贵州）
-  - RULE-SET,R-digicert@cn,DIRECT                                  # 字节全量
+  - RULE-SET,R-globalsign@cn,DIRECT                                # Globalsign 国内节点
+  - RULE-SET,R-digicert@cn,DIRECT                                  # Digicert 国内节点
  
   # ── GEO Final ──
   - RULE-SET,geolocation-!cn,Final                                 # 非中国域名兜底
