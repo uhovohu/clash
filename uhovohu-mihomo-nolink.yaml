@@ -264,6 +264,7 @@ proxy-groups:
   - {name: TapTap,      type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/taptap.png"}      # TapTap
   
   - {name: Speedtest,   type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/speedtest.png"}   # 测速
+  - {name: IPtest,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/iptest.png"}   # IP 查询检测
  
   # ── R18 默认注释 ──
   #- {name: R18,         type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/r18.png"}         # 成人内容
@@ -459,6 +460,9 @@ rule-providers:
 
   # ── Speedtest ──
   R-speedtest:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs"}                # Speedtest测速
+  
+  # ── IPtest ──
+  R-iptest:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/iptest.yaml"}                              # IP 查询检测
   
   # ── IP ──
   R-nodeseek:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/nodeseek.yaml"}                            # nodeseek自建服务
@@ -777,6 +781,9 @@ rules:
 
   # ── Speedtest ──
   - RULE-SET,R-speedtest,Speedtest                                 # Speedtest
+  
+  # ── IPtest ──
+  - RULE-SET,R-iptest,IPtest                                       # IP 查询检测
   
   # ── Nodeseek ──
   - RULE-SET,R-nodeseek,Proxy                                      # NodeSeek
