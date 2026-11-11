@@ -53,7 +53,7 @@ proxy-providers:
 mixed-port: 7890                             # 混合代理端口
 allow-lan: true                              # 允许局域网连接
 bind-address: "*"                            # 绑定所有网卡 IP，确保本机所有内网 IP 都能接收局域网请求
-ipv6: false                                  # 关闭 IPv6 解析
+ipv6: true                                   # 允许 IPv6：TUN 接管设备的 IPv6 流量防泄漏，并可使用 IPv6 节点
 log-level: warning                           # 日志级别 仅记录警告和错误，保持后台清爽并节省硬盘
 
 # ── 分流与防封锁机制 ──
@@ -146,7 +146,7 @@ dns:
   enable: true                               # 开启内置 DNS 服务
   cache-algorithm: arc                       # DNS 缓存淘汰算法 ARC 相比传统 LRU 命中率更高
   listen: 0.0.0.0:1053                       # DNS 服务监听端口
-  ipv6: false                                # 关闭 IPv6 解析 保持与全局设置一致
+  ipv6: false                                # 不向设备返回 IPv6 地址（AAAA），App 只用 IPv4，减少绕过代理的可能
   respect-rules: true                        # DNS 请求遵循分流规则，由规则决定 DNS 查询走向而非固定出口
   prefer-h3: false                           # 是否优先使用 DoH/DoT 的 HTTP/3 传输，关闭以保证兼容性
 
