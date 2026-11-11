@@ -666,7 +666,7 @@ rules:
   # ══════════════════════════════════════════
   # 2.LAN
   # ══════════════════════════════════════════
-  - RULE-SET,R-private-ip,DIRECT                                   # 内网 IP 地址  
+  - RULE-SET,R-private-ip,DIRECT,no-resolve                        # 内网 IP 地址  
   - RULE-SET,R-private,DIRECT                                      # 内网域名
   - RULE-SET,R-fakeipfilter,DIRECT                                 # FakeIP 过滤
   - RULE-SET,R-connectivity,DIRECT                                 # 网络连通性检测
