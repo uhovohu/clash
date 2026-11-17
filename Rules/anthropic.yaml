@@ -28,7 +28,7 @@ payload:
   - +.cdn.usefathom.com
 
   # ── KYC认证 ──
-  #- +.maps.googleapis.com	     # Google 地图与位置解析
+  #- +.maps.googleapis.com     # Google 地图与位置解析
   - +.withpersona.com	         # 证件 / 自拍身份核验
   - +.frompersona.com	         # KYC 认证邮件通知
   
