@@ -26,6 +26,11 @@ payload:
   - +.intercom.io
   - +.intercomcdn.com
   - +.cdn.usefathom.com
+
+  # ── KYC认证 ──
+  #- +.maps.googleapis.com	     # Google 地图与位置解析
+  - +.withpersona.com	         # 证件 / 自拍身份核验
+  - +.frompersona.com	         # KYC 认证邮件通知
   
   # ── NTP time ──          # Claude Code 在运行时，会暗中请求这些 NTP 服务器来校验你的真实系统时区 有需求请取消注释
   #- +.pool.ntp.org         # 全球开源 NTP 池
