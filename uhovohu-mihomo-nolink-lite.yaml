@@ -157,6 +157,16 @@ dns:
     "rule-set:R-securities-cn": [system, 223.5.5.5, 119.29.29.29]       # 国内证券 → 系统 DNS
     "rule-set:R-finance-cn": [system, 223.5.5.5, 119.29.29.29]          # 国内金融 → 系统 DNS
     "rule-set:R-ntp-cn": [system, 223.5.5.5, 119.29.29.29]              # 国内 NTP
+    "rule-set:R-icloud-cn": [system, 223.5.5.5, 119.29.29.29]           # iCloud 国内节点 云上贵州
+    "rule-set:R-itunes-cn": [system, 223.5.5.5, 119.29.29.29]           # iTunes 国内节点
+    "rule-set:R-apple-pki": [system, 223.5.5.5, 119.29.29.29]           # Apple 证书服务
+    "rule-set:R-apple-update": [system, 223.5.5.5, 119.29.29.29]        # iOS/macOS 系统更新
+    "rule-set:R-apple-cn": [system, 223.5.5.5, 119.29.29.29]            # Apple 中国专属域名
+    "rule-set:R-apple-at-cn": [system, 223.5.5.5, 119.29.29.29]         # Apple 国内服务补充
+    "rule-set:R-apple-dev-cn": [system, 223.5.5.5, 119.29.29.29]        # Apple 开发者国内节点
+    "rule-set:R-icloud": [system, 223.5.5.5, 119.29.29.29]              # iCloud
+    "rule-set:R-itunes": [system, 223.5.5.5, 119.29.29.29]              # iTunes
+    "rule-set:R-apple": [system, 223.5.5.5, 119.29.29.29]               # Apple 全家桶
     "rule-set:R-wechat": [system, 223.5.5.5, 119.29.29.29]              # 微信
     "rule-set:R-alipay": [system, 223.5.5.5, 119.29.29.29]              # 支付宝
     "rule-set:R-netease": [system, 223.5.5.5, 119.29.29.29]             # 网易云音乐

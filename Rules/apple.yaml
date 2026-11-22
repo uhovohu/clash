@@ -58,7 +58,6 @@ payload:
   - +.airtunes.info
   - +.airtunes.net
   - +.ajtalk.com
-  - +.akadns.net
   - +.albeats.com
   - +.alchemysynth.com
   - +.annstores.net
@@ -1573,7 +1572,6 @@ payload:
   - +.apzones.com
   - +.blobstore.apple.com
   - +.music.apple.com
-  - +.apple-dns.cn
   - +.apple-support.akadns.net
   - +.apple.com.akadns.net
   - +.apple.com.edgekey.net
@@ -1596,7 +1594,6 @@ payload:
   - +.valid.origin-apple.com.akadns.net
   - +.ohttp-relay1.fastly-edge.com
   - +.weatheroffer.com
-  - +.ocsp2.apple.com
   - +.xp.apple.com
   - +.fides-pol.apple.com
   - +.ls.apple.com
