@@ -314,7 +314,7 @@ rule-providers:
   R-google-play-cn:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-play@cn.mrs"}                 # Google Play国内节点 → DIRECT
   
   # ── OpenAI ──
-  R-openai:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/openai.mrs"}                         # OpenAI
+  R-openai:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/openai.yaml"}                              # OpenAI
   
   # ── Anthropic ──
   R-anthropic:          {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/anthropic.yaml"}                           # Anthropic / Claude

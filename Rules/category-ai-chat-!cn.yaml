@@ -63,3 +63,38 @@ payload:
     - +.t3.codes             # T3 Code，编程 AI 代理控制台
     - +.catrouter.io         # CatRouter 开发者 API 平台
     - +.cat-infra.com        # CatRouter 接口
+
+    # ── Perplexity ──
+    - +.perplexitylabs.ai   # Perplexity Labs
+    - +.perplexitychat.ai   # Perplexity 备用域名
+
+    # ── Augment Code ──
+    - +.augmentcode.com     # Augment Code 编程助手
+
+    # ── Meta AI ──
+    - +.llamameta.net       # Llama 模型下载
+
+    # ── Midjourney ──
+    - +.midjourney.com      # Midjourney 绘图
+
+    # ── Kimi / 月之暗面（国际） ──
+    - +.kimi.ai             # Kimi 国际版
+    - +.moonshot.ai         # 月之暗面国际站
+
+    # ── MiniMax（国际） ──
+    - +.minimax.io          # MiniMax 国际站
+
+    # ── 编程 AI 工具 ──
+    - +.cline.bot           # Cline
+    - +.context7.com        # Context7 文档 MCP
+    - +.deepwiki.com        # DeepWiki
+    - +.deepwiki.org        # DeepWiki
+    - +.jetbrains.ai        # JetBrains AI
+    - +.grazie.ai           # JetBrains AI 接口
+
+    # ── 其他 AI ──
+    - +.arena.ai            # LMArena 模型对比
+    - +.novelai.net         # NovelAI
+    - +.nousresearch.com    # Nous Research
+    - +.notegpt.io          # NoteGPT
+    - +.together.xyz        # Together AI 接口
