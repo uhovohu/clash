@@ -263,6 +263,11 @@ proxy-groups:
   - {name: Discord,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/discord.png"}     # Discord
   - {name: Social,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/social.png"}      # 社交杂项 (Reddit / Tumblr / LINE)
 
+  # ── 支付 ──
+  - {name: PayPal,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/paypal.png"}   # PayPal / Braintree / Venmo / Xoom
+  - {name: Wise,        type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/wise.png"}   # Wise 跨境汇款
+  - {name: Pay,         type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/pay.png"}   # 支付 / 通用风控 / 人机验证
+
   - {name: TikTok,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/tiktok.png"}      # TikTok / 字节跳动海外
   - {name: Netflix,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/netflix.png"}     # Netflix
   - {name: Spotify,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/spotify.png"}     # Spotify
@@ -275,10 +280,6 @@ proxy-groups:
   
   - {name: Speedtest,   type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/speedtest.png"}   # 测速
   - {name: IPtest,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/iptest.png"}   # IP 查询检测
-
-  - {name: Pay,         type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/pay.png"}   # 支付 / 通用风控 / 人机验证
-  - {name: PayPal,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/paypal.png"}   # PayPal / Braintree / Venmo / Xoom
-  - {name: Wise,        type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/wise.png"}   # Wise 跨境汇款
  
   # ── R18 默认注释 ──
   #- {name: R18,         type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/r18.png"}         # 成人内容
@@ -481,15 +482,6 @@ rule-providers:
   # ── IP ──
   R-nodeseek:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/nodeseek.yaml"}                            # nodeseek自建服务
   
-  # ── Pay ──
-  R-pay:                {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/pay.yaml"}                                 # 支付 / 通用风控 / 人机验证
-  
-  # ── PayPal ──
-  R-paypal:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/paypal.yaml"}                              # PayPal / Braintree / Venmo / Xoom
-  
-  # ── Wise ──
-  R-wise:               {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/wise.yaml"}                                # Wise 跨境汇款
-  
   # ── Cloudflare ──
   R-cloudflare:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare.mrs"}                     # Cloudflare
   R-cloudflare-ip:      {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cloudflare.mrs"}                       # Cloudflare IP
@@ -573,6 +565,15 @@ rule-providers:
   R-getui:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/getui.mrs"}                          # 国内个推推送服务 → DIRECT
   R-globalsign@cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/globalsign@cn.mrs"}                  # Globalsign国内节点 → DIRECT
   R-digicert@cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/digicert@cn.mrs"}                    # Digicert国内节点 → DIRECT
+  
+  # ── PayPal ──
+  R-paypal:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/paypal.yaml"}                              # PayPal / Braintree / Venmo / Xoom
+  
+  # ── Wise ──
+  R-wise:               {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/wise.yaml"}                                # Wise 跨境汇款
+  
+  # ── Pay ──
+  R-pay:                {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/pay.yaml"}                                 # 支付 / 通用风控 / 人机验证
   
   # ── Final ──
   geolocation-!cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}                # 非中国域名兜底 → 代理
@@ -697,12 +698,6 @@ rules:
   # ══════════════════════════════════════════
   # 3.Proxy
   # ══════════════════════════════════════════
-
-  # ── PayPal ──
-  - RULE-SET,R-paypal,PayPal                                       # PayPal / Braintree / Venmo / Xoom
-
-  # ── Wise ──
-  - RULE-SET,R-wise,Wise                                           # Wise 跨境汇款
 
   # ── OpenAI ──
   - RULE-SET,R-openai,OpenAI                                       # OpenAI
@@ -999,6 +994,12 @@ rules:
   - RULE-SET,R-globalsign@cn,DIRECT                                # Globalsign 国内节点
   - RULE-SET,R-digicert@cn,DIRECT                                  # Digicert 国内节点
  
+  # ── PayPal ──
+  - RULE-SET,R-paypal,PayPal                                       # PayPal / Braintree / Venmo / Xoom
+
+  # ── Wise ──
+  - RULE-SET,R-wise,Wise                                           # Wise 跨境汇款
+
   # ── Pay（放在各服务规则之后：各家自己文件里的风控先命中，这里只接通用的）──
   - RULE-SET,R-pay,Pay                                             # 支付 / 通用风控 / 人机验证
 
