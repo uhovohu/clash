@@ -608,6 +608,7 @@ rule-providers:
   # ── Final ──
   geolocation-!cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}                # 非中国域名兜底 → 代理
   geosite-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}                             # 中国域名兜底 → DIRECT
+  geolocation-cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-cn.mrs"}                 # 中国域名补充（geosite-cn 没收全的）→ DIRECT
   geoip-cn:             {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}                               # 中国IP兜底 → DIRECT
 
   # ══════════════════════════════════════════
@@ -1036,6 +1037,7 @@ rules:
   # ── GEO Final ──
   - RULE-SET,geolocation-!cn,Final                                 # 非中国域名兜底
   - RULE-SET,geosite-cn,DIRECT                                     # 中国域名兜底
+  - RULE-SET,geolocation-cn,DIRECT                                 # 中国域名补充
   - RULE-SET,geoip-cn,DIRECT,no-resolve                            # 中国 IP 兜底
 
   # ── Final ──
