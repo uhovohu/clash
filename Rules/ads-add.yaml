@@ -22,3 +22,6 @@ payload:
 
   # ── 访问统计 ──
   - stats.v2core.com                       # exe-stats 网页访问计数器
+
+  # ── 反广告拦截 ──
+  - +.html-load.com                        # Ad-Shield 反广告拦截脚本（屏蔽后会反复重试）
