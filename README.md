@@ -71,6 +71,21 @@
 - 各应用分组默认指向 **Proxy** 组。
 - 出口链路示例:`apple 组 → Proxy 组 → OUT 组`,即当 apple 组选择 Proxy、Proxy 组选择 OUT 时,apple 组的最终出口为 OUT 组内所选节点。
 
+## 支付分组(仅完整版)
+
+完整版新增 **PayPal**、**Wise**、**Pay** 三个分组,默认均指向 **Proxy** 组;精简版不含这三组,相关流量走 Final。
+
+- **PayPal**:PayPal 及旗下 Braintree、Venmo、Xoom。
+- **Wise**:Wise(原 TransferWise)。
+- **Pay**:通用的支付网关、收银台、3D 验证、风控与设备指纹、人机验证、身份认证(KYC)服务,如 Stripe、Adyen、Paddle、Sift、Forter、hCaptcha、Sumsub、Onfido 等。
+
+规则顺序上,这三组排在所有应用规则之后、Final 兜底之前,相当于支付风控类流量的兜底:
+
+- 某个应用专属的风控 / 验证域名写在该应用自己的规则里(如 GitHub、PayPal 专用的 Arkose 验证接口),跟随该应用的分组;
+- 不属于任何应用的通用风控、支付服务,才落到 Pay。
+
+使用建议:网站会比对「访问网站的 IP」与「风控 / 支付脚本看到的 IP」,两者不一致容易触发风控。在某个应用里付款、做实名认证时,若该应用分组选的不是 Proxy,可临时把 Pay 切到同一节点,完成后再切回。Cloudflare Turnstile 跟随 Cloudflare 组,Google reCAPTCHA / Google Pay 跟随 Google 组,Apple Pay 跟随 Apple 组,不在 Pay 内。
+
 ## 面板与图标
 
 策略组图标已更新,建议配合 **zashboard** 面板使用以获得最佳显示效果。
