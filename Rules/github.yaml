@@ -1,6 +1,5 @@
 payload:
     # S3 / Blob CDN
-    - github-api.arkoselabs.com
     - github-cloud.s3.amazonaws.com
     - github-com.s3.amazonaws.com
     - github-production-release-asset-2e65be.s3.amazonaws.com
@@ -76,3 +75,5 @@ payload:
     - +.vscode-sync.trafficmanager.net
     - +.vscodeexperiments.azureedge.net
     - +.vo.msecnd.net
+    # 专属人机验证
+    - github-api.arkoselabs.com      # Arkose 给 GitHub 的专属接口（注册 / 登录验证）

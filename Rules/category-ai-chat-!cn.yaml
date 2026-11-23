@@ -53,3 +53,13 @@ payload:
     - +.coderabbit.gallery.vsassets.io
     - o33249.ingest.sentry.io
     - browser-intake-datadoghq.com
+
+    # ── AI 中转 / API 平台 ──
+    - +.derouter.ai          # DeRouter，Claude / GPT API 中转
+    - +.derouter.network     # DeRouter 另一个域名
+    - +.newmax.ai            # NewMax AI 自动化平台
+    - +.9aib.com             # 9AIB AI 聊天站
+    - +.nextchat.club        # NextChat API
+    - +.t3.codes             # T3 Code，编程 AI 代理控制台
+    - +.catrouter.io         # CatRouter 开发者 API 平台
+    - +.cat-infra.com        # CatRouter 接口

@@ -1,0 +1,11 @@
+payload:
+  # 来源：MetaCubeX geosite:wise（2026-11-23），另加补充；只建本地文件，不直接引用上游
+
+  # ── Wise 主站 ──
+  - +.wise.com                    # Wise 主站、API、帮助中心
+  - +.transferwise.com            # 旧品牌域名（301 到 wise.com）、旧 API
+
+  # ── 补充 ──
+  - +.wi.se                       # 官方短链
+  - +.wise-sandbox.com            # 沙盒 API
+  - +.transferwise.tech           # 技术域名（沙盒等）

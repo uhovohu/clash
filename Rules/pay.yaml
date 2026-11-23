@@ -1,0 +1,66 @@
+payload:
+  # ── 支付 ──
+  - +.stripe.com            # Stripe 支付
+  - +.stripe.network        # Stripe 风控（Radar 设备信号）
+  - +.stripecdn.com         # Stripe 静态资源
+  - +.stripe.global         # Stripe
+  - +.link.com              # Stripe Link 快捷支付
+  - +.adyen.com             # Adyen 支付
+  - +.checkout.com          # Checkout.com 支付
+  - +.worldpay.com          # Worldpay
+  - +.cybersource.com       # Cybersource（Visa 旗下）
+  - +.authorize.net         # Authorize.net
+  - +.squareup.com          # Square
+  - +.airwallex.com         # Airwallex 空中云汇
+  - +.klarna.com            # Klarna 先买后付
+  - +.afterpay.com          # Afterpay 先买后付
+
+  # ── 收银台 / 软件订阅 ──
+  - +.paddle.com            # Paddle
+  - +.lemonsqueezy.com      # Lemon Squeezy
+  - +.onfastspring.com      # FastSpring
+  - +.2checkout.com         # 2Checkout（Verifone）
+  - +.2co.com               # 2Checkout（Verifone）
+  - +.avangate.com          # 2Checkout（Verifone）旧域名
+
+  # ── 3D 验证 ──
+  - +.cardinalcommerce.com  # Cardinal 3DS 银行验证页
+
+  # ── 风控 / 反欺诈 ──
+  - +.siftscience.com       # Sift 风控
+  - +.sift.com              # Sift 风控
+  - +.online-metrix.net     # ThreatMetrix 设备指纹
+  - +.forter.com            # Forter 反欺诈
+  - +.riskified.com         # Riskified 反欺诈
+  - +.signifyd.com          # Signifyd 反欺诈
+  - +.kaxsdc.com            # Kount 设备指纹
+  - +.iovation.com          # Iovation 设备指纹
+  - +.incognia.com          # Incognia 位置风控
+  - +.seondf.com            # SEON 设备指纹
+  - +.dfsdk.com             # SEON 设备指纹
+  - +.deviceinf.com         # SEON 设备指纹
+  - +.seonintelligence.com  # SEON 设备指纹
+  - +.fingerprint.com       # Fingerprint 设备指纹
+  - +.fpjs.io               # Fingerprint 接口
+  - +.fpjscdn.net           # Fingerprint 脚本
+
+  # ── 机器人检测 ──
+  - +.px-cdn.net            # PerimeterX（HUMAN）
+  - +.px-cloud.net          # PerimeterX（HUMAN）
+  - +.pxchk.net             # PerimeterX（HUMAN）
+  - +.px-client.net         # PerimeterX（HUMAN）
+  - +.datadome.co           # DataDome
+  - +.captcha-delivery.com  # DataDome 验证页
+
+  # ── 人机验证 ──
+  - +.hcaptcha.com          # hCaptcha
+  - +.arkoselabs.com        # Arkose Labs
+  - +.funcaptcha.com        # Arkose Labs（FunCaptcha）
+
+  # ── 身份认证（KYC） ──
+  - +.withpersona.com       # Persona
+  - +.frompersona.com       # Persona 认证邮件通知
+  - +.onfido.com            # Onfido
+  - +.jumio.ai              # Jumio
+  - +.socure.com            # Socure
+  - +.sumsub.com            # Sumsub

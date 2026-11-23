@@ -1,9 +1,6 @@
 payload:
   - +.coinbase.com
-  - api.onfido.com
   - api.sprig.com
-  - c.riskified.com
-  - use1-turn.fpjs.io
   - api.cloudinary.com
   - res.cloudinary.com
   #- ocsp.godaddy.com
@@ -21,4 +18,3 @@ payload:
   - +.onramper.com
   - +.production.xmtp.network
   - +.wallet.elephant-blue.org
-  - img.riskified.com

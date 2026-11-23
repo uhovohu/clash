@@ -3,12 +3,9 @@ payload:
   - +.accounts.binance.com
   - +.accounts.binance.info
   - +.accounts.binance.me
-  - +.addfd325e6e3.cdn4.forter.com
   - +.api.binance.com
   - +.bin.bnbstatic.com
   - +.bnliveplay-ag.bblivestream.com
-  - +.cdn.forter.com
-  - +.cdn4.forter.com
   - +.dstream.binance.com
   - +.dstream.binance.info
   - +.edge-api.saasexch.com
@@ -19,7 +16,6 @@ payload:
   - +.fstream.binance.com
   - +.fstream.binance.info
   - +.log.bntrace.com
-  - +.m.api.forter.com
   - +.native.binance.com
   - +.native.binance.info
   - +.nbstream.binance.com
@@ -41,3 +37,6 @@ payload:
   - +.bnappweb.black
   - help-static-aliyun-doc.aliyuncs.com
   - emogine.insights.1688.com
+
+  # ── 专属风控 ──
+  - +.addfd325e6e3.cdn4.forter.com      # Forter 给币安的专属节点（带商户编号）

@@ -128,3 +128,14 @@ payload:
     - +.tile.openstreetmap.org
     - +.ipsuper.com
     - +.ipapi.is
+
+    # ── 节点纯净度 / 泄露检测 ──
+    - +.cleanip.io         # CleanIP 节点纯净度检测
+    - +.cleanipcdn.com     # CleanIP 静态资源
+    - +.proxypurity.com    # ProxyPurity 代理纯净度检测
+    - +.ilatency.com       # NodePing 在线 Ping / 全球拨测
+    - +.net.coffee         # ip.net.coffee IP 查询
+    - bash.ws              # DNS 泄露测试
+    - +.geojs.io           # IP 归属地接口
+    - +.bigdatacloud.net   # IP 归属地接口
+    - +.nexscan.net        # 浏览器指纹环境真实性检测

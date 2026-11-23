@@ -10,3 +10,15 @@ payload:
   # ── 错误上报 ──
   - +.ingest.sentry.io                     # Sentry 错误上报 币安 claude
   - +.sentry.io                            # Sentry 错误上报 币安 app
+
+  # ── 营销追踪 ──
+  - +.mktoresp.com                         # Marketo 营销追踪
+  - +.mktoutil.com                         # Marketo 营销追踪
+  - +.getsitecontrol.com                   # GetSiteControl 网页弹窗 / 统计
+  - +.getsitectrl.com                      # GetSiteControl 统计上报
+  - +.knak.io                              # Knak 邮件营销
+  - +.cookie-script.com                    # Cookie 同意弹窗
+  - track.i.ng                             # i.ng 追踪
+
+  # ── 访问统计 ──
+  - stats.v2core.com                       # exe-stats 网页访问计数器

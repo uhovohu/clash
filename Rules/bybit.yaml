@@ -37,7 +37,6 @@ payload:
   - +.niubit.io
   - +.panora.exchange
   - +.smartadserver.com
-  - +.sumsub.com
   - +.triple.app
   - +.tronads.io
   - +.tronscan.org
@@ -45,6 +44,5 @@ payload:
   - +.wsot2022.com
   - +.bybit-exchange.github.io
   - +.bybit.ada.support
-  - +.online-metrix.net                          # ThreatMetrix 设备指纹/风控追踪
   - shortsgp.im.qcloud.com
   - +.turingfraud.net
