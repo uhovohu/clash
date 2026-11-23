@@ -1,6 +1,5 @@
 payload:
     # 核心域名
-    - +.musical.ly
     - +.ttlivecdn.com
     - +.tik-tokapi.com
     - +.tiktok.com
@@ -30,7 +29,6 @@ payload:
     - +.tiktokd.org
     - +.tiktokminis.us
     - +.ttcdn-us.com
-    - +.ttlivecdn.com
     - +.ttadsmanager.com
     - +.ttapis.com
     - +.ttvbfs.com
@@ -84,8 +82,6 @@ payload:
     - pc-mon.zijieapi.com
     # 字节AI海外
     - +.coze.com
-    - +.marscode.com
-    - +.trae.ai
     - +.cici.com
     - +.ciciai.com
     - +.ciciaicdn.com

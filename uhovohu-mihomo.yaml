@@ -579,6 +579,7 @@ rule-providers:
   R-intel-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/intel@cn.mrs"}                       # Intel国内节点 → DIRECT
   R-synology-cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/synology@cn.mrs"}                    # 群晖国内节点 → DIRECT
   R-amazon-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/amazon@cn.mrs"}                      # Amazon国内节点 → DIRECT
+  R-cn-add:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/cn-add.yaml"}                              # 国内服务补充（阿里、百度、小红书、腾讯）
 
   # ══════════════════════════════════════════
   # 4.Final
@@ -931,6 +932,7 @@ rules:
   - RULE-SET,R-intel-cn,CN                                         # Intel 国内节点
   - RULE-SET,R-synology-cn,CN                                      # 群晖国内节点
   - RULE-SET,R-amazon-cn,CN                                        # Amazon国内节点
+  - RULE-SET,R-cn-add,CN                                           # 国内服务补充（阿里、百度、小红书、腾讯）
   
   # ══════════════════════════════════════════
   # 5.R18 默认注释

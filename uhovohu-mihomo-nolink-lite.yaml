@@ -366,6 +366,7 @@ rule-providers:
 
   R-jingdong:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/jingdong.yaml"}
   R-jingdongcloud-ip:   {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/jingdongcloud-ip.yaml"}
+  R-cn-add:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/cn-add.yaml"}                            # 国内服务补充（阿里、百度、小红书、腾讯）
   
   # ══════════════════════════════════════════
   # 4.Final
@@ -502,6 +503,7 @@ rules:
   - RULE-SET,R-meituan,CN
   - RULE-SET,R-jingdong,CN
   - RULE-SET,R-jingdongcloud-ip,CN,no-resolve
+  - RULE-SET,R-cn-add,CN                                           # 国内服务补充（阿里、百度、小红书、腾讯）
 
   # ══════════════════════════════════════════
   # 6.Final

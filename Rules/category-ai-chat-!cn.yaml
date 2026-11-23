@@ -36,7 +36,6 @@ payload:
     - +.youmind.ai
     - +.poecdn.net
     - +.poe.com
-    - +.crixet.com
     - +.codeium.com
     - +.codeiumdata.com
     - +.windsurf.build
@@ -48,11 +47,7 @@ payload:
     - +.coderabbit.ai
     - +.manus.im
     - +.manuscdn.com
-    - +.host.livekit.cloud
-    - +.turn.livekit.cloud
     - +.coderabbit.gallery.vsassets.io
-    - o33249.ingest.sentry.io
-    - browser-intake-datadoghq.com
 
     # ── AI 中转 / API 平台 ──
     - +.derouter.ai          # DeRouter，Claude / GPT API 中转
@@ -98,3 +93,8 @@ payload:
     - +.nousresearch.com    # Nous Research
     - +.notegpt.io          # NoteGPT
     - +.together.xyz        # Together AI 接口
+
+    # ── Trae（国际版）──
+    - +.trae.ai             # Trae 国际版主站
+    - +.marscode.com        # MarsCode（Trae 前身，国际版）
+    - trae-api-sg.mchost.guru  # Trae 国际版接口
