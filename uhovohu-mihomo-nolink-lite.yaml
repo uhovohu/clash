@@ -209,8 +209,8 @@ proxy-groups:
   - {name: YouTube,     type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/youtube.png"}    # YouTube
   - {name: Google,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/google.png"}     # Google 全家桶
   - {name: GitHub,      type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/github.png"}     # GitHub
-  - {name: Microsoft,   type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/microsoft.png"}  # Microsoft 全家桶
-  - {name: Apple,       type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/apple.png"}      # Apple 全家桶
+  - {name: Microsoft,   type: select, include-all: true, filter: *FilterAll, proxies: [CN, Proxy, REJECT], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/microsoft.png"}  # Microsoft 全家桶
+  - {name: Apple,       type: select, include-all: true, filter: *FilterAll, proxies: [CN, Proxy, REJECT], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/apple.png"}      # Apple 全家桶
 
   - {name: X,           type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/x.png"}          # X / Twitter / 马斯克系
   - {name: Telegram,    type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/telegram.png"}   # Telegram
@@ -219,7 +219,7 @@ proxy-groups:
   - {name: Netflix,     type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/netflix.png"}    # Netflix
   - {name: Spotify,     type: select, include-all: true, filter: *FilterAll, proxies: [Proxy, DIRECT, REJECT], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/spotify.png"}    # Spotify
   
-  - {name: Steam,       type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/steam.png"}      # Steam
+  - {name: Steam,       type: select, include-all: true, filter: *FilterAll, proxies: [CN, Proxy, REJECT], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/steam.png"}      # Steam
 
   # ── CN / Final ──
   - {name: CN,          type: select, include-all: true, filter: *FilterAll, proxies: [DIRECT, Proxy, REJECT], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/cn.png"}         # 默认国内直连

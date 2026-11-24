@@ -247,9 +247,9 @@ proxy-groups:
   - {name: Amazon,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/amazon.png"}       # Amazon
   - {name: Akamai,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/akamai.png"}            # Akamai CDN
   - {name: GitHub,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/github.png"}       # GitHub
-  - {name: Microsoft,   type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/microsoft.png"}    # Microsoft 全家桶
+  - {name: Microsoft,   type: select, proxies: [CN, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/microsoft.png"}    # Microsoft 全家桶
   - {name: Adobe,       type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/adobe.png"}        # Adobe 全家桶
-  - {name: Apple,       type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/apple.png"}        # Apple 全家桶
+  - {name: Apple,       type: select, proxies: [CN, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/apple.png"}        # Apple 全家桶
   - {name: Android,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/android.png"}      # Android / Google Play
 
   - {name: X,           type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/x.png"}            # X / Twitter / 马斯克系
@@ -270,9 +270,9 @@ proxy-groups:
   - {name: Emby,        type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/emby.png"}         # Emby
   - {name: Bilibili,    type: select, proxies: [CN, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/bilibili.png"}     # Bilibili
 
-  - {name: Steam,       type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/steam.png"}        # Steam
-  - {name: Epic,        type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/epic.png"}         # Epic Games
-  - {name: TapTap,      type: select, proxies: [DIRECT, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/taptap.png"}       # TapTap
+  - {name: Steam,       type: select, proxies: [CN, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/steam.png"}        # Steam
+  - {name: Epic,        type: select, proxies: [CN, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/epic.png"}         # Epic Games
+  - {name: TapTap,      type: select, proxies: [CN, Proxy, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/taptap.png"}       # TapTap
 
   - {name: IPtest,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/iptest.png"}       # IP 检测
   - {name: Speedtest,   type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/speedtest.png"}    # 测速

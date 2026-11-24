@@ -61,7 +61,7 @@
 
 ## 策略组
 
-各服务策略组默认指向 Proxy 组;Microsoft、Apple、Bilibili、Steam、Epic、TapTap、CN 默认直连。
+各服务策略组默认指向 Proxy 组;Microsoft、Apple、Bilibili、Steam、Epic、TapTap 默认指向 CN 组,CN 组默认直连。
 
 **完整版**
 
