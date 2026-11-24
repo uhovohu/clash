@@ -298,6 +298,7 @@ rule-providers:
 
   # ── OpenAI ──
   R-openai:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/openai.mrs"}                      # OpenAI / ChatGPT
+  R-openai-ip:            {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/openai.mrs"}                     # OpenAI IP
 
   # ── AI ──
   R-perplexity:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/perplexity.mrs"}                  # Perplexity
@@ -380,12 +381,12 @@ rule-providers:
   R-stun@cn:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/stun@cn.mrs"}                     # 国内 STUN
 
   # ── 国内分类 ──
+  R-ntp@cn:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-ntp@cn.mrs"}             # 国内 NTP
   R-ntp@!cn:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-ntp@!cn.mrs"}            # 国外 NTP
   R-cdn-cn:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-cdn-cn.mrs"}             # 国内 CDN
   R-bank-cn:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-bank-cn.mrs"}            # 国内银行
   R-securities-cn:        {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-securities-cn.mrs"}      # 国内证券
   R-finance-cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-finance@cn.mrs"}         # 国内金融
-  R-ntp@cn:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-ntp@cn.mrs"}             # 国内 NTP
   R-netdisk-cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-netdisk-cn.mrs"}         # 国内网盘
   R-games-cn:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-games-cn.mrs"}           # 国内游戏
 
@@ -436,6 +437,7 @@ rules:
 
   # ── OpenAI ──
   - RULE-SET,R-openai,OpenAI                        # OpenAI / ChatGPT
+  - RULE-SET,R-openai-ip,OpenAI,no-resolve          # OpenAI IP
 
   # ── AI ──
   - RULE-SET,R-perplexity,AI                        # Perplexity
@@ -520,6 +522,7 @@ rules:
   - RULE-SET,R-stun@cn,CN                           # 国内 STUN
 
   # ── 国内分类 ──
+  - RULE-SET,R-ntp@cn,CN                            # 国内 NTP
   - RULE-SET,R-ntp@!cn,Proxy                        # 国外 NTP（走代理）
   - RULE-SET,R-cdn-cn,CN                            # 国内 CDN
   - RULE-SET,R-bank-cn,CN                           # 国内银行
@@ -527,7 +530,6 @@ rules:
   - RULE-SET,R-finance-cn,CN                        # 国内金融
   - RULE-SET,R-netdisk-cn,CN                        # 国内网盘
   - RULE-SET,R-games-cn,CN                          # 国内游戏
-  - RULE-SET,R-ntp@cn,CN                            # 国内 NTP
 
   # ── 国内杂项 ──
   - RULE-SET,R-cn-misc,CN                           # 国内杂项
