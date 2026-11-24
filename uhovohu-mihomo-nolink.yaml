@@ -460,8 +460,8 @@ rule-providers:
   R-speedtest:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/ookla-speedtest.mrs"}             # Speedtest
 
   # ── IPtest ──
-  R-iptest@!cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-ip-geo-detect@!cn.mrs"}  # 国外测 IP 站
-  R-iptest@cn:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-ip-geo-detect@cn.mrs"}   # 国内测 IP 站
+  R-iptest@!cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-ip-geo-detect@!cn.mrs"}  # IP 检测站
+  R-iptest@cn:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-ip-geo-detect@cn.mrs"}   # 国内 App 调用的查 IP 接口（精确域名）
 
   # ── NodeSeek ──
   R-nodeseek:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/nodeseek.mrs"}                    # NodeSeek
@@ -886,8 +886,8 @@ rules:
   - RULE-SET,R-speedtest,Speedtest                  # Speedtest
 
   # ── IPtest ──
-  - RULE-SET,R-iptest@!cn,IPtest                    # 国外测 IP 站
-  - RULE-SET,R-iptest@cn,CN                         # 国内测 IP 站
+  - RULE-SET,R-iptest@cn,CN                         # 国内 App 调用的查 IP 接口（精确域名）
+  - RULE-SET,R-iptest@!cn,IPtest                    # IP 检测站
 
   # ── NodeSeek ──
   - RULE-SET,R-nodeseek,Proxy                       # NodeSeek
