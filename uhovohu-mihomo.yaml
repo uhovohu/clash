@@ -416,6 +416,7 @@ rule-providers:
   # ── GitHub ──
   R-github:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/github.mrs"}                      # GitHub（含 Copilot、npm）
   R-github1s:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/github1s.mrs"}                    # github1s
+  R-python:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/python.mrs"}                      # Python / PyPI 包仓库
   R-vscode:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/vscode.mrs"}                      # VSCode
 
   # ── Discord ──
@@ -850,6 +851,7 @@ rules:
   # 排在 Microsoft 前面：VSCode 插件市场的地址被微软后缀盖住
   - RULE-SET,R-github,GitHub                        # GitHub（含 Copilot、npm）
   - RULE-SET,R-github1s,GitHub                      # github1s
+  - RULE-SET,R-python,GitHub                        # Python / PyPI 包仓库
   - RULE-SET,R-vscode,GitHub                        # VSCode
 
   # ── Discord ──
