@@ -352,6 +352,7 @@ rule-providers:
 
   # ── Crypto ──
   R-crypto:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-cryptocurrency.mrs"}     # 加密货币杂项
+  R-crypto-ip:            {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/category-cryptocurrency.mrs"} # 加密货币杂项 IP
 
   # ══════════════════════════════════════════
   # 4. 海外商家
@@ -781,6 +782,7 @@ rules:
 
   # ── Crypto ──
   - RULE-SET,R-crypto,Crypto                        # 加密货币杂项
+  - RULE-SET,R-crypto-ip,Crypto,no-resolve          # 加密货币杂项 IP
 
   # ══════════════════════════════════════════
   # 4. 海外商家
