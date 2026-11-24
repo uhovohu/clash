@@ -94,33 +94,26 @@ sniffer:
       ports: [443]                           # 嗅探 HTTPS/TLS 加密流量，通过读取握手包中的 SNI 获取真实域名
     QUIC:
       ports: [443]                           # 嗅探 QUIC HTTP/3 协议流量
-  skip-domain:                               # 嗅探豁免名 遇到以下域名直接放行不拆包，防止破坏特殊协议导致断连
-    - "rule-set:R-private"                   # 局域网 / 私有域名：必须返回真实 IP，否则本地服务无法访问
-    - "rule-set:R-fakeipfilter"              # 标准 Fake-IP 豁免表 NTP / STUN / 音乐 / 游戏等
-    - "rule-set:R-connectivity"              # 连通性探测：返回假 IP 会导致 Windows/macOS 报断网
-    - "rule-set:R-cdn-cn"                    # 国内 CDN：需要真实 IP 做就近调度
-    - "rule-set:R-bank-cn"                   # 国内银行：假 IP 会触发证书校验失败
+  skip-domain:                               # 嗅探豁免名 遇到以下域名直接放行不拆包，防止破坏特殊协议导致断连 
+    - "rule-set:R-private"                   # 内网域名
+    - "rule-set:R-connectivity"              # 连通性检测
+    - "rule-set:R-cn-misc-realip"            # 国内真实 IP 杂项
+    - "rule-set:R-stun@cn"                   # 国内 STUN
+    - "rule-set:R-cdn-cn"                    # 国内 CDN
+    - "rule-set:R-bank-cn"                   # 国内银行
     - "rule-set:R-securities-cn"             # 国内证券
     - "rule-set:R-finance-cn"                # 国内金融
-    - "rule-set:R-ntp-cn"                    # 国内 NTP：假 IP 导致时间同步失败
-    - "rule-set:R-icloud-cn"                 # iCloud 国内节点 云上贵州
-    - "rule-set:R-itunes-cn"                 # iTunes 国内节点
-    - "rule-set:R-apple-pki"                 # Apple 证书服务
-    - "rule-set:R-apple-update"              # iOS/macOS 系统更新
-    - "rule-set:R-apple-cn"                  # Apple 中国专属域名
-    - "rule-set:R-apple-at-cn"               # Apple 国内服务补充
-    - "rule-set:R-apple-dev-cn"              # Apple 开发者国内节点
-    - "rule-set:R-icloud"                    # iCloud
-    - "rule-set:R-itunes"                    # iTunes
-    - "rule-set:R-apple"                     # Apple 全家桶
-    - "rule-set:R-wechat"
+    - "rule-set:R-apple"                     # 苹果全家
+    - "rule-set:R-wechat"                    # 微信
+    - "rule-set:R-sniffer-skip-misc"         # 不嗅探杂项（米家云）
 
   skip-dst-address:                          # 目的地址豁免 遇到以下 IP 地址直接放行不拆包，防止破坏特殊协议导致断连
-    - "rule-set:R-sniffer-skip-ip"
-    - "rule-set:R-private-ip"                # 局域网 / 私有 IP 地址列表
-    - "rule-set:R-telegram-ip"               # Telegram 服务器 IP 地址列表
-    - "rule-set:R-apple-ip"                  # Apple 服务器 IP 地址列表
-    - "rule-set:R-wechat-ip"
+    - "rule-set:R-sniffer-skip-ip"           # 不嗅探 IP
+    - "rule-set:R-private-ip"                # 内网 IP
+    - "rule-set:R-telegram-ip"               # Telegram IP
+    - "rule-set:R-apple-ip"                  # 苹果 IP
+    - "rule-set:R-wechat-ip"                 # 微信 IP
+    - "rule-set:R-cn-misc-ip"                # 国内杂项 IP
 
 # =======================================================
 # 4. 虚拟网卡 TUN
@@ -146,10 +139,10 @@ dns:
   enable: true                               # 开启内置 DNS 服务
   cache-algorithm: arc                       # DNS 缓存淘汰算法 ARC 相比传统 LRU 命中率更高
   listen: 0.0.0.0:1053                       # DNS 服务监听端口
-  ipv6: false                                # 不向设备返回 IPv6 地址（AAAA），App 只用 IPv4，减少绕过代理的可能
-  respect-rules: true                        # DNS 请求遵循分流规则，由规则决定 DNS 查询走向而非固定出口
-  prefer-h3: false                           # 是否优先使用 DoH/DoT 的 HTTP/3 传输，关闭以保证兼容性
-
+  ipv6: false                                # 关闭 IPv6 解析 保持与全局设置一致
+  respect-rules: true                        # DNS 请求遵循分流规则
+  prefer-h3: false                           # 关闭 DoH/DoT 的 HTTP/3 传输，提升解析速度和稳定性
+  
   # ── Fake-IP ──
   enhanced-mode: fake-ip                     # 开启 Fake-IP 增强模式 秒回假 IP，极大提升网络响应速度
   fake-ip-range: 198.18.0.1/16               # IANA 保留给 网络基准测试用的段（RFC 2544/6815），明确不会公网路由，安全可靠
@@ -158,89 +151,89 @@ dns:
   # ── DNS ──
   default-nameserver:                        # 基础启动 用于最底层解析下方 proxy-server-nameserver 本身及代理节点的域名
     - 223.5.5.5
-    - 223.6.6.6
+    - 119.29.29.29
   proxy-server-nameserver:                   # 节点专线 专职负责解析 “节点” 和 “订阅链接” 的真实 IP
-    - https://223.5.5.5/dns-query
-    - https://doh.pub/dns-query
+    - 119.29.29.29
+    - 114.114.114.114
+    - 223.5.5.5
+    #- https://223.5.5.5/dns-query
+    #- https://doh.pub/dns-query
   direct-nameserver:                         # 直连兜底 专职负责解析走 DIRECT 分流规则的域名
     - 223.5.5.5
     - 119.29.29.29
   nameserver:                                # 国外兜底 处理所有未知的兜底域名，防止 DNS 污染 附带节点选择强制走代理出境
-    # 使用明文 DNS 地址，因大部分家宽不支持 DoH 解析，有需求的用户可以自行替换为 https://1.1.1.1/dns-query#Proxy&disable-qtype-65=true 或 https://8.8.8.8/dns-query#Proxy&disable-qtype-65=true
     - 8.8.8.8#Proxy&disable-qtype-65=true
     #- 1.1.1.1#Proxy&disable-qtype-65=true
-
+    
+    
   # ── DNS 分流 ──
   nameserver-policy:
-    "rule-set:R-private": [system]                                      # 局域网 / 私有域名：必须返回真实 IP，否则本地服务无法访问
-    "rule-set:R-fakeipfilter": [system, 223.5.5.5, 119.29.29.29]        # Fake-IP 豁免域名 → 系统 DNS，确保返回真实 IP
-    "rule-set:R-connectivity": [system, 223.5.5.5, 119.29.29.29]        # 连通性检测 微软/苹果 → 系统 DNS，防止误报"无网络"
-    "rule-set:R-cdn-cn": [system, 223.5.5.5, 119.29.29.29]              # 国内 CDN → 系统 DNS，获得最近节点 IP
-    "rule-set:R-bank-cn": [system, 223.5.5.5, 119.29.29.29]             # 国内银行 → 系统 DNS，防止 DNS 污染导致证书异常
-    "rule-set:R-securities-cn": [system, 223.5.5.5, 119.29.29.29]       # 国内证券 → 系统 DNS
-    "rule-set:R-finance-cn": [system, 223.5.5.5, 119.29.29.29]          # 国内金融 → 系统 DNS
-    "rule-set:R-ntp-cn": [system, 223.5.5.5, 119.29.29.29]              # 国内 NTP
-    "rule-set:R-icloud-cn": [system, 223.5.5.5, 119.29.29.29]           # iCloud 国内节点 云上贵州
-    "rule-set:R-itunes-cn": [system, 223.5.5.5, 119.29.29.29]           # iTunes 国内节点
-    "rule-set:R-apple-pki": [system, 223.5.5.5, 119.29.29.29]           # Apple 证书服务
-    "rule-set:R-apple-update": [system, 223.5.5.5, 119.29.29.29]        # iOS/macOS 系统更新
-    "rule-set:R-apple-cn": [system, 223.5.5.5, 119.29.29.29]            # Apple 中国专属域名
-    "rule-set:R-apple-at-cn": [system, 223.5.5.5, 119.29.29.29]         # Apple 国内服务补充
-    "rule-set:R-apple-dev-cn": [system, 223.5.5.5, 119.29.29.29]        # Apple 开发者国内节点
-    "rule-set:R-icloud": [system, 223.5.5.5, 119.29.29.29]              # iCloud
-    "rule-set:R-itunes": [system, 223.5.5.5, 119.29.29.29]              # iTunes
-    "rule-set:R-apple": [system, 223.5.5.5, 119.29.29.29]               # Apple 全家桶
-    "rule-set:R-wechat": [system, 223.5.5.5, 119.29.29.29]              # 微信
-    "rule-set:R-alipay": [system, 223.5.5.5, 119.29.29.29]              # 支付宝
-    "rule-set:R-netease": [system, 223.5.5.5, 119.29.29.29]             # 网易云音乐
-    "rule-set:R-meituan": [system, 223.5.5.5, 119.29.29.29]             # 美团
-    "rule-set:R-jingdong": [system, 223.5.5.5, 119.29.29.29]            # 京东
-    "rule-set:R-huawei": [system, 223.5.5.5, 119.29.29.29]              # 华为
-    "rule-set:R-xiaomi": [system, 223.5.5.5, 119.29.29.29]              # 小米
-    "rule-set:R-tencent": [system, 223.5.5.5, 119.29.29.29]             # 腾讯
-    "rule-set:R-tendcloud": [system, 223.5.5.5, 119.29.29.29]           # 腾讯云
-    "rule-set:R-tencent-dev": [system, 223.5.5.5, 119.29.29.29]         # 腾讯开发者
-    "rule-set:R-tencent-games": [system, 223.5.5.5, 119.29.29.29]       # 腾讯游戏
-    "rule-set:R-aliyun": [system, 223.5.5.5, 119.29.29.29]              # 阿里云
-    "rule-set:R-aliyun-drive": [system, 223.5.5.5, 119.29.29.29]        # 阿里云盘
-    "rule-set:R-alibaba": [system, 223.5.5.5, 119.29.29.29]             # 阿里巴巴
-    "rule-set:R-alibabacloud": [system, 223.5.5.5, 119.29.29.29]        # 阿里云服务
-    
+    "rule-set:R-private":         [system]                           # 内网域名
+    "rule-set:R-wechat":          [system, 223.5.5.5, 119.29.29.29]  # 微信
+    "rule-set:R-tencent@cn":      [system, 223.5.5.5, 119.29.29.29]  # 腾讯国内
+    "rule-set:R-apple":           [system, 223.5.5.5, 119.29.29.29]  # 苹果全家
+    "rule-set:R-alibaba@cn":      [system, 223.5.5.5, 119.29.29.29]  # 阿里国内
+    "rule-set:R-bytedance@cn":    [system, 223.5.5.5, 119.29.29.29]  # 字节国内（抖音、飞书等）
+    "rule-set:R-baidu":           [system, 223.5.5.5, 119.29.29.29]  # 百度
+    "rule-set:R-huawei@cn":       [system, 223.5.5.5, 119.29.29.29]  # 华为国内
+    "rule-set:R-xiaomi@cn":       [system, 223.5.5.5, 119.29.29.29]  # 小米国内
+    "rule-set:R-jd@cn":           [system, 223.5.5.5, 119.29.29.29]  # 京东国内
+    "rule-set:R-meituan":         [system, 223.5.5.5, 119.29.29.29]  # 美团
+    "rule-set:R-netease@cn":      [system, 223.5.5.5, 119.29.29.29]  # 网易国内
+    "rule-set:R-bilibili@cn":     [system, 223.5.5.5, 119.29.29.29]  # B 站国内
+    "rule-set:R-chinamobile@cn":  [system, 223.5.5.5, 119.29.29.29]  # 中国移动
+    "rule-set:R-chinaunicom@cn":  [system, 223.5.5.5, 119.29.29.29]  # 中国联通
+    "rule-set:R-chinatelecom@cn": [system, 223.5.5.5, 119.29.29.29]  # 中国电信
+    "rule-set:R-yy":              [system, 223.5.5.5, 119.29.29.29]  # YY 语音
+    "rule-set:R-synology@cn":     [system, 223.5.5.5, 119.29.29.29]  # 群晖国内
+    "rule-set:R-getui":           [system, 223.5.5.5, 119.29.29.29]  # 个推
+    "rule-set:R-jiguang":         [system, 223.5.5.5, 119.29.29.29]  # 极光推送
+    "rule-set:R-connectivity":    [system, 223.5.5.5, 119.29.29.29]  # 连通性检测
+    "rule-set:R-cas@cn":          [system, 223.5.5.5, 119.29.29.29]  # 证书机构国内
+    "rule-set:R-stun@cn":         [system, 223.5.5.5, 119.29.29.29]  # 国内 STUN
+    "rule-set:R-cdn-cn":          [system, 223.5.5.5, 119.29.29.29]  # 国内 CDN
+    "rule-set:R-bank-cn":         [system, 223.5.5.5, 119.29.29.29]  # 国内银行
+    "rule-set:R-securities-cn":   [system, 223.5.5.5, 119.29.29.29]  # 国内证券
+    "rule-set:R-finance-cn":      [system, 223.5.5.5, 119.29.29.29]  # 国内金融
+    "rule-set:R-ntp@cn":          [system, 223.5.5.5, 119.29.29.29]  # 国内 NTP
+    "rule-set:R-games-cn":        [system, 223.5.5.5, 119.29.29.29]  # 国内游戏
+    "rule-set:R-cn-misc-realip":  [system, 223.5.5.5, 119.29.29.29]  # 国内真实 IP 杂项
+
   # ── Fake-IP ──
+  # 跟上面 nameserver-policy 保持一致
   fake-ip-filter:
-    - "rule-set:R-private"                   # 局域网 / 私有域名：必须返回真实 IP，否则本地服务无法访问
-    - "rule-set:R-fakeipfilter"              # 标准 Fake-IP 豁免表 NTP / STUN / 音乐 / 游戏等
-    - "rule-set:R-connectivity"              # 连通性探测：返回假 IP 会导致 Windows/macOS 报断网
-    - "rule-set:R-cdn-cn"                    # 国内 CDN：需要真实 IP 做就近调度
-    - "rule-set:R-bank-cn"                   # 国内银行：假 IP 会触发证书校验失败
+    - "rule-set:R-private"                   # 内网域名
+    - "rule-set:R-wechat"                    # 微信
+    - "rule-set:R-tencent@cn"                # 腾讯国内
+    - "rule-set:R-apple"                     # 苹果全家
+    - "rule-set:R-alibaba@cn"                # 阿里国内
+    - "rule-set:R-bytedance@cn"              # 字节国内（抖音、飞书等）
+    - "rule-set:R-baidu"                     # 百度
+    - "rule-set:R-huawei@cn"                 # 华为国内
+    - "rule-set:R-xiaomi@cn"                 # 小米国内
+    - "rule-set:R-jd@cn"                     # 京东国内
+    - "rule-set:R-meituan"                   # 美团
+    - "rule-set:R-netease@cn"                # 网易国内
+    - "rule-set:R-bilibili@cn"               # B 站国内
+    - "rule-set:R-chinamobile@cn"            # 中国移动
+    - "rule-set:R-chinaunicom@cn"            # 中国联通
+    - "rule-set:R-chinatelecom@cn"           # 中国电信
+    - "rule-set:R-yy"                        # YY 语音
+    - "rule-set:R-synology@cn"               # 群晖国内
+    - "rule-set:R-getui"                     # 个推
+    - "rule-set:R-jiguang"                   # 极光推送
+    - "rule-set:R-connectivity"              # 连通性检测
+    - "rule-set:R-cas@cn"                    # 证书机构国内
+    - "rule-set:R-stun@cn"                   # 国内 STUN
+    - "rule-set:R-cdn-cn"                    # 国内 CDN
+    - "rule-set:R-bank-cn"                   # 国内银行
     - "rule-set:R-securities-cn"             # 国内证券
     - "rule-set:R-finance-cn"                # 国内金融
-    - "rule-set:R-ntp-cn"                    # 国内 NTP：假 IP 导致时间同步失败
-    - "rule-set:R-icloud-cn"                 # iCloud 国内节点 云上贵州
-    - "rule-set:R-itunes-cn"                 # iTunes 国内节点
-    - "rule-set:R-apple-pki"                 # Apple 证书服务
-    - "rule-set:R-apple-update"              # iOS/macOS 系统更新
-    - "rule-set:R-apple-cn"                  # Apple 中国专属域名
-    - "rule-set:R-apple-at-cn"               # Apple 国内服务补充
-    - "rule-set:R-apple-dev-cn"              # Apple 开发者国内节点
-    - "rule-set:R-icloud"                    # iCloud
-    - "rule-set:R-itunes"                    # iTunes
-    - "rule-set:R-apple"                     # Apple 全家桶
-    - "rule-set:R-wechat"
-    - "rule-set:R-alipay"
-    - "rule-set:R-netease"
-    - "rule-set:R-meituan"
-    - "rule-set:R-jingdong"
-    - "rule-set:R-huawei"
-    - "rule-set:R-xiaomi"
-    - "rule-set:R-tencent"
-    - "rule-set:R-tendcloud"
-    - "rule-set:R-tencent-dev"
-    - "rule-set:R-aliyun"
-    - "rule-set:R-aliyun-drive"
-    - "rule-set:R-alibaba"
-    - "rule-set:R-alibabacloud"
-     
+    - "rule-set:R-ntp@cn"                    # 国内 NTP
+    - "rule-set:R-games-cn"                  # 国内游戏
+    - "rule-set:R-cn-misc-realip"            # 国内真实 IP 杂项
+
+
 # =======================================================
 # 6. 策略组 Proxy Groups
 # =======================================================
@@ -264,69 +257,72 @@ FilterOthers: &FilterOthers '^(?!.*(?:(?i)=>|群|邀请|返利|循环|官网|客
 
 # ── 策略组 ──
 proxy-groups:
-
   # ── 链式代理 ──
-  - {name: IN,  type: select, include-all: true, filter: *FilterAll, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/in.png"}                                                            # 入口节点：链路第一跳，流量先进入此节点 一般是线路节点
+  - {name: IN,  type: select, include-all: true, filter: *FilterAll, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/in.png"}                                                        # 入口节点：链路第一跳，流量先进入此节点 一般是线路节点
   - {name: OUT, type: select, include-all: true, filter: *FilterOut, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/out.png"}                                                           # 出口节点：链路第二跳，由 入口节点 中转到 出口节点， 一般是落地节点
-  
+
   # ── Proxy ──
-  - {name: Proxy,       type: select, include-all: true, filter: *FilterAll, proxies: [OUT], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/proxy.png"}                                 # 全部节点手动选择入口
+  - {name: Proxy,       type: select, include-all: true, filter: *FilterAll, proxies: [OUT], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/proxy.png"}                                             # 全部节点手动选择入口
 
   # ── Proxy App ──
-  - {name: OpenAI,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/chatgpt.png"}     # OpenAI / ChatGPT
-  - {name: Anthropic,   type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/claude.png"}      # Anthropic / Claude
-  - {name: AI,          type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/ai.png"}          # AI 杂项 (Perplexity / Groq / Cerebras / HuggingFace / Cursor / ElevenLabs / ComfyUI / 兜底)
-  - {name: Crypto,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/crypto.png"}      # 加密货币
-  - {name: YouTube,     type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/youtube.png"}     # YouTube
-  - {name: Google,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/google.png"}      # Google 全家桶
-  - {name: Cloudflare,  type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/cloudflare.png"}  # Cloudflare
-  - {name: Amazon,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/amazon.png"}      # Amazon
-  - {name: GitHub,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/github.png"}      # GitHub
-  - {name: Microsoft,   type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/microsoft.png"}   # Microsoft 全家桶
-  - {name: Adobe,       type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/adobe.png"}       # Adobe 全家桶
-  - {name: Apple,       type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/apple.png"}       # Apple 全家桶
-  - {name: Android,     type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/android.png"}     # Android / Google Play
+  - {name: Crypto,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/crypto.png"}       # 加密货币（交易所 / 行情 / 杂项）
 
-  - {name: X,           type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/x.png"}           # X / Twitter / 马斯克系
-  - {name: Meta,        type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/instagram.png"}   # Meta (Facebook / Instagram / WhatsApp)
-  - {name: Telegram,    type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/telegram.png"}    # Telegram
-  - {name: Discord,     type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/discord.png"}     # Discord
-  - {name: Social,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/social.png"}      # 社交杂项 (Reddit / Tumblr / LINE)
+  - {name: OpenAI,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/chatgpt.png"}      # OpenAI / ChatGPT
+  - {name: Anthropic,   type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/claude.png"}       # Anthropic / Claude
+  - {name: AI,          type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/ai.png"}           # AI 杂项 (Perplexity / Groq / Cerebras / HuggingFace / Cursor / ElevenLabs / ComfyUI / 兜底)
+  - {name: YouTube,     type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/youtube.png"}      # YouTube
+  - {name: Google,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/google.png"}       # Google 全家桶
+  - {name: Cloudflare,  type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/cloudflare.png"}   # Cloudflare
+  - {name: Amazon,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/amazon.png"}       # Amazon
+  - {name: Akamai,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/akamai.png"}            # Akamai CDN
+  - {name: GitHub,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/github.png"}       # GitHub
+  - {name: Microsoft,   type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/microsoft.png"}    # Microsoft 全家桶
+  - {name: Adobe,       type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/adobe.png"}        # Adobe 全家桶
+  - {name: Apple,       type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/apple.png"}        # Apple 全家桶
+  - {name: Android,     type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/android.png"}      # Android / Google Play
+
+  - {name: X,           type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/x.png"}            # X / Twitter / 马斯克系
+  - {name: Meta,        type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/instagram.png"}    # Meta (Facebook / Instagram / WhatsApp)
+  - {name: Telegram,    type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/telegram.png"}     # Telegram
+  - {name: Discord,     type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/discord.png"}      # Discord
+  - {name: Social,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/social.png"}       # 社交杂项 (Reddit / Tumblr / LINE)
 
   # ── 支付 ──
-  - {name: PayPal,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/paypal.png"}   # PayPal / Braintree / Venmo / Xoom
-  - {name: Wise,        type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/wise.png"}   # Wise 跨境汇款
-  - {name: Pay,         type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/pay.png"}   # 支付 / 通用风控 / 人机验证
+  - {name: PayPal,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/paypal.png"}           # PayPal / Braintree / Venmo / Xoom
+  - {name: Wise,        type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/wise.png"}           # Wise 跨境汇款
+  - {name: Pay,         type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/pay.png"}           # 支付 / 通用风控 / 人机验证
 
-  - {name: TikTok,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/tiktok.png"}      # TikTok / 字节跳动海外
-  - {name: Netflix,     type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/netflix.png"}     # Netflix
-  - {name: Spotify,     type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/spotify.png"}     # Spotify
-  - {name: Media,       type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/media.png"}       # 流媒体杂项 (Hulu / Prime Video / DAZN / HBO / Disney+ / Vimeo / Twitch / Rumble / Plex)
-  - {name: Bilibili,    type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/bilibili.png"}    # Bilibili
-  
-  - {name: Steam,       type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/steam.png"}       # Steam
-  - {name: Epic,        type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/epic.png"}        # Epic Games
-  - {name: TapTap,      type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/taptap.png"}      # TapTap
-  
-  - {name: Speedtest,   type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/speedtest.png"}   # 测速
-  - {name: IPtest,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/iptest.png"}   # IP 查询检测
- 
+  - {name: TikTok,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/tiktok.png"}       # TikTok / 字节跳动海外
+  - {name: Netflix,     type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/netflix.png"}      # Netflix
+  - {name: Spotify,     type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/spotify.png"}      # Spotify
+  - {name: Media,       type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/media.png"}        # 流媒体杂项 (Hulu / Prime Video / DAZN / HBO / Disney+ / Vimeo / Twitch / Rumble / Plex)
+  - {name: Emby,        type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/emby.png"}         # Emby
+  - {name: Bilibili,    type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/bilibili.png"}     # Bilibili
+
+  - {name: Steam,       type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/steam.png"}        # Steam
+  - {name: Epic,        type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/epic.png"}         # Epic Games
+  - {name: TapTap,      type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/taptap.png"}       # TapTap
+
+  - {name: IPtest,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/iptest.png"}       # IP 检测
+  - {name: Speedtest,   type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/speedtest.png"}    # 测速
+  - {name: ProxyMisc,   type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/proxymisc.png"}   # 代理杂项（VPS / 论坛 / 机场）
+
   # ── R18 默认注释 ──
-  #- {name: R18,         type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/r18.png"}         # 成人内容
+  # - {name: R18, type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/r18.png"}                     # 成人内容
 
   # ── CN / Final ──
-  - {name: CN,          type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/cn.png"}          # 默认国内直连
-  - {name: Final,       type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/final.png"}       # 未匹配流量
+  - {name: CN,          type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/cn.png"}           # 默认国内直连
+  - {name: Final,       type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/final.png"}        # 未匹配流量
 
   # ── Regions ──
-  - {name: HK,          type: select, include-all: true, filter: *FilterHK, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/hk.png"}                                                     # 香港节点
-  - {name: TW,          type: select, include-all: true, filter: *FilterTW, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/tw.png"}                                                     # 台湾节点
-  - {name: JP,          type: select, include-all: true, filter: *FilterJP, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/jp.png"}                                                     # 日本节点
-  - {name: KR,          type: select, include-all: true, filter: *FilterKR, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/kr.png"}                                                     # 韩国节点
-  - {name: SG,          type: select, include-all: true, filter: *FilterSG, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/sg.png"}                                                     # 新加坡节点
-  - {name: US,          type: select, include-all: true, filter: *FilterUS, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/us.png"}                                                     # 美国节点
-  - {name: OTHERS1,     type: select, include-all: true, filter: *FilterOthers, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/others.png"}                                             # 其他节点 A
-  - {name: OTHERS2,     type: select, include-all: true, filter: *FilterOthers, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/others.png"}                                             # 其他节点 B
+  - {name: HK,          type: select, include-all: true, filter: *FilterHK, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/hk.png"}          # 香港节点
+  - {name: TW,          type: select, include-all: true, filter: *FilterTW, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/tw.png"}          # 台湾节点
+  - {name: JP,          type: select, include-all: true, filter: *FilterJP, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/jp.png"}          # 日本节点
+  - {name: KR,          type: select, include-all: true, filter: *FilterKR, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/kr.png"}          # 韩国节点
+  - {name: SG,          type: select, include-all: true, filter: *FilterSG, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/sg.png"}          # 新加坡节点
+  - {name: US,          type: select, include-all: true, filter: *FilterUS, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/us.png"}          # 美国节点
+  - {name: OTHERS1,     type: select, include-all: true, filter: *FilterOthers, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/others.png"}  # 其他节点 A
+  - {name: OTHERS2,     type: select, include-all: true, filter: *FilterOthers, icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/others.png"}  # 其他节点 B
 
 # =======================================================
 # 7. 规则源 Rule Providers
@@ -334,286 +330,349 @@ proxy-groups:
 
 # ===== 锚点 Providers =====
 rule-anchor:
-  ip:           &ip           {type: http, behavior: ipcidr,    format: mrs,  interval: 86400, proxy: Proxy}
-  domain:       &domain       {type: http, behavior: domain,    format: mrs,  interval: 86400, proxy: Proxy}
-  yaml:         &yaml         {type: http, behavior: domain,    format: yaml, interval: 86400, proxy: Proxy}
-  yaml-ip:      &yaml-ip      {type: http, behavior: ipcidr,    format: yaml, interval: 86400, proxy: Proxy}
-  yaml-classic: &yaml-classic {type: http, behavior: classical, format: yaml, interval: 86400, proxy: Proxy}
-  list-class:   &list-class   {type: http, behavior: classical, format: text, interval: 86400, proxy: Proxy}
+  domain:       &domain       {type: http, behavior: domain,    format: mrs,  interval: 86400, proxy: Proxy}   # 域名，mrs 格式
+  ip:           &ip           {type: http, behavior: ipcidr,    format: mrs,  interval: 86400, proxy: Proxy}   # IP，mrs 格式
 
 # ===== 远程规则集 Remote Rule =====
 rule-providers:
 
-  # ══════════════════════════════════════════
-  # 1.REJECT
-  # ══════════════════════════════════════════
-  R-icloudprivaterelay: {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/icloudprivaterelay.yaml"}                  # iCloud私有中继 → REJECT
-  R-reject:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/reject.yaml"}
-  R-reject-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/reject-ip.yaml"}
-  R-ads:                {<<: *domain, url: "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.mrs"}       # 全量广告拦截 → REJECT
-  R-ads-add:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/ads-add.yaml"}
-  R-ads-add-ip:         {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/ads-add-ip.yaml"}
-  R-httpdns-cn:         {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/category-httpdns-cn.yaml"}                 # 国内HTTPDNS劫持 → REJECT
-  R-win-spy:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/win-spy.mrs"}                        # Windows隐私追踪 → REJECT
+  # ── 只用于嗅探豁免，不参与分流 ──
+  R-sniffer-skip-ip:      {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/sniffer-skip-ip.mrs"}               # 不嗅探 IP
+  R-sniffer-skip-misc:    {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/sniffer-skip-misc.mrs"}           # 不嗅探杂项（米家云）
 
   # ══════════════════════════════════════════
-  # 2.LAN
+  # 1. 拦截（排在最前面）
   # ══════════════════════════════════════════
-  R-private:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/private.yaml"}                             # 内网域名 → DIRECT
-  R-private-ip:         {<<: *yaml-ip,url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.yaml"}                         # 内网IP地址 → DIRECT
-  R-fakeipfilter:       {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/fakeipfilter.yaml"}                        # FakeIP过滤 → DIRECT
-  R-sniffer-skip-ip:    {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/sniffer-skip-ip.yaml"}                     # 嗅探豁免 IP 列表
-  R-connectivity:       {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/connectivity-check.yaml"}                  # 网络连通性检测 → DIRECT
+  R-icloudprivaterelay:   {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/icloudprivaterelay.mrs"}          # iCloud 专用代理
+  R-reject:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/reject.mrs"}                      # 自定拦截域名
+  R-reject-ip:            {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/reject.mrs"}                        # 自定拦截 IP
+  R-ads:                  {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/awavenue.mrs"}                    # 广告（AWAvenue）
+  R-ads-misc:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/ads-misc.mrs"}                    # 广告杂项
+  R-httpdns-cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-httpdns-cn.mrs"}         # 国内 HTTPDNS
+  R-win-spy:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/win-spy.mrs"}                     # Windows 隐私追踪
 
   # ══════════════════════════════════════════
-  # 3.Proxy
+  # 2. 局域网和必须直连的
+  # ══════════════════════════════════════════
+  R-private-ip:           {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/private.mrs"}                       # 内网 IP
+  R-private:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/private.mrs"}                     # 内网域名
+  R-connectivity:         {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/connectivity-check.mrs"}          # 连通性检测
+
+  # ══════════════════════════════════════════
+  # 3. 交易所
   # ══════════════════════════════════════════
 
-  # ── YouTube ──
-  R-youtube:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"}                        # YouTube
-  
-  # ── Google ──
-  R-google:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}                         # Google全家桶
-  R-google-ip:          {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"} 
-  R-FCM:                {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/googlefcm.mrs"}                      # Firebase推送
-  R-gemini:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-gemini.mrs"}                  # Gemini AI
-  R-deepmind:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-deepmind.mrs"}                # DeepMind
-  R-google-play:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-play.mrs"}                    # Google Play
-  R-google-play-cn:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-play@cn.mrs"}                 # Google Play国内节点 → DIRECT
-  R-google-scholar:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-scholar.mrs"}                 # Google学术
-  R-firebase:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/firebase.mrs"}                       # Firebase开发平台
-  R-firebase-cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/firebase@cn.mrs"}                    # Firebase国内节点 → DIRECT
-  R-fonts:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/fonts.mrs"}                          # Google字体
-  R-golang:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/golang.mrs"}                         # Go语言官方
-  R-dart:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/dart.mrs"}                           # Dart语言
-  R-v8:                 {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/v8.mrs"}                             # V8引擎
-  R-goproxy:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/goproxy.mrs"}                        # Go模块代理
-  R-amp:                {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/amp.mrs"}                            # Google AMP
-  R-amp-cn:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/amp@cn.mrs"}                         # Google AMP国内节点 → DIRECT
-  
-  # ── Adobe ──
-  R-adobe-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/adobe@cn.mrs"}                       # Adobe国内节点 → DIRECT
-  R-adobe-activation:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/adobe-activation.mrs"}               # Adobe激活服务
-  R-adobe:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/adobe.mrs"}                          # Adobe全家桶
+  # ── 交易所 / 行情 ──
+  R-bybit:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/bybit.mrs"}                       # Bybit
+  R-bybit-ip:             {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/bybit.mrs"}                         # Bybit IP
+  R-binance:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/binance.mrs"}                     # 币安
+  R-binance-ip:           {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/binance.mrs"}                       # 币安 IP
+  R-coinbase:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/coinbase.mrs"}                    # Coinbase
+  R-bitget:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/bitget.mrs"}                      # Bitget
+  R-bitget-ip:            {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/bitget.mrs"}                        # Bitget IP
+  R-huobi:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/huobi.mrs"}                       # HTX（火币）
+  R-htx-ip:               {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/htx.mrs"}                           # HTX IP
+  R-okx:                  {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/okx.mrs"}                         # OKX
+  R-okx-ip:               {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/okx.mrs"}                           # OKX IP
+  R-tradingview:          {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/tradingview.mrs"}                 # TradingView
+  R-bookmap:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/bookmap.mrs"}                     # Bookmap
+  R-bookmap-ip:           {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/bookmap.mrs"}                       # Bookmap IP
+
+  # ── Crypto ──
+  R-crypto:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-cryptocurrency.mrs"}     # 加密货币杂项
+
+  # ══════════════════════════════════════════
+  # 4. 海外商家
+  # @!cn = 国外部分，@cn = 国内部分
+  # ══════════════════════════════════════════
+
+  # ── Anthropic ──
+  R-anthropic:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/anthropic.mrs"}                   # Anthropic / Claude
+  R-anthropic-ip:         {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/anthropic.mrs"}                     # Anthropic IP
 
   # ── OpenAI ──
-  R-openai:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/openai.yaml"}                              # OpenAI
-  
-  # ── Anthropic ──
-  R-anthropic:          {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/anthropic.yaml"}                           # Anthropic / Claude
-  R-anthropic-ip:       {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/anthropic-ip.yaml"}
-  
+  R-openai:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/openai.mrs"}                      # OpenAI / ChatGPT
+
   # ── AI ──
-  R-perplexity:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/perplexity.mrs"}                     # Perplexity AI搜索
-  R-groq:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/groq.mrs"}                           # Groq AI推理
-  R-cerebras:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cerebras.mrs"}                       # Cerebras AI
-  R-huggingface:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/huggingface.mrs"}                    # Hugging Face
-  R-cursor:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cursor.mrs"}                         # Cursor AI编辑器
-  R-elevenlabs:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/elevenlabs.mrs"}                     # ElevenLabs AI语音
-  R-comfy:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/comfy.mrs"}                          # ComfyUI
-  R-comfy-launcher:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/comfy-ui-launcher.mrs"}              # ComfyUI启动器
-  R-ai:                 {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/category-ai-chat-!cn.yaml"}                # AI服务兜底
-  
-  # ── Crypto ──
-  R-crypto:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/category-cryptocurrency.yaml"}             # 加密货币
+  R-perplexity:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/perplexity.mrs"}                  # Perplexity
+  R-groq:                 {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/groq.mrs"}                        # Groq
+  R-cerebras:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/cerebras.mrs"}                    # Cerebras
+  R-huggingface:          {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/huggingface.mrs"}                 # Hugging Face
+  R-cursor:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/cursor.mrs"}                      # Cursor
+  R-elevenlabs:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/elevenlabs.mrs"}                  # ElevenLabs
+  R-comfy:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/comfy.mrs"}                       # ComfyUI
+  R-comfy-ui-launcher:    {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/comfy-ui-launcher.mrs"}           # ComfyUI 启动器
+  R-windsurf:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/windsurf.mrs"}                    # Windsurf
+  R-poe:                  {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/poe.mrs"}                         # Poe
+  R-manus:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/manus.mrs"}                       # Manus
+  R-jetbrains-ai:         {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/jetbrains-ai.mrs"}                # JetBrains AI
+  R-youmind:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/youmind.mrs"}                     # YouMind
+  R-ai:                   {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-ai-chat-!cn.mrs"}        # AI 杂项
 
   # ── GitHub ──
-  R-github:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/github.yaml"}                              # GitHub / VSCode
-  R-github1s:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github1s.mrs"}                       # GitHub在线VSCode
-  R-github-copilot:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github-copilot.mrs"}                 # GitHub Copilot
+  R-github:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/github.mrs"}                      # GitHub（含 Copilot、npm）
+  R-github1s:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/github1s.mrs"}                    # github1s
+  R-vscode:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/vscode.mrs"}                      # VSCode
 
   # ── Discord ──
-  R-discord:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/discord.yaml"}                             # Discord
-  R-discord-ip:         {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/discord-ip.yaml"}
- 
+  R-discord:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/discord.mrs"}                     # Discord
+  R-discord-ip:           {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/discord.mrs"}                       # Discord IP
+
   # ── Telegram ──
-  R-telegram:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/telegram.yaml"}                            # Telegram
-  R-telegram-ip:        {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/telegram-ip.yaml"}                         # Telegram IP
-  
+  R-telegram:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/telegram.mrs"}                    # Telegram
+  R-telegram-ip:          {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/telegram.mrs"}                      # Telegram IP
+
   # ── Social ──
-  R-reddit:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/reddit.mrs"}                         # Reddit
-  R-tumblr:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tumblr.mrs"}                         # Tumblr
-  R-line:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/line.mrs"}                           # LINE
+  R-reddit:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/reddit.mrs"}                      # Reddit
+  R-tumblr:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/tumblr.mrs"}                      # Tumblr
+  R-line:                 {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/line.mrs"}                        # LINE
+  R-truthsocial:          {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/truthsocial.mrs"}                 # Truth Social
 
   # ── Meta ──
-  R-meta:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/meta.mrs"}                           # Facebook / Instagram / Facebook Developers / WhatsApp / hreads / Messenger / Graph / Analytics
-  R-meta-ads:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/meta@ads.mrs"}                       # Meta广告 → REJECT
+  R-meta:                 {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/meta.mrs"}                        # Meta 全家
 
-  # ── Elon Musk ──
-  R-x-ads:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/x@ads.mrs"}                          # X广告 → REJECT
-  R-twitter-ads:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitter@ads.mrs"}                    # Twitter广告 → REJECT
-  R-x:                  {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/x.mrs"}                              # X补充域名
-  R-twitter:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitter.mrs"}                        # Twitter/X
-  R-twitter-ip:         {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/twitter.mrs"}                          # Twitter IP
-  R-xai:                {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xai.mrs"}                            # xAI / Grok
-  R-spacex:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spacex.mrs"}                         # SpaceX
-  R-neuralink:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/neuralink.mrs"}                      # Neuralink
-  R-theboringcompany:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/theboringcompany.mrs"}               # The Boring Company
-  R-tesla:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tesla.mrs"}                          # Tesla
+  # ── 马斯克系 ──
+  R-x:                    {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/x.mrs"}                           # X（含 Grok）
+  R-twitter-ip:           {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/twitter.mrs"}                       # 推特 IP
+  R-spacex:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/spacex.mrs"}                      # SpaceX / 星链
+  R-neuralink:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/neuralink.mrs"}                   # Neuralink
+  R-theboringcompany:     {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/theboringcompany.mrs"}            # 无聊公司
+  R-tesla@!cn:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/tesla@!cn.mrs"}                   # 特斯拉国外
+  R-tesla@cn:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/tesla@cn.mrs"}                    # 特斯拉中国
 
-  # ── TikTok / 字节跳动 ──
-  R-tiktok:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/tiktok.yaml"}                              # TikTok → 代理
-  
-  R-bytedance-ai-!cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bytedance-ai-!cn.mrs"}               # 字节AI海外(豆包/Coze国际版) → 代理
-  R-bytedance-!cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bytedance@!cn.mrs"}                  # 字节海外域名 → 代理
-
-  R-douyin:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/douyin.yaml"} 
-  R-douyin-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/douyin-ip.yaml"} 
-
-  R-bytedance:          {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/bytedance.yaml"}                           # 字节全量兜底(抖音/飞书/头条) → DIRECT
+  # ── 字节跳动 ──
+  R-bytedance@!cn:        {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/bytedance@!cn.mrs"}               # 字节国外（TikTok 等）
+  R-bytedance@cn:         {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/bytedance@cn.mrs"}                # 字节国内（抖音、飞书等）
+  R-douyin-ip:            {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/douyin.mrs"}                        # 抖音 IP
 
   # ── Netflix ──
-  R-netflix:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"}                        # Netflix
-  R-netflix-ip:         {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs"}                          # Netflix IP
-  
+  R-netflix:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/netflix.mrs"}                     # Netflix
+  R-netflix-ip:           {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/netflix.mrs"}                       # Netflix IP
+
   # ── Media ──
-  R-hulu:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/hulu.mrs"}                           # Hulu
-  R-primevideo:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/primevideo.mrs"}                     # Prime Video
-  R-dazn:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/dazn.mrs"}                           # DAZN体育直播
-  R-hbo:                {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/hbo.mrs"}                            # HBO
-  R-disney:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/disney.mrs"}                         # Disney+
-  R-vimeo:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/vimeo.mrs"}                          # Vimeo
-  R-twitch:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitch.mrs"}                         # Twitch
-  R-rumble:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/rumble.mrs"}                         # Rumble
-  R-plex:               {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/plex.mrs"}                           # Plex媒体服务器
+  R-disney@!cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/disney@!cn.mrs"}                  # Disney+（含 Hulu、ESPN）
+  R-primevideo:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/primevideo.mrs"}                  # Prime Video
+  R-twitch:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/twitch.mrs"}                      # Twitch
+  R-dazn:                 {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/dazn.mrs"}                        # DAZN
+  R-hbo:                  {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/hbo.mrs"}                         # HBO
+  R-vimeo:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/vimeo.mrs"}                       # Vimeo
+  R-rumble:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/rumble.mrs"}                      # Rumble
+  R-plex:                 {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/plex.mrs"}                        # Plex
+  R-disney@cn:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/disney@cn.mrs"}                   # 上海迪士尼
+
+  # ── Emby ──
+  R-emby:                 {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/emby.mrs"}                        # Emby 服
 
   # ── Spotify ──
-  R-spotify:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs"}                        # Spotify
-  R-spotify-ads:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify@ads.mrs"}                    # Spotify广告 → REJECT
+  R-spotify:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/spotify.mrs"}                     # Spotify
 
   # ── Steam ──
-  R-steam:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.mrs"}                          # Steam
-  R-steam-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam@cn.mrs"}                       # Steam国内节点 → DIRECT
+  R-steam@!cn:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/steam@!cn.mrs"}                   # Steam 国外
+  R-steamunlocked:        {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/steamunlocked.mrs"}               # SteamUnlocked
+  R-steaminventory:       {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/steaminventoryhelper.mrs"}        # Steam 库存助手
+  R-steam@cn:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/steam@cn.mrs"}                    # Steam 国内 CDN
 
-  R-steamunlocked:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steamunlocked.mrs"}                  # SteamUnlocked游戏资源
-  R-steaminventory:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steaminventoryhelper.mrs"}           # Steam库存助手
-  
   # ── Epic ──
-  R-epicgames:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/epicgames.mrs"}                      # Epic Games  
+  R-epicgames:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/epicgames.mrs"}                   # Epic
+
   # ── TapTap ──
-  R-taptap:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/taptap.mrs"}                         # TapTap
-  R-taptap-!cn:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/taptap@!cn.mrs"}                     # TapTap海外版
+  R-taptap@!cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/taptap@!cn.mrs"}                  # TapTap 国际版
+  R-taptap@cn:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/taptap@cn.mrs"}                   # TapTap 国内版
 
   # ── Bilibili ──
-  R-bilibili-!cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili@!cn.mrs"}                   # B站海外版 → 代理
-  R-bilibili-cdn-!cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili-cdn@!cn.mrs"}               # B站海外CDN → 代理
-  R-biliintl:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/biliintl.mrs"}                       # B站国际版
-  R-bilibili:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili.mrs"}                       # B站主域名 → DIRECT
-  R-bilibili-ip:        {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/bilibili.mrs"}                    # B站 IP → DIRECT
-  R-bilibili-game:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili-game.mrs"}                  # B站游戏 → DIRECT
-  R-bilibili-cdn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili-cdn.mrs"}                   # B站CDN → DIRECT
+  R-bilibili@!cn:         {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/bilibili@!cn.mrs"}                # B 站海外
+  R-biliintl:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/biliintl.mrs"}                    # B 站国际版
+  R-bilibili@cn:          {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/bilibili@cn.mrs"}                 # B 站国内
+  R-bilibili-ip:          {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/bilibili.mrs"}                      # B 站 IP
 
   # ── Speedtest ──
-  R-speedtest:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs"}                # Speedtest测速
-  
-  # ── IPtest ──
-  R-iptest:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/iptest.yaml"}                              # IP 查询检测
-  
-  # ── Nodeseek ──
-  R-nodeseek:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/nodeseek.yaml"}                            # nodeseek自建服务
-  
-  # ── Cloudflare ──
-  R-cloudflare:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare.mrs"}                     # Cloudflare
-  R-cloudflare-ip:      {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cloudflare.mrs"}                       # Cloudflare IP
-  R-cloudflare-ipfs:    {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare-ipfs.mrs"}                # Cloudflare IPFS网关
-  R-cloudflare-cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cloudflare-cn.mrs"}                  # Cloudflare中国域名 → DIRECT
+  R-speedtest:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/ookla-speedtest.mrs"}             # Speedtest
 
-  # ── Aws ──
-  R-aws:                {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/aws.yaml"}                                 # AWS
-  R-aws-cn:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/aws@cn.yaml"}                              # AWS中国域名 → DIRECT
- 
+  # ── IPtest ──
+  R-iptest@!cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-ip-geo-detect@!cn.mrs"}  # 国外测 IP 站
+  R-iptest@cn:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-ip-geo-detect@cn.mrs"}   # 国内测 IP 站
+
+  # ── NodeSeek ──
+  R-nodeseek:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/nodeseek.mrs"}                    # NodeSeek
+  R-nodeseek-ip:          {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/nodeseek.mrs"}                      # NodeSeek IP
+
+  # ── VPS ──
+  R-vps:                  {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/vps.mrs"}                         # VPS 相关
+
+  # ── 论坛 ──
+  R-forum:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/forum.mrs"}                       # 论坛
+
+  # ── 机场 ──
+  R-airport:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/airport.mrs"}                     # 机场
+
+  # ── 代理杂项 ──
+  R-proxy-misc:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/proxy-misc.mrs"}                  # 代理杂项
+  R-proxy-misc-ip:        {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/proxy-misc.mrs"}                    # 代理杂项 IP
+
+  # ── YouTube ──
+  R-youtube:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/youtube.mrs"}                     # YouTube
+
+  # ── Google ──
+  R-google:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/google.mrs"}                      # Google 全家
+  R-google-ip:            {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/google.mrs"}                        # Google IP
+  R-amp:                  {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/amp.mrs"}                         # Google AMP
+
   # ── Microsoft ──
-  R-microsoft:          {<<: *yaml,   url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.yaml"}                     # Microsoft全家桶
-  R-microsoft-cn:       {<<: *yaml,   url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft@cn.yaml"}                  # Microsoft国内节点 → DIRECT
+  R-microsoft:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/microsoft.mrs"}                   # 微软全家
+  R-linkedin@!cn:         {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/linkedin@!cn.mrs"}                # 领英
+  R-linkedin@cn:          {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/linkedin@cn.mrs"}                 # 领英国内
 
   # ── Apple ──
-  R-icloud:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/icloud.mrs"}                         # iCloud
-  R-icloud-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/icloud@cn.mrs"}                      # iCloud国内节点(云上贵州) → DIRECT
-  R-itunes:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/itunes.mrs"}                         # iTunes
-  R-itunes-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/itunes@cn.mrs"}                      # iTunes国内节点 → DIRECT
-  R-apple-pki:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-pki.mrs"}                      # Apple证书服务(国际)
-  R-apple:              {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/apple.yaml"}                               # Apple全家桶
-  R-apple-ip:           {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/apple-ip.yaml"}                            # Apple IP段
-  R-apple-update:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-update.mrs"}                   # iOS/macOS系统更新 → DIRECT
-  R-apple-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"}                       # Apple中国专属域名 → DIRECT
-  R-apple-at-cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple@cn.mrs"}                       # Apple国内服务补充 → DIRECT
-  R-apple-dev-cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-dev@cn.mrs"}                   # Apple开发者国内节点 → DIRECT
-  R-appleakamai:        {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/appleakamai.yaml"}                         # Apple akamai节点
-  
+  R-apple:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/apple.mrs"}                       # 苹果全家
+  R-apple-intelligence:   {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/apple-intelligence.mrs"}          # Apple 智能
+  R-appleakamai:          {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/appleakamai.mrs"}                 # 苹果 Akamai 地址
+  R-apple-ip:             {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/apple.mrs"}                         # 苹果 IP
+
   # ── Android ──
-  R-android:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/android.mrs"}                        # Android系统相关
-  R-fdroid:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/f-droid.mrs"}                        # F-Droid开源应用商店
-  R-apkpure:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apkpure.mrs"}                        # APKPure
-  R-apkmirror:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apkmirror.mrs"}                      # APKMirror
-  R-apkcombo:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apkcombo.mrs"}                       # APKCombo
-  
-  # ── CN App ──  
-  R-wechat:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/wechat.yaml"}
-  R-wechat-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/wechat-ip.yaml"}
-  
-  R-alipay:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/alipay.yaml"}
-  
-  R-netease:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/netease.yaml"}
-  R-meituan:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/meituan.yaml"}  
+  R-android:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/android.mrs"}                     # Android
+  R-fdroid:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/f-droid.mrs"}                     # F-Droid
+  R-apkpure:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/apkpure.mrs"}                     # APKPure
+  R-apkmirror:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/apkmirror.mrs"}                   # APKMirror
+  R-apkcombo:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/apkcombo.mrs"}                    # APKCombo
 
-  R-jingdong:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/jingdong.yaml"}
-  R-jingdongcloud-ip:   {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/jingdongcloud-ip.yaml"}
-  
-  R-duowan:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/duowan.yaml"}                              # 多玩游戏/yy语音
-  R-duowan-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/duowan-ip.yaml"}
-  
-  R-huawei:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/huawei.yaml"}
-  R-xiaomi:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/xiaomi.yaml"}
-  
-  R-tencent:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tencent.mrs"}
-  R-tendcloud:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tendcloud.mrs"}
-  R-tencent-dev:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tencent-dev.mrs"}
-  R-tencent-games:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tencent-games.mrs"}
-  R-aliyun:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/aliyun.yaml"}
-  R-aliyun-drive:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/aliyun-drive.mrs"}
-  R-alibaba:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/alibaba.mrs"}
-  R-alibabacloud:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/alibabacloud.mrs"}
-  
-  # ── 硬件 / 杂项 ──
-  R-nvidia-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/nvidia@cn.mrs"}                      # Nvidia国内节点 → DIRECT
-  R-intel-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/intel@cn.mrs"}                       # Intel国内节点 → DIRECT
-  R-synology-cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/synology@cn.mrs"}                    # 群晖国内节点 → DIRECT
-  R-amazon-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/amazon@cn.mrs"}                      # Amazon国内节点 → DIRECT
-  R-cn-add:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/cn-add.yaml"}                              # 国内服务补充（阿里、百度、小红书、腾讯）
+  # ── Adobe ──
+  R-adobe@!cn:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/adobe@!cn.mrs"}                   # Adobe
+  R-adobe@cn:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/adobe@cn.mrs"}                    # Adobe 国内
 
   # ══════════════════════════════════════════
-  # 4.Final
+  # 5. 国内商家（全部走 CN 直连）
   # ══════════════════════════════════════════
 
-  # ── Category ──
-  R-cdn-cn:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-cdn-cn.mrs"}                # 国内CDN → DIRECT
-  R-bank-cn:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-bank-cn.mrs"}               # 国内银行 → DIRECT
-  R-securities-cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-securities-cn.mrs"}         # 国内证券 → DIRECT
-  R-finance-cn:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-finance@cn.mrs"}            # 国内金融 → DIRECT
-  R-ntp-cn:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ntp-cn.mrs"}                # 国内NTP时间服务 → DIRECT
-  R-netdisk-cn:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-netdisk-cn.mrs"}            # 国内网盘 → DIRECT
-  R-games-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-games-cn.mrs"}              # 国内游戏 → DIRECT
-  R-getui:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/getui.mrs"}                          # 国内个推推送服务 → DIRECT
-  R-globalsign@cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/globalsign@cn.mrs"}                  # Globalsign国内节点 → DIRECT
-  R-digicert@cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/digicert@cn.mrs"}                    # Digicert国内节点 → DIRECT
-  
+  # ── 腾讯 ──
+  R-tencent@!cn:          {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/tencent@!cn.mrs"}                 # 腾讯海外
+  R-wechat:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/wechat.mrs"}                      # 微信
+  R-wechat-ip:            {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/wechat.mrs"}                        # 微信 IP
+  R-tencent@cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/tencent@cn.mrs"}                  # 腾讯国内
+
+  # ── 阿里 ──
+  R-alibaba@!cn:          {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/alibaba@!cn.mrs"}                 # 阿里海外
+  R-alibaba@cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/alibaba@cn.mrs"}                  # 阿里国内
+
+  # ── 百度 ──
+  R-baidu:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/baidu.mrs"}                       # 百度
+
+  # ── 华为 ──
+  R-huawei@!cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/huawei@!cn.mrs"}                  # 华为海外
+  R-huawei@cn:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/huawei@cn.mrs"}                   # 华为国内
+  R-honor:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/honor.mrs"}                       # 荣耀
+
+  # ── 小米 ──
+  R-xiaomi@!cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/xiaomi@!cn.mrs"}                  # 小米海外
+  R-xiaomi@cn:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/xiaomi@cn.mrs"}                   # 小米国内
+
+  # ── 京东 ──
+  R-jd@!cn:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/jd@!cn.mrs"}                      # 京东海外
+  R-jd@cn:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/jd@cn.mrs"}                       # 京东国内
+  R-jingdongcloud-ip:     {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/jingdongcloud.mrs"}                 # 京东云 IP
+
+  # ── 美团 ──
+  R-meituan:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/meituan.mrs"}                     # 美团
+
+  # ── 网易 ──
+  R-netease@!cn:          {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/netease@!cn.mrs"}                 # 网易海外
+  R-netease@cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/netease@cn.mrs"}                  # 网易国内
+
+  # ── 小红书 ──
+  R-xiaohongshu@!cn:      {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/xiaohongshu@!cn.mrs"}             # 小红书海外
+  R-xiaohongshu@cn:       {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/xiaohongshu@cn.mrs"}              # 小红书
+
+  # ── 快手 ──
+  R-kuaishou:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/kuaishou.mrs"}                    # 快手
+
+  # ── 三大运营商 ──
+  R-chinamobile@!cn:      {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/chinamobile@!cn.mrs"}             # 中国移动海外
+  R-chinaunicom@!cn:      {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/chinaunicom@!cn.mrs"}             # 中国联通海外
+  R-chinatelecom@!cn:     {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/chinatelecom@!cn.mrs"}            # 中国电信海外
+  R-chinamobile@cn:       {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/chinamobile@cn.mrs"}              # 中国移动
+  R-chinaunicom@cn:       {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/chinaunicom@cn.mrs"}              # 中国联通
+  R-chinatelecom@cn:      {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/chinatelecom@cn.mrs"}             # 中国电信
+
+  # ── 其他国内商家 ──
+  R-xunlei:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/xunlei.mrs"}                      # 迅雷
+  R-meitu:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/meitu.mrs"}                       # 美图
+  R-zhihu:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/zhihu.mrs"}                       # 知乎
+  R-yy:                   {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/yy.mrs"}                          # YY 语音
+  R-smzdm:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/smzdm.mrs"}                       # 什么值得买
+  R-tendcloud:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/tendcloud.mrs"}                   # TalkingData
+  R-nvidia@cn:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/nvidia@cn.mrs"}                   # 英伟达国内
+  R-intel@cn:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/intel@cn.mrs"}                    # 英特尔国内
+  R-amd@cn:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/amd@cn.mrs"}                    # AMD 国内
+  R-synology@cn:          {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/synology@cn.mrs"}                 # 群晖国内
+  R-wasu:                 {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/wasu.mrs"}                        # 华数
+  R-ishumei:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/ishumei.mrs"}                     # 数美风控
+  R-geetest:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/geetest.mrs"}                     # 极验验证码
+
+  # ══════════════════════════════════════════
+  # 6. 通用服务
+  # ══════════════════════════════════════════
+
+  # ── 推送 ──
+  R-jiguang@!cn:          {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/jiguang@!cn.mrs"}                 # 极光海外
+  R-getui:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/getui.mrs"}                       # 个推
+  R-jiguang:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/jiguang.mrs"}                     # 极光推送
+
+  # ── 证书 ──
+  R-cas@!cn:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-cas@!cn.mrs"}            # 证书机构国外
+  R-cas@cn:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-cas@cn.mrs"}             # 证书机构国内
+
+  # ── STUN ──
+  R-stun:                 {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-stun.mrs"}               # 国外 STUN
+  R-stun@cn:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/stun@cn.mrs"}                     # 国内 STUN
+
+  # ── 国内分类 ──
+  R-ntp@!cn:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-ntp@!cn.mrs"}            # 国外 NTP
+  R-cdn-cn:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-cdn-cn.mrs"}             # 国内 CDN
+  R-bank-cn:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-bank-cn.mrs"}            # 国内银行
+  R-securities-cn:        {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-securities-cn.mrs"}      # 国内证券
+  R-finance-cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-finance@cn.mrs"}         # 国内金融
+  R-ntp@cn:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-ntp@cn.mrs"}             # 国内 NTP
+  R-netdisk-cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-netdisk-cn.mrs"}         # 国内网盘
+  R-games-cn:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-games-cn.mrs"}           # 国内游戏
+
+  # ── 国内杂项 ──
+  R-cn-misc:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/cn-misc.mrs"}                     # 国内杂项
+  R-cn-misc-ip:           {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/cn-misc.mrs"}                       # 国内杂项 IP
+  R-cn-misc-realip:       {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/cn-misc-realip.mrs"}              # 国内真实 IP 杂项
+
   # ── PayPal ──
-  R-paypal:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/paypal.yaml"}                              # PayPal / Braintree / Venmo / Xoom
-  
+  R-paypal@!cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/paypal@!cn.mrs"}                  # PayPal
+  R-paypal@cn:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/paypal@cn.mrs"}                   # 贝宝中国
+
   # ── Wise ──
-  R-wise:               {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/wise.yaml"}                                # Wise 跨境汇款
-  
+  R-wise:                 {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/wise.mrs"}                        # Wise
+
+  # ── Cloudflare ──
+  R-cloudflare@!cn:       {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/cloudflare@!cn.mrs"}              # Cloudflare
+  R-cloudflare-ip:        {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/cloudflare.mrs"}                    # Cloudflare IP
+  R-cloudflare@cn:        {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/cloudflare@cn.mrs"}               # Cloudflare 中国
+
+  # ── Amazon ──
+  R-amazon@!cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/amazon@!cn.mrs"}                  # 亚马逊海外
+  R-amazon-ip:            {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/amazon.mrs"}                        # 亚马逊 IP
+  R-amazon@cn:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/amazon@cn.mrs"}                   # 亚马逊中国
+
+  # ── Akamai ──
+  R-akamai@!cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/akamai@!cn.mrs"}                  # Akamai
+  R-akamai@cn:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/akamai@cn.mrs"}                   # Akamai 国内
+
   # ── Pay ──
-  R-pay:                {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/pay.yaml"}                                 # 支付 / 通用风控 / 人机验证
-  
-  # ── Final ──
-  geolocation-!cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}                # 非中国域名兜底 → 代理
-  geosite-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}                             # 中国域名兜底 → DIRECT
-  geolocation-cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-cn.mrs"}                 # 中国域名补充（geosite-cn 没收全的）→ DIRECT
-  geoip-cn:             {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}                               # 中国IP兜底 → DIRECT
+  R-pay:                  {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/pay.mrs"}                         # 支付 / 风控 / 人机验证
 
   # ══════════════════════════════════════════
-  # 5.R18 默认注释
+  # 7. 兜底
+  # ══════════════════════════════════════════
+  geolocation-!cn:        {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/geolocation-!cn.mrs"}             # 国外网站兜底
+  geosite-cn:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/cn.mrs"}                          # 国内网站兜底
+  geolocation-cn:         {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/geolocation-cn.mrs"}              # 国内网站补充
+  geoip-cn:               {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/cn.mrs"}                            # 国内 IP 兜底
+
+  # ══════════════════════════════════════════
+  # R18 默认注释
   # ══════════════════════════════════════════
 
   # ── 视频、直播与信息聚合 ──
@@ -684,7 +743,7 @@ rule-providers:
   # R-hentaivn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/hentaivn.mrs"}                   # hentaivn — 越南语成人漫画
 
   # R-metart:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/metart.mrs"}                     # metart.com — 艺术写真 / 成人图片平台
-  # R-nudevista:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/nudevista.mrs"}                  # nudevista.com — 成人图片 / 视频搜索引擎
+  # R-nudevista:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/nudevista.mrs"}                   # nudevista.com — 成人图片 / 视频搜索引擎
   # R-truyen-hentai:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/truyen-hentai.mrs"}              # truyen-hentai — 越南语成人漫画
   # R-xingrz:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xingrz.mrs"}                     # xingrz — 成人图片 / 漫画
 
@@ -708,234 +767,274 @@ rule-providers:
 rules:
 
   # ══════════════════════════════════════════
-  # 1.REJECT
+  # 1. 拦截（排在最前面）
   # ══════════════════════════════════════════
-  - RULE-SET,R-icloudprivaterelay,REJECT-DROP                      # iCloud 私有中继
-  - RULE-SET,R-reject,REJECT-DROP 
-  - RULE-SET,R-reject-ip,REJECT-DROP,no-resolve
-  - RULE-SET,R-ads,REJECT-DROP                                     # 全量广告拦截
-  - RULE-SET,R-ads-add,REJECT-DROP                                 # 增强广告拦截
-  - RULE-SET,R-ads-add-ip,REJECT-DROP,no-resolve                   # 增强广告拦截 IP
-  - RULE-SET,R-httpdns-cn,REJECT-DROP                              # 国内 HTTPDNS 劫持
-  - RULE-SET,R-win-spy,REJECT-DROP                                 # Windows 隐私追踪
+  - RULE-SET,R-icloudprivaterelay,REJECT-DROP       # iCloud 专用代理
+  - RULE-SET,R-reject,REJECT-DROP                   # 自定拦截域名
+  - RULE-SET,R-reject-ip,REJECT-DROP,no-resolve     # 自定拦截 IP
+  - RULE-SET,R-ads,REJECT-DROP                      # 广告（AWAvenue）
+  - RULE-SET,R-ads-misc,REJECT-DROP                 # 广告杂项
+  - RULE-SET,R-httpdns-cn,REJECT-DROP               # 国内 HTTPDNS
+  - RULE-SET,R-win-spy,REJECT-DROP                  # Windows 隐私追踪
 
   # ══════════════════════════════════════════
-  # 2.LAN
+  # 2. 局域网和必须直连的
   # ══════════════════════════════════════════
-  - RULE-SET,R-private-ip,DIRECT,no-resolve                        # 内网 IP 地址  
-  - RULE-SET,R-private,DIRECT                                      # 内网域名
-  - RULE-SET,R-fakeipfilter,DIRECT                                 # FakeIP 过滤
-  - RULE-SET,R-connectivity,DIRECT                                 # 网络连通性检测
+  - RULE-SET,R-private-ip,DIRECT,no-resolve         # 内网 IP
+  - RULE-SET,R-private,DIRECT                       # 内网域名
+  - RULE-SET,R-connectivity,DIRECT                  # 连通性检测
 
   # ══════════════════════════════════════════
-  # 3.Proxy
+  # 3. 交易所
   # ══════════════════════════════════════════
 
-  # ── OpenAI ──
-  - RULE-SET,R-openai,OpenAI                                       # OpenAI
+  # ── 交易所 / 行情 ──
+  - RULE-SET,R-bybit,Crypto                         # Bybit
+  - RULE-SET,R-bybit-ip,Crypto,no-resolve           # Bybit IP
+  - RULE-SET,R-binance,Crypto                       # 币安
+  - RULE-SET,R-binance-ip,Crypto,no-resolve         # 币安 IP
+  - RULE-SET,R-coinbase,Crypto                      # Coinbase
+  - RULE-SET,R-bitget,Crypto                        # Bitget
+  - RULE-SET,R-bitget-ip,Crypto,no-resolve          # Bitget IP
+  - RULE-SET,R-huobi,Crypto                         # HTX（火币）
+  - RULE-SET,R-htx-ip,Crypto,no-resolve             # HTX IP
+  - RULE-SET,R-okx,Crypto                           # OKX
+  - RULE-SET,R-okx-ip,Crypto,no-resolve             # OKX IP
+  - RULE-SET,R-tradingview,Crypto                   # TradingView
+  - RULE-SET,R-bookmap,Crypto                       # Bookmap
+  - RULE-SET,R-bookmap-ip,Crypto,no-resolve         # Bookmap IP
+
+  # ── Crypto ──
+  - RULE-SET,R-crypto,Crypto                        # 加密货币杂项
+
+  # ══════════════════════════════════════════
+  # 4. 海外商家
+  # ══════════════════════════════════════════
 
   # ── Anthropic ──
-  - RULE-SET,R-anthropic,Anthropic                                 # Anthropic / Claude
-  - RULE-SET,R-anthropic-ip,Anthropic,no-resolve
+  - RULE-SET,R-anthropic,Anthropic                  # Anthropic / Claude
+  - RULE-SET,R-anthropic-ip,Anthropic,no-resolve    # Anthropic IP
+
+  # ── OpenAI ──
+  - RULE-SET,R-openai,OpenAI                        # OpenAI / ChatGPT
 
   # ── AI ──
-  - RULE-SET,R-perplexity,AI                                       # Perplexity AI 搜索
-  - RULE-SET,R-groq,AI                                             # Groq AI 推理
-  - RULE-SET,R-cerebras,AI                                         # Cerebras AI
-  - RULE-SET,R-huggingface,AI                                      # Hugging Face
-  - RULE-SET,R-cursor,AI                                           # Cursor AI 编辑器
-  - RULE-SET,R-elevenlabs,AI                                       # ElevenLabs AI 语音
-  - RULE-SET,R-comfy,AI                                            # ComfyUI
-  - RULE-SET,R-comfy-launcher,AI                                   # ComfyUI 启动器
-  - RULE-SET,R-ai,AI                                               # AI 聊天服务兜底
-  
-  # ── Crypto ──
-  - RULE-SET,R-crypto,Crypto                                       # 加密货币
-  
+  - RULE-SET,R-perplexity,AI                        # Perplexity
+  - RULE-SET,R-groq,AI                              # Groq
+  - RULE-SET,R-cerebras,AI                          # Cerebras
+  - RULE-SET,R-huggingface,AI                       # Hugging Face
+  - RULE-SET,R-cursor,AI                            # Cursor
+  - RULE-SET,R-elevenlabs,AI                        # ElevenLabs
+  - RULE-SET,R-comfy,AI                             # ComfyUI
+  - RULE-SET,R-comfy-ui-launcher,AI                 # ComfyUI 启动器
+  - RULE-SET,R-windsurf,AI                          # Windsurf
+  - RULE-SET,R-poe,AI                               # Poe
+  - RULE-SET,R-manus,AI                             # Manus
+  - RULE-SET,R-jetbrains-ai,AI                      # JetBrains AI
+  - RULE-SET,R-youmind,AI                           # YouMind
+  - RULE-SET,R-ai,AI                                # AI 杂项
+
   # ── GitHub ──
-  - RULE-SET,R-github,GitHub                                       # GitHub
-  - RULE-SET,R-github1s,GitHub                                     # GitHub 在线 VSCode
-  - RULE-SET,R-github-copilot,GitHub                               # GitHub Copilot
+  # 排在 Microsoft 前面：VSCode 插件市场的地址被微软后缀盖住
+  - RULE-SET,R-github,GitHub                        # GitHub（含 Copilot、npm）
+  - RULE-SET,R-github1s,GitHub                      # github1s
+  - RULE-SET,R-vscode,GitHub                        # VSCode
 
   # ── Discord ──
-  - RULE-SET,R-discord,Discord                                     # Discord
-  - RULE-SET,R-discord-ip,Discord,no-resolve
+  - RULE-SET,R-discord,Discord                      # Discord
+  - RULE-SET,R-discord-ip,Discord,no-resolve        # Discord IP
 
   # ── Telegram ──
-  - RULE-SET,R-telegram,Telegram                                   # Telegram
-  - RULE-SET,R-telegram-ip,Telegram,no-resolve                     # Telegram IP
+  - RULE-SET,R-telegram,Telegram                    # Telegram
+  - RULE-SET,R-telegram-ip,Telegram,no-resolve      # Telegram IP
 
   # ── Social ──
-  - RULE-SET,R-reddit,Social                                       # Reddit
-  - RULE-SET,R-tumblr,Social                                       # Tumblr
-  - RULE-SET,R-line,Social                                         # LINE
+  - RULE-SET,R-reddit,Social                        # Reddit
+  - RULE-SET,R-tumblr,Social                        # Tumblr
+  - RULE-SET,R-line,Social                          # LINE
+  - RULE-SET,R-truthsocial,Social                   # Truth Social
 
   # ── Meta ──
-  - RULE-SET,R-meta-ads,REJECT-DROP                                # Meta 广告
-  - RULE-SET,R-meta,Meta                                           # Facebook / Instagram / Facebook Developers / WhatsApp / hreads / Messenger / Graph / Analytics
+  - RULE-SET,R-meta,Meta                            # Meta 全家
 
-  # ── Elon Musk ──
-  - RULE-SET,R-x-ads,REJECT-DROP                                   # X 广告
-  - RULE-SET,R-twitter-ads,REJECT-DROP                             # Twitter 广告
-  - RULE-SET,R-xai,X                                               # xAI / Grok
-  - RULE-SET,R-x,X                                                 # X 补充域名
-  - RULE-SET,R-twitter,X                                           # Twitter/X
-  - RULE-SET,R-twitter-ip,X,no-resolve                             # Twitter IP
-  - RULE-SET,R-spacex,X                                            # SpaceX
-  - RULE-SET,R-neuralink,X                                         # Neuralink
-  - RULE-SET,R-theboringcompany,X                                  # The Boring Company
-  - RULE-SET,R-tesla,X                                             # Tesla
+  # ── 马斯克系 ──
+  - RULE-SET,R-x,X                                  # X（含 Grok）
+  - RULE-SET,R-twitter-ip,X,no-resolve              # 推特 IP
+  - RULE-SET,R-spacex,X                             # SpaceX / 星链
+  - RULE-SET,R-neuralink,X                          # Neuralink
+  - RULE-SET,R-theboringcompany,X                   # 无聊公司
+  - RULE-SET,R-tesla@!cn,X                          # 特斯拉国外
+  - RULE-SET,R-tesla@cn,CN                          # 特斯拉中国
 
-  # ── TikTok / 字节跳动 ──
-  - RULE-SET,R-tiktok,TikTok                                       # TikTok
-  - RULE-SET,R-bytedance-ai-!cn,TikTok                             # 字节 AI 海外（豆包/Coze 国际版）
-  - RULE-SET,R-bytedance-!cn,TikTok                                # 字节海外域名
-  - RULE-SET,R-douyin,CN
-  - RULE-SET,R-douyin-ip,CN,no-resolve
-  - RULE-SET,R-bytedance,CN                                        # 字节全量兜底（抖音/飞书/头条）
+  # ── 字节跳动 ──
+  - RULE-SET,R-bytedance@!cn,TikTok                 # 字节国外（TikTok 等）
+  - RULE-SET,R-douyin-ip,CN,no-resolve              # 抖音 IP
+  - RULE-SET,R-bytedance@cn,CN                      # 字节国内（抖音、飞书等）
 
   # ── Netflix ──
-  - RULE-SET,R-netflix,Netflix                                     # Netflix
-  - RULE-SET,R-netflix-ip,Netflix,no-resolve                       # Netflix IP
-  
+  - RULE-SET,R-netflix,Netflix                      # Netflix
+  - RULE-SET,R-netflix-ip,Netflix,no-resolve        # Netflix IP
+
   # ── Media ──
-  - RULE-SET,R-hulu,Media                                          # Hulu
-  - RULE-SET,R-primevideo,Media                                    # Prime Video
-  - RULE-SET,R-dazn,Media                                          # DAZN 体育直播
-  - RULE-SET,R-hbo,Media                                           # HBO
-  - RULE-SET,R-disney,Media                                        # Disney+
-  - RULE-SET,R-vimeo,Media                                         # Vimeo
-  - RULE-SET,R-twitch,Media                                        # Twitch
-  - RULE-SET,R-rumble,Media                                        # Rumble
-  - RULE-SET,R-plex,Media                                          # Plex
+  - RULE-SET,R-disney@!cn,Media                     # Disney+（含 Hulu、ESPN）
+  - RULE-SET,R-primevideo,Media                     # Prime Video
+  - RULE-SET,R-twitch,Media                         # Twitch
+  - RULE-SET,R-dazn,Media                           # DAZN
+  - RULE-SET,R-hbo,Media                            # HBO
+  - RULE-SET,R-vimeo,Media                          # Vimeo
+  - RULE-SET,R-rumble,Media                         # Rumble
+  - RULE-SET,R-plex,Media                           # Plex
+  - RULE-SET,R-disney@cn,CN                         # 上海迪士尼
+
+  # ── Emby ──
+  - RULE-SET,R-emby,Emby                            # Emby 服
 
   # ── Spotify ──
-  - RULE-SET,R-spotify-ads,REJECT-DROP                             # Spotify 广告
-  - RULE-SET,R-spotify,Spotify                                     # Spotify
+  - RULE-SET,R-spotify,Spotify                      # Spotify
 
   # ── Steam ──
-  - RULE-SET,R-steam-cn,Steam                                      # Steam 国内节点
-  - RULE-SET,R-steam,Steam                                         # Steam
-  - RULE-SET,R-steamunlocked,Steam                                 # SteamUnlocked
-  - RULE-SET,R-steaminventory,Steam                                # Steam 库存助手
+  - RULE-SET,R-steam@!cn,Steam                      # Steam 国外
+  - RULE-SET,R-steamunlocked,Steam                  # SteamUnlocked
+  - RULE-SET,R-steaminventory,Steam                 # Steam 库存助手
+  - RULE-SET,R-steam@cn,Steam                       # Steam 国内 CDN
 
   # ── Epic ──
-  - RULE-SET,R-epicgames,Epic                                      # Epic Games
+  - RULE-SET,R-epicgames,Epic                       # Epic
 
   # ── TapTap ──
-  - RULE-SET,R-taptap,TapTap                                       # TapTap（国内版）
-  - RULE-SET,R-taptap-!cn,TapTap                                   # TapTap 海外版
+  - RULE-SET,R-taptap@!cn,TapTap                    # TapTap 国际版
+  - RULE-SET,R-taptap@cn,TapTap                     # TapTap 国内版
 
   # ── Bilibili ──
-  - RULE-SET,R-bilibili-!cn,Bilibili                               # B 站海外版
-  - RULE-SET,R-bilibili-cdn-!cn,Bilibili                           # B 站海外 CDN
-  - RULE-SET,R-biliintl,Bilibili                                   # B 站国际版
-  - RULE-SET,R-bilibili,Bilibili                                   # B 站主域名
-  - RULE-SET,R-bilibili-ip,Bilibili,no-resolve                     # B 站 IP
-  - RULE-SET,R-bilibili-game,Bilibili                              # B 站游戏
-  - RULE-SET,R-bilibili-cdn,Bilibili                               # B 站 CDN
+  - RULE-SET,R-bilibili@!cn,Bilibili                # B 站海外
+  - RULE-SET,R-biliintl,Bilibili                    # B 站国际版
+  - RULE-SET,R-bilibili-ip,Bilibili,no-resolve      # B 站 IP
+  - RULE-SET,R-bilibili@cn,Bilibili                 # B 站国内
 
   # ── Speedtest ──
-  - RULE-SET,R-speedtest,Speedtest                                 # Speedtest
-  
+  - RULE-SET,R-speedtest,Speedtest                  # Speedtest
+
   # ── IPtest ──
-  - RULE-SET,R-iptest,IPtest                                       # IP 查询检测
-  
-  # ── Nodeseek ──
-  - RULE-SET,R-nodeseek,Proxy                                      # NodeSeek
-  
+  - RULE-SET,R-iptest@!cn,IPtest                    # 国外测 IP 站
+  - RULE-SET,R-iptest@cn,CN                         # 国内测 IP 站
+
+  # ── NodeSeek ──
+  - RULE-SET,R-nodeseek,Proxy                       # NodeSeek
+  - RULE-SET,R-nodeseek-ip,Proxy,no-resolve         # NodeSeek IP
+
+  # ── VPS ──
+  - RULE-SET,R-vps,ProxyMisc                        # VPS 相关
+
+  # ── 论坛 ──
+  - RULE-SET,R-forum,ProxyMisc                      # 论坛
+
+  # ── 机场 ──
+  - RULE-SET,R-airport,ProxyMisc                    # 机场
+
+  # ── 代理杂项 ──
+  - RULE-SET,R-proxy-misc,ProxyMisc                 # 代理杂项
+  - RULE-SET,R-proxy-misc-ip,ProxyMisc,no-resolve   # 代理杂项 IP
+
   # ── YouTube ──
-  - RULE-SET,R-youtube,YouTube                                     # YouTube
-  
+  - RULE-SET,R-youtube,YouTube                      # YouTube
+
   # ── Google ──
-  - RULE-SET,R-google-play-cn,Google                               # Google Play 国内节点
-  - RULE-SET,R-firebase-cn,Google                                  # Firebase 国内节点
-  - RULE-SET,R-amp-cn,Google                                       # AMP 国内节点
-  - RULE-SET,R-gemini,Google                                       # Gemini AI
-  - RULE-SET,R-google,Google                                       # Google 全家桶
-  - RULE-SET,R-google-ip,Google,no-resolve                         # Google IP
-  - RULE-SET,R-FCM,Google                                          # Firebase 推送
-  - RULE-SET,R-deepmind,Google                                     # DeepMind
-  - RULE-SET,R-google-play,Google                                  # Google Play
-  - RULE-SET,R-google-scholar,Google                               # Google 学术
-  - RULE-SET,R-firebase,Google                                     # Firebase 开发平台
-  - RULE-SET,R-fonts,Google                                        # Google 字体
-  - RULE-SET,R-golang,Google                                       # Go 语言官方
-  - RULE-SET,R-dart,Google                                         # Dart 语言
-  - RULE-SET,R-v8,Google                                           # V8 引擎
-  - RULE-SET,R-goproxy,Google                                      # Go 模块代理
-  - RULE-SET,R-amp,Google                                          # Google AMP
-
-  # ── Cloudflare ──
-  - RULE-SET,R-cloudflare-cn,CN                                    # Cloudflare 中国域名
-  - RULE-SET,R-cloudflare,Cloudflare                               # Cloudflare
-  - RULE-SET,R-cloudflare-ipfs,Cloudflare                          # Cloudflare IPFS 网关
-  - RULE-SET,R-cloudflare-ip,Cloudflare,no-resolve                 # Cloudflare IP
-
-  # ── Aws ──
-  - RULE-SET,R-aws,Amazon                                          # AWS
-  - RULE-SET,R-aws-cn,CN                                           # AWS 中国域名
+  - RULE-SET,R-google,Google                        # Google 全家
+  - RULE-SET,R-google-ip,Google,no-resolve          # Google IP
+  - RULE-SET,R-amp,Google                           # Google AMP
 
   # ── Microsoft ──
-  - RULE-SET,R-microsoft-cn,Microsoft                              # Microsoft 国内节点
-  - RULE-SET,R-microsoft,Microsoft                                 # Microsoft 全家桶
+  - RULE-SET,R-microsoft,Microsoft                  # 微软全家
+  - RULE-SET,R-linkedin@!cn,Microsoft               # 领英
+  - RULE-SET,R-linkedin@cn,Microsoft                # 领英国内
 
   # ── Apple ──
-  - RULE-SET,R-icloud-cn,Apple                                     # iCloud 国内节点（云上贵州）
-  - RULE-SET,R-itunes-cn,Apple                                     # iTunes 国内节点
-  - RULE-SET,R-apple-pki,Apple                                     # Apple 证书服务
-  - RULE-SET,R-apple-update,Apple                                  # iOS/macOS 系统更新
-  - RULE-SET,R-apple-cn,Apple                                      # Apple 中国专属域名
-  - RULE-SET,R-apple-at-cn,Apple                                   # Apple 国内服务补充
-  - RULE-SET,R-apple-dev-cn,Apple                                  # Apple 开发者国内节点
-  - RULE-SET,R-icloud,Apple                                        # iCloud
-  - RULE-SET,R-itunes,Apple                                        # iTunes
-  - RULE-SET,R-apple,Apple                                         # Apple 全家桶
-  - RULE-SET,R-appleakamai,Apple                                   # Apple akamai节点
-  - RULE-SET,R-apple-ip,Apple,no-resolve                           # Apple IP 段
+  - RULE-SET,R-apple,Apple                          # 苹果全家
+  - RULE-SET,R-apple-intelligence,Apple             # Apple 智能
+  - RULE-SET,R-appleakamai,Apple                    # 苹果 Akamai 地址
+  - RULE-SET,R-apple-ip,Apple,no-resolve            # 苹果 IP
 
   # ── Android ──
-  - RULE-SET,R-android,Android                                     # Android 系统相关
-  - RULE-SET,R-fdroid,Android                                      # F-Droid
-  - RULE-SET,R-apkpure,Android                                     # APKPure
-  - RULE-SET,R-apkmirror,Android                                   # APKMirror
-  - RULE-SET,R-apkcombo,Android                                    # APKCombo
+  - RULE-SET,R-android,Android                      # Android
+  - RULE-SET,R-fdroid,Android                       # F-Droid
+  - RULE-SET,R-apkpure,Android                      # APKPure
+  - RULE-SET,R-apkmirror,Android                    # APKMirror
+  - RULE-SET,R-apkcombo,Android                     # APKCombo
 
   # ── Adobe ──
-  - RULE-SET,R-adobe-cn,Adobe                                      # Adobe 国内节点
-  - RULE-SET,R-adobe-activation,Adobe                              # Adobe 激活服务
-  - RULE-SET,R-adobe,Adobe                                         # Adobe 全家桶
-  
-  # ── CN App ──
-  - RULE-SET,R-wechat,CN
-  - RULE-SET,R-wechat-ip,CN,no-resolve
-  - RULE-SET,R-alipay,CN
-  - RULE-SET,R-netease,CN
-  - RULE-SET,R-meituan,CN
-  - RULE-SET,R-jingdong,CN
-  - RULE-SET,R-jingdongcloud-ip,CN,no-resolve
-  - RULE-SET,R-duowan,CN
-  - RULE-SET,R-duowan-ip,CN,no-resolve
-  - RULE-SET,R-huawei,CN
-  - RULE-SET,R-xiaomi,CN
-  - RULE-SET,R-tencent,CN
-  - RULE-SET,R-tendcloud,CN
-  - RULE-SET,R-tencent-dev,CN
-  - RULE-SET,R-tencent-games,CN
-  - RULE-SET,R-aliyun,CN
-  - RULE-SET,R-aliyun-drive,CN
-  - RULE-SET,R-alibaba,CN
-  - RULE-SET,R-alibabacloud,CN
+  - RULE-SET,R-adobe@!cn,Adobe                      # Adobe
+  - RULE-SET,R-adobe@cn,Adobe                       # Adobe 国内
 
-  # ── 硬件 / 杂项 ──
-  - RULE-SET,R-nvidia-cn,CN                                        # Nvidia 国内节点
-  - RULE-SET,R-intel-cn,CN                                         # Intel 国内节点
-  - RULE-SET,R-synology-cn,CN                                      # 群晖国内节点
-  - RULE-SET,R-amazon-cn,CN                                        # Amazon国内节点
-  - RULE-SET,R-cn-add,CN                                           # 国内服务补充（阿里、百度、小红书、腾讯）
-  
   # ══════════════════════════════════════════
-  # 5.R18 默认注释
+  # 5. 国内商家（全部走 CN 直连）
+  # ══════════════════════════════════════════
+
+  # ── 腾讯 ──
+  - RULE-SET,R-tencent@!cn,CN                       # 腾讯海外
+  - RULE-SET,R-wechat,CN                            # 微信
+  - RULE-SET,R-wechat-ip,CN,no-resolve              # 微信 IP
+  - RULE-SET,R-tencent@cn,CN                        # 腾讯国内
+
+  # ── 阿里 ──
+  - RULE-SET,R-alibaba@!cn,CN                       # 阿里海外
+  - RULE-SET,R-alibaba@cn,CN                        # 阿里国内
+
+  # ── 百度 ──
+  - RULE-SET,R-baidu,CN                             # 百度
+
+  # ── 华为 ──
+  - RULE-SET,R-huawei@!cn,CN                        # 华为海外
+  - RULE-SET,R-honor,CN                             # 荣耀
+  - RULE-SET,R-huawei@cn,CN                         # 华为国内
+
+  # ── 小米 ──
+  - RULE-SET,R-xiaomi@!cn,CN                        # 小米海外
+  - RULE-SET,R-xiaomi@cn,CN                         # 小米国内
+
+  # ── 京东 ──
+  - RULE-SET,R-jd@!cn,CN                            # 京东海外
+  - RULE-SET,R-jingdongcloud-ip,CN,no-resolve       # 京东云 IP
+  - RULE-SET,R-jd@cn,CN                             # 京东国内
+
+  # ── 美团 ──
+  - RULE-SET,R-meituan,CN                           # 美团
+
+  # ── 网易 ──
+  - RULE-SET,R-netease@!cn,CN                       # 网易海外
+  - RULE-SET,R-netease@cn,CN                        # 网易国内
+
+  # ── 小红书 ──
+  - RULE-SET,R-xiaohongshu@!cn,CN                   # 小红书海外
+  - RULE-SET,R-xiaohongshu@cn,CN                    # 小红书
+
+  # ── 快手 ──
+  - RULE-SET,R-kuaishou,CN                          # 快手
+
+  # ── 三大运营商 ──
+  - RULE-SET,R-chinamobile@!cn,CN                   # 中国移动海外
+  - RULE-SET,R-chinamobile@cn,CN                    # 中国移动
+  - RULE-SET,R-chinaunicom@!cn,CN                   # 中国联通海外
+  - RULE-SET,R-chinaunicom@cn,CN                    # 中国联通
+  - RULE-SET,R-chinatelecom@!cn,CN                  # 中国电信海外
+  - RULE-SET,R-chinatelecom@cn,CN                   # 中国电信
+
+  # ── 其他国内商家 ──
+  - RULE-SET,R-xunlei,CN                            # 迅雷
+  - RULE-SET,R-meitu,CN                             # 美图
+  - RULE-SET,R-zhihu,CN                             # 知乎
+  - RULE-SET,R-yy,CN                                # YY 语音
+  - RULE-SET,R-smzdm,CN                             # 什么值得买
+  - RULE-SET,R-tendcloud,CN                         # TalkingData
+  - RULE-SET,R-nvidia@cn,CN                         # 英伟达国内
+  - RULE-SET,R-intel@cn,CN                          # 英特尔国内
+  - RULE-SET,R-amd@cn,CN                            # AMD 国内
+  - RULE-SET,R-synology@cn,CN                       # 群晖国内
+  - RULE-SET,R-wasu,CN                              # 华数
+  - RULE-SET,R-ishumei,CN                           # 数美风控
+  - RULE-SET,R-geetest,CN                           # 极验验证码
+
+  # ══════════════════════════════════════════
+  # R18 默认注释
   # ══════════════════════════════════════════
   
   # ── 视频、直播与信息聚合 ──
@@ -1014,33 +1113,71 @@ rules:
   # - RULE-SET,R-pinkcore,R18                                      # pinkcore — 成人内容
 
   # ══════════════════════════════════════════
-  # 6.Final
+  # 6. 通用服务
+  # 不属于某一家的，排在所有商家后面
   # ══════════════════════════════════════════
-  - RULE-SET,R-cdn-cn,DIRECT                                       # 国内 CDN
-  - RULE-SET,R-bank-cn,DIRECT                                      # 国内银行
-  - RULE-SET,R-securities-cn,DIRECT                                # 国内证券
-  - RULE-SET,R-finance-cn,DIRECT                                   # 国内金融
-  - RULE-SET,R-ntp-cn,DIRECT                                       # 国内 NTP 时间服务
-  - RULE-SET,R-netdisk-cn,DIRECT                                   # 国内网盘
-  - RULE-SET,R-games-cn,DIRECT                                     # 国内游戏
-  - RULE-SET,R-getui,DIRECT                                        # 国内个推推送服务
-  - RULE-SET,R-globalsign@cn,DIRECT                                # Globalsign 国内节点
-  - RULE-SET,R-digicert@cn,DIRECT                                  # Digicert 国内节点
- 
+
+  # ── 推送 ──
+  - RULE-SET,R-jiguang@!cn,Proxy                    # 极光海外
+  - RULE-SET,R-getui,CN                             # 个推
+  - RULE-SET,R-jiguang,CN                           # 极光推送
+
+  # ── 证书 ──
+  - RULE-SET,R-cas@cn,DIRECT                        # 证书机构国内
+  - RULE-SET,R-cas@!cn,Proxy                        # 证书机构国外
+
+  # ── STUN ──
+  - RULE-SET,R-stun,Proxy                           # 国外 STUN
+  - RULE-SET,R-stun@cn,CN                           # 国内 STUN
+
+  # ── 国内分类 ──
+  - RULE-SET,R-ntp@!cn,CN                           # 国外 NTP
+  - RULE-SET,R-cdn-cn,CN                            # 国内 CDN
+  - RULE-SET,R-bank-cn,CN                           # 国内银行
+  - RULE-SET,R-securities-cn,CN                     # 国内证券
+  - RULE-SET,R-finance-cn,CN                        # 国内金融
+  - RULE-SET,R-netdisk-cn,CN                        # 国内网盘
+  - RULE-SET,R-games-cn,CN                          # 国内游戏
+  - RULE-SET,R-ntp@cn,CN                            # 国内 NTP
+
+  # ── 国内杂项 ──
+  - RULE-SET,R-cn-misc,CN                           # 国内杂项
+  - RULE-SET,R-cn-misc-ip,CN,no-resolve             # 国内杂项 IP
+  - RULE-SET,R-cn-misc-realip,CN                    # 国内真实 IP 杂项
+
   # ── PayPal ──
-  - RULE-SET,R-paypal,PayPal                                       # PayPal / Braintree / Venmo / Xoom
+  - RULE-SET,R-paypal@!cn,PayPal                    # PayPal
+  - RULE-SET,R-paypal@cn,PayPal                     # 贝宝中国
 
   # ── Wise ──
-  - RULE-SET,R-wise,Wise                                           # Wise 跨境汇款
+  - RULE-SET,R-wise,Wise                            # Wise
 
-  # ── Pay（放在各服务规则之后：各家自己文件里的风控先命中，这里只接通用的）──
-  - RULE-SET,R-pay,Pay                                             # 支付 / 通用风控 / 人机验证
+  # ── Cloudflare ──
+  - RULE-SET,R-cloudflare@!cn,Cloudflare            # Cloudflare
+  - RULE-SET,R-cloudflare-ip,Cloudflare,no-resolve  # Cloudflare IP
+  - RULE-SET,R-cloudflare@cn,CN                     # Cloudflare 中国
 
-  # ── GEO Final ──
-  - RULE-SET,geolocation-!cn,Final                                 # 非中国域名兜底
-  - RULE-SET,geosite-cn,DIRECT                                     # 中国域名兜底
-  - RULE-SET,geolocation-cn,DIRECT                                 # 中国域名补充
-  - RULE-SET,geoip-cn,DIRECT,no-resolve                            # 中国 IP 兜底
+  # ── Amazon ──
+  - RULE-SET,R-amazon@cn,CN                         # 亚马逊中国
+  - RULE-SET,R-amazon@!cn,Amazon                    # 亚马逊海外
+  - RULE-SET,R-amazon-ip,Amazon,no-resolve          # 亚马逊 IP
 
-  # ── Final ──
+  # ── Akamai ──
+  # 排在各商家后面：商家自己的 Akamai 地址先被各家接走
+  - RULE-SET,R-akamai@!cn,Akamai                    # Akamai
+  - RULE-SET,R-akamai@cn,CN                         # Akamai 国内
+
+  # ── Pay ──
+  # 放在各家之后：各家专属风控先命中，这里只接通用的
+  - RULE-SET,R-pay,Pay                              # 支付 / 风控 / 人机验证
+
+  # ══════════════════════════════════════════
+  # 7. 兜底
+  # ══════════════════════════════════════════
+  - RULE-SET,geolocation-!cn,Final                  # 国外网站兜底
+  - RULE-SET,geosite-cn,DIRECT                      # 国内网站兜底
+  - RULE-SET,geolocation-cn,DIRECT                  # 国内网站补充
+  - RULE-SET,geoip-cn,DIRECT,no-resolve             # 国内 IP 兜底
+
+  # ── 最后：前面全没命中的 ──
   - MATCH,Final
