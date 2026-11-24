@@ -76,7 +76,7 @@
 | 加密货币 | Crypto(含各交易所及行情工具) |
 | 支付 | PayPal、Wise、Pay |
 | 托管与 CDN | Cloudflare、Amazon、Akamai |
-| 工具 | IPtest、Speedtest、SaaS(默认跟随 Final)、ProxyMisc |
+| 工具 | IPtest、Speedtest、SaaS、ProxyMisc |
 | 兜底 | CN、Final |
 | 地区节点 | HK、TW、JP、KR、SG、US、OTHERS1、OTHERS2 |
 
