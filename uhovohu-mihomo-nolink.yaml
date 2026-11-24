@@ -328,6 +328,7 @@ rule-providers:
   R-private-ip:           {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/private.mrs"}                       # 内网 IP
   R-private:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/private.mrs"}                     # 内网域名
   R-connectivity:         {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/connectivity-check.mrs"}          # 连通性检测
+  R-ipv6-all:             {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/ipv6-all.mrs"}                      # 全部 IPv6
 
   # ══════════════════════════════════════════
   # 3. 交易所
@@ -752,6 +753,7 @@ rules:
   - RULE-SET,R-private-ip,DIRECT,no-resolve         # 内网 IP
   - RULE-SET,R-private,DIRECT                       # 内网域名
   - RULE-SET,R-connectivity,DIRECT                  # 连通性检测
+  - RULE-SET,R-ipv6-all,REJECT,no-resolve           # 拒绝 App 自己发出的 IPv6，让它退回 v4
 
   # ══════════════════════════════════════════
   # 3. 交易所
