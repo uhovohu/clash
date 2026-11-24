@@ -297,7 +297,7 @@ proxy-groups:
   - {name: Spotify,     type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/spotify.png"}      # Spotify
   - {name: Media,       type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/media.png"}        # 流媒体杂项 (Hulu / Prime Video / DAZN / HBO / Disney+ / Vimeo / Twitch / Rumble / Plex)
   - {name: Emby,        type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/emby.png"}         # Emby
-  - {name: Bilibili,    type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/bilibili.png"}     # Bilibili
+  - {name: Bilibili,    type: select, proxies: [CN, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/bilibili.png"}     # Bilibili
 
   - {name: Steam,       type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/steam.png"}        # Steam
   - {name: Epic,        type: select, proxies: [DIRECT, Proxy, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/epic.png"}         # Epic Games
