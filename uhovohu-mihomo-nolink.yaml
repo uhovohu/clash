@@ -262,6 +262,7 @@ proxy-groups:
   - {name: PayPal,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/paypal.png"}           # PayPal / Braintree / Venmo / Xoom
   - {name: Wise,        type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/wise.png"}           # Wise 跨境汇款
   - {name: Pay,         type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/pay.png"}           # 支付 / 通用风控 / 人机验证
+  - {name: SaaS,        type: select, proxies: [Final, Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/final.png"}  # 多个 App 共用的海外第三方服务
 
   - {name: TikTok,      type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/tiktok.png"}       # TikTok / 字节跳动海外
   - {name: Netflix,     type: select, proxies: [Proxy, DIRECT, REJECT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/netflix.png"}      # Netflix
@@ -610,6 +611,7 @@ rule-providers:
   R-cn-misc:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/cn-misc.mrs"}                     # 国内杂项
   R-cn-misc-ip:           {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/cn-misc.mrs"}                       # 国内杂项 IP
   R-cn-misc-realip:       {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/cn-misc-realip.mrs"}              # 国内真实 IP 杂项
+  R-saas@cn:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/saas@cn.mrs"}                     # 国内第三方服务
 
   # ── PayPal ──
   R-paypal@!cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/paypal@!cn.mrs"}                  # PayPal
@@ -634,6 +636,9 @@ rule-providers:
 
   # ── Pay ──
   R-pay:                  {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/pay.mrs"}                         # 支付 / 风控 / 人机验证
+
+  # ── SaaS ──
+  R-saas@!cn:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/saas@!cn.mrs"}                    # 海外第三方服务
 
   # ══════════════════════════════════════════
   # 7. 兜底
@@ -1120,6 +1125,7 @@ rules:
   - RULE-SET,R-cn-misc,CN                           # 国内杂项
   - RULE-SET,R-cn-misc-ip,CN,no-resolve             # 国内杂项 IP
   - RULE-SET,R-cn-misc-realip,CN                    # 国内真实 IP 杂项
+  - RULE-SET,R-saas@cn,CN                           # 国内第三方服务
 
   # ── PayPal ──
   - RULE-SET,R-paypal@!cn,PayPal                    # PayPal
@@ -1146,6 +1152,9 @@ rules:
   # ── Pay ──
   # 放在各家之后：各家专属风控先命中，这里只接通用的
   - RULE-SET,R-pay,Pay                              # 支付 / 风控 / 人机验证
+
+  # ── SaaS ──
+  - RULE-SET,R-saas@!cn,SaaS                        # 海外第三方服务（Sentry / RevenueCat / OneTrust 等）
 
   # ══════════════════════════════════════════
   # 7. 兜底

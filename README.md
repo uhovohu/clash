@@ -75,6 +75,7 @@
 | 游戏 | Steam、Epic、TapTap |
 | 加密货币 | Crypto(含各交易所及行情工具) |
 | 支付 | PayPal、Wise、Pay |
+| 第三方服务 | SaaS(默认跟随 Final) |
 | 托管与 CDN | Cloudflare、Amazon、Akamai |
 | 工具 | IPtest、Speedtest、ProxyMisc |
 | 兜底 | CN、Final |
