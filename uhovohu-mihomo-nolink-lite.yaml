@@ -71,33 +71,26 @@ sniffer:
       ports: [443]                           # 嗅探 HTTPS/TLS 加密流量，通过读取握手包中的 SNI 获取真实域名
     QUIC:
       ports: [443]                           # 嗅探 QUIC HTTP/3 协议流量
-  skip-domain:                               # 嗅探豁免名 遇到以下域名直接放行不拆包，防止破坏特殊协议导致断连
-    - "rule-set:R-private"                   # 局域网 / 私有域名：必须返回真实 IP，否则本地服务无法访问
-    - "rule-set:R-fakeipfilter"              # 标准 Fake-IP 豁免表 NTP / STUN / 音乐 / 游戏等
-    - "rule-set:R-connectivity"              # 连通性探测：返回假 IP 会导致 Windows/macOS 报断网
-    - "rule-set:R-cdn-cn"                    # 国内 CDN：需要真实 IP 做就近调度
-    - "rule-set:R-bank-cn"                   # 国内银行：假 IP 会触发证书校验失败
+  skip-domain:                               # 嗅探豁免名 遇到以下域名直接放行不拆包，防止破坏特殊协议导致断连 
+    - "rule-set:R-private"                   # 内网域名
+    - "rule-set:R-connectivity"              # 连通性检测
+    - "rule-set:R-cn-misc-realip"            # 国内真实 IP 杂项
+    - "rule-set:R-stun@cn"                   # 国内 STUN
+    - "rule-set:R-cdn-cn"                    # 国内 CDN
+    - "rule-set:R-bank-cn"                   # 国内银行
     - "rule-set:R-securities-cn"             # 国内证券
     - "rule-set:R-finance-cn"                # 国内金融
-    - "rule-set:R-ntp-cn"                    # 国内 NTP：假 IP 导致时间同步失败
-    - "rule-set:R-icloud-cn"                 # iCloud 国内节点 云上贵州
-    - "rule-set:R-itunes-cn"                 # iTunes 国内节点
-    - "rule-set:R-apple-pki"                 # Apple 证书服务
-    - "rule-set:R-apple-update"              # iOS/macOS 系统更新
-    - "rule-set:R-apple-cn"                  # Apple 中国专属域名
-    - "rule-set:R-apple-at-cn"               # Apple 国内服务补充
-    - "rule-set:R-apple-dev-cn"              # Apple 开发者国内节点
-    - "rule-set:R-icloud"                    # iCloud
-    - "rule-set:R-itunes"                    # iTunes
-    - "rule-set:R-apple"                     # Apple 全家桶
-    - "rule-set:R-wechat"
+    - "rule-set:R-apple"                     # 苹果全家
+    - "rule-set:R-wechat"                    # 微信
+    - "rule-set:R-sniffer-skip-misc"         # 不嗅探杂项（米家云）
 
   skip-dst-address:                          # 目的地址豁免 遇到以下 IP 地址直接放行不拆包，防止破坏特殊协议导致断连
-    - "rule-set:R-sniffer-skip-ip"
-    - "rule-set:R-private-ip"                # 局域网 / 私有 IP 地址列表
-    - "rule-set:R-telegram-ip"               # Telegram 服务器 IP 地址列表
-    - "rule-set:R-apple-ip"                  # Apple 服务器 IP 地址列表
-    - "rule-set:R-wechat-ip"
+    - "rule-set:R-sniffer-skip-ip"           # 不嗅探 IP
+    - "rule-set:R-private-ip"                # 内网 IP
+    - "rule-set:R-telegram-ip"               # Telegram IP
+    - "rule-set:R-apple-ip"                  # 苹果 IP
+    - "rule-set:R-wechat-ip"                 # 微信 IP
+    - "rule-set:R-cn-misc-ip"                # 国内杂项 IP
 
 # =======================================================
 # 4. 虚拟网卡 TUN
@@ -123,10 +116,10 @@ dns:
   enable: true                               # 开启内置 DNS 服务
   cache-algorithm: arc                       # DNS 缓存淘汰算法 ARC 相比传统 LRU 命中率更高
   listen: 0.0.0.0:1053                       # DNS 服务监听端口
-  ipv6: false                                # 不向设备返回 IPv6 地址（AAAA），App 只用 IPv4，减少绕过代理的可能
-  respect-rules: true                        # DNS 请求遵循分流规则，由规则决定 DNS 查询走向而非固定出口
-  prefer-h3: false                           # 是否优先使用 DoH/DoT 的 HTTP/3 传输，关闭以保证兼容性
-
+  ipv6: false                                # 关闭 IPv6 解析 保持与全局设置一致
+  respect-rules: true                        # DNS 请求遵循分流规则
+  prefer-h3: false                           # 关闭 DoH/DoT 的 HTTP/3 传输，提升解析速度和稳定性
+  
   # ── Fake-IP ──
   enhanced-mode: fake-ip                     # 开启 Fake-IP 增强模式 秒回假 IP，极大提升网络响应速度
   fake-ip-range: 198.18.0.1/16               # IANA 保留给 网络基准测试用的段（RFC 2544/6815），明确不会公网路由，安全可靠
@@ -135,70 +128,67 @@ dns:
   # ── DNS ──
   default-nameserver:                        # 基础启动 用于最底层解析下方 proxy-server-nameserver 本身及代理节点的域名
     - 223.5.5.5
-    - 223.6.6.6
+    - 119.29.29.29
   proxy-server-nameserver:                   # 节点专线 专职负责解析 “节点” 和 “订阅链接” 的真实 IP
-    - https://223.5.5.5/dns-query
-    - https://doh.pub/dns-query
+    - 119.29.29.29
+    - 114.114.114.114
+    - 223.5.5.5
+    #- https://223.5.5.5/dns-query
+    #- https://doh.pub/dns-query
   direct-nameserver:                         # 直连兜底 专职负责解析走 DIRECT 分流规则的域名
     - 223.5.5.5
     - 119.29.29.29
   nameserver:                                # 国外兜底 处理所有未知的兜底域名，防止 DNS 污染 附带节点选择强制走代理出境
-    # 使用明文 DNS 地址，因大部分家宽不支持 DoH 解析，有需求的用户可以自行替换为 https://1.1.1.1/dns-query#Proxy&disable-qtype-65=true 或 https://8.8.8.8/dns-query#Proxy&disable-qtype-65=true
     - 8.8.8.8#Proxy&disable-qtype-65=true
     #- 1.1.1.1#Proxy&disable-qtype-65=true
-
+    
+    
   # ── DNS 分流 ──
   nameserver-policy:
-    "rule-set:R-private": [system]                                      # 局域网 / 私有域名：必须返回真实 IP，否则本地服务无法访问
-    "rule-set:R-fakeipfilter": [system, 223.5.5.5, 119.29.29.29]        # Fake-IP 豁免域名 → 系统 DNS，确保返回真实 IP
-    "rule-set:R-connectivity": [system, 223.5.5.5, 119.29.29.29]        # 连通性检测 微软/苹果 → 系统 DNS，防止误报"无网络"
-    "rule-set:R-cdn-cn": [system, 223.5.5.5, 119.29.29.29]              # 国内 CDN → 系统 DNS，获得最近节点 IP
-    "rule-set:R-bank-cn": [system, 223.5.5.5, 119.29.29.29]             # 国内银行 → 系统 DNS，防止 DNS 污染导致证书异常
-    "rule-set:R-securities-cn": [system, 223.5.5.5, 119.29.29.29]       # 国内证券 → 系统 DNS
-    "rule-set:R-finance-cn": [system, 223.5.5.5, 119.29.29.29]          # 国内金融 → 系统 DNS
-    "rule-set:R-ntp-cn": [system, 223.5.5.5, 119.29.29.29]              # 国内 NTP
-    "rule-set:R-icloud-cn": [system, 223.5.5.5, 119.29.29.29]           # iCloud 国内节点 云上贵州
-    "rule-set:R-itunes-cn": [system, 223.5.5.5, 119.29.29.29]           # iTunes 国内节点
-    "rule-set:R-apple-pki": [system, 223.5.5.5, 119.29.29.29]           # Apple 证书服务
-    "rule-set:R-apple-update": [system, 223.5.5.5, 119.29.29.29]        # iOS/macOS 系统更新
-    "rule-set:R-apple-cn": [system, 223.5.5.5, 119.29.29.29]            # Apple 中国专属域名
-    "rule-set:R-apple-at-cn": [system, 223.5.5.5, 119.29.29.29]         # Apple 国内服务补充
-    "rule-set:R-apple-dev-cn": [system, 223.5.5.5, 119.29.29.29]        # Apple 开发者国内节点
-    "rule-set:R-icloud": [system, 223.5.5.5, 119.29.29.29]              # iCloud
-    "rule-set:R-itunes": [system, 223.5.5.5, 119.29.29.29]              # iTunes
-    "rule-set:R-apple": [system, 223.5.5.5, 119.29.29.29]               # Apple 全家桶
-    "rule-set:R-wechat": [system, 223.5.5.5, 119.29.29.29]              # 微信
-    "rule-set:R-alipay": [system, 223.5.5.5, 119.29.29.29]              # 支付宝
-    "rule-set:R-netease": [system, 223.5.5.5, 119.29.29.29]             # 网易云音乐
-    "rule-set:R-meituan": [system, 223.5.5.5, 119.29.29.29]             # 美团
-    "rule-set:R-jingdong": [system, 223.5.5.5, 119.29.29.29]            # 京东
+    "rule-set:R-private":         [system]                           # 内网域名
+    "rule-set:R-wechat":          [system, 223.5.5.5, 119.29.29.29]  # 微信
+    "rule-set:R-apple":           [system, 223.5.5.5, 119.29.29.29]  # 苹果全家
+    "rule-set:R-alibaba@cn":      [system, 223.5.5.5, 119.29.29.29]  # 阿里国内
+    "rule-set:R-bytedance@cn":    [system, 223.5.5.5, 119.29.29.29]  # 字节国内（抖音、飞书等）
+    "rule-set:R-jd@cn":           [system, 223.5.5.5, 119.29.29.29]  # 京东国内
+    "rule-set:R-meituan":         [system, 223.5.5.5, 119.29.29.29]  # 美团
+    "rule-set:R-netease@cn":      [system, 223.5.5.5, 119.29.29.29]  # 网易国内
+    "rule-set:R-getui":           [system, 223.5.5.5, 119.29.29.29]  # 个推
+    "rule-set:R-connectivity":    [system, 223.5.5.5, 119.29.29.29]  # 连通性检测
+    "rule-set:R-cas@cn":          [system, 223.5.5.5, 119.29.29.29]  # 证书机构国内
+    "rule-set:R-stun@cn":         [system, 223.5.5.5, 119.29.29.29]  # 国内 STUN
+    "rule-set:R-cdn-cn":          [system, 223.5.5.5, 119.29.29.29]  # 国内 CDN
+    "rule-set:R-bank-cn":         [system, 223.5.5.5, 119.29.29.29]  # 国内银行
+    "rule-set:R-securities-cn":   [system, 223.5.5.5, 119.29.29.29]  # 国内证券
+    "rule-set:R-finance-cn":      [system, 223.5.5.5, 119.29.29.29]  # 国内金融
+    "rule-set:R-ntp@cn":          [system, 223.5.5.5, 119.29.29.29]  # 国内 NTP
+    "rule-set:R-games-cn":        [system, 223.5.5.5, 119.29.29.29]  # 国内游戏
+    "rule-set:R-cn-misc-realip":  [system, 223.5.5.5, 119.29.29.29]  # 国内真实 IP 杂项
 
   # ── Fake-IP ──
+  # 跟上面 nameserver-policy 保持一致
   fake-ip-filter:
-    - "rule-set:R-private"                   # 局域网 / 私有域名：必须返回真实 IP，否则本地服务无法访问
-    - "rule-set:R-fakeipfilter"              # 标准 Fake-IP 豁免表 NTP / STUN / 音乐 / 游戏等
-    - "rule-set:R-connectivity"              # 连通性探测：返回假 IP 会导致 Windows/macOS 报断网
-    - "rule-set:R-cdn-cn"                    # 国内 CDN：需要真实 IP 做就近调度
-    - "rule-set:R-bank-cn"                   # 国内银行：假 IP 会触发证书校验失败
+    - "rule-set:R-private"                   # 内网域名
+    - "rule-set:R-wechat"                    # 微信
+    - "rule-set:R-apple"                     # 苹果全家
+    - "rule-set:R-alibaba@cn"                # 阿里国内
+    - "rule-set:R-bytedance@cn"              # 字节国内（抖音、飞书等）
+    - "rule-set:R-jd@cn"                     # 京东国内
+    - "rule-set:R-meituan"                   # 美团
+    - "rule-set:R-netease@cn"                # 网易国内
+    - "rule-set:R-getui"                     # 个推
+    - "rule-set:R-connectivity"              # 连通性检测
+    - "rule-set:R-cas@cn"                    # 证书机构国内
+    - "rule-set:R-stun@cn"                   # 国内 STUN
+    - "rule-set:R-cdn-cn"                    # 国内 CDN
+    - "rule-set:R-bank-cn"                   # 国内银行
     - "rule-set:R-securities-cn"             # 国内证券
     - "rule-set:R-finance-cn"                # 国内金融
-    - "rule-set:R-ntp-cn"                    # 国内 NTP：假 IP 导致时间同步失败
-    - "rule-set:R-icloud-cn"                 # iCloud 国内节点 云上贵州
-    - "rule-set:R-itunes-cn"                 # iTunes 国内节点
-    - "rule-set:R-apple-pki"                 # Apple 证书服务
-    - "rule-set:R-apple-update"              # iOS/macOS 系统更新
-    - "rule-set:R-apple-cn"                  # Apple 中国专属域名
-    - "rule-set:R-apple-at-cn"               # Apple 国内服务补充
-    - "rule-set:R-apple-dev-cn"              # Apple 开发者国内节点
-    - "rule-set:R-icloud"                    # iCloud
-    - "rule-set:R-itunes"                    # iTunes
-    - "rule-set:R-apple"                     # Apple 全家桶
-    - "rule-set:R-wechat"
-    - "rule-set:R-alipay"
-    - "rule-set:R-netease"
-    - "rule-set:R-meituan"
-    - "rule-set:R-jingdong"
-     
+    - "rule-set:R-ntp@cn"                    # 国内 NTP
+    - "rule-set:R-games-cn"                  # 国内游戏
+    - "rule-set:R-cn-misc-realip"            # 国内真实 IP 杂项
+
+
 # =======================================================
 # 6. 策略组 Proxy Groups
 # =======================================================
@@ -241,155 +231,145 @@ proxy-groups:
 
 # ===== 锚点 Providers =====
 rule-anchor:
-  ip:           &ip           {type: http, behavior: ipcidr,    format: mrs,  interval: 86400, proxy: Proxy}
-  domain:       &domain       {type: http, behavior: domain,    format: mrs,  interval: 86400, proxy: Proxy}
-  yaml:         &yaml         {type: http, behavior: domain,    format: yaml, interval: 86400, proxy: Proxy}
-  yaml-ip:      &yaml-ip      {type: http, behavior: ipcidr,    format: yaml, interval: 86400, proxy: Proxy}
-  yaml-classic: &yaml-classic {type: http, behavior: classical, format: yaml, interval: 86400, proxy: Proxy}
-  list-class:   &list-class   {type: http, behavior: classical, format: text, interval: 86400, proxy: Proxy}
+  domain:       &domain       {type: http, behavior: domain,    format: mrs,  interval: 86400, proxy: Proxy}   # 域名，mrs 格式
+  ip:           &ip           {type: http, behavior: ipcidr,    format: mrs,  interval: 86400, proxy: Proxy}   # IP，mrs 格式
 
 # ===== 远程规则集 Remote Rule =====
 rule-providers:
 
-  # ══════════════════════════════════════════
-  # 1.REJECT
-  # ══════════════════════════════════════════
-  R-icloudprivaterelay: {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/icloudprivaterelay.yaml"}                  # iCloud私有中继 → REJECT
-  R-ads:                {<<: *domain, url: "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.mrs"}       # 全量广告拦截 → REJECT
-  R-httpdns-cn:         {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/category-httpdns-cn.yaml"}                 # 国内HTTPDNS劫持 → REJECT
-  R-win-spy:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/win-spy.mrs"}                        # Windows隐私追踪 → REJECT
+  # ── 只用于嗅探豁免，不参与分流 ──
+  R-sniffer-skip-ip:      {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/sniffer-skip-ip.mrs"}               # 不嗅探 IP
+  R-sniffer-skip-misc:    {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/sniffer-skip-misc.mrs"}           # 不嗅探杂项（米家云）
 
   # ══════════════════════════════════════════
-  # 2.LAN
+  # 1. 拦截（排在最前面）
   # ══════════════════════════════════════════
-  R-private:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/private.yaml"}                             # 内网域名 → DIRECT
-  R-private-ip:         {<<: *yaml-ip,url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.yaml"}                         # 内网IP地址 → DIRECT
-  R-fakeipfilter:       {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/fakeipfilter.yaml"}                        # FakeIP过滤 → DIRECT
-  R-sniffer-skip-ip:    {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/sniffer-skip-ip.yaml"}                     # 嗅探豁免 IP 列表
-  R-connectivity:       {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/connectivity-check.yaml"}                  # 网络连通性检测 → DIRECT
+  R-icloudprivaterelay:   {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/icloudprivaterelay.mrs"}          # iCloud 专用代理
+  R-ads:                  {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/awavenue.mrs"}                    # 广告（AWAvenue）
+  R-httpdns-cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-httpdns-cn.mrs"}         # 国内 HTTPDNS
+  R-win-spy:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/win-spy.mrs"}                     # Windows 隐私追踪
 
   # ══════════════════════════════════════════
-  # 3.Proxy
+  # 2. 局域网和必须直连的
+  # ══════════════════════════════════════════
+  R-private-ip:           {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/private.mrs"}                       # 内网 IP
+  R-private:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/private.mrs"}                     # 内网域名
+  R-connectivity:         {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/connectivity-check.mrs"}          # 连通性检测
+
+  # ══════════════════════════════════════════
+  # 3. 海外商家
+  # @!cn = 国外部分，@cn = 国内部分
   # ══════════════════════════════════════════
 
-  # ── YouTube ──
-  R-youtube:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"}                        # YouTube
-  
-  # ── Google ──
-  R-google:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}                         # Google全家桶
-  R-google-ip:          {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"} 
-  R-FCM:                {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/googlefcm.mrs"}                      # Firebase推送
-  R-gemini:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-gemini.mrs"}                  # Gemini AI
-  R-google-play:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-play.mrs"}                    # Google Play
-  R-google-play-cn:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-play@cn.mrs"}                 # Google Play国内节点 → DIRECT
-  
-  # ── OpenAI ──
-  R-openai:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/openai.yaml"}                              # OpenAI
-  
   # ── Anthropic ──
-  R-anthropic:          {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/anthropic.yaml"}                           # Anthropic / Claude
-  R-anthropic-ip:       {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/anthropic-ip.yaml"}
-  
+  R-anthropic:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/anthropic.mrs"}                   # Anthropic / Claude
+  R-anthropic-ip:         {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/anthropic.mrs"}                     # Anthropic IP
+
+  # ── OpenAI ──
+  R-openai:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/openai.mrs"}                      # OpenAI / ChatGPT
+
   # ── AI ──
-  R-perplexity:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/perplexity.mrs"}                     # Perplexity AI搜索
-  R-ai:                 {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/category-ai-chat-!cn.yaml"}                # AI服务兜底
-  
+  R-perplexity:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/perplexity.mrs"}                  # Perplexity
+  R-ai:                   {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-ai-chat-!cn.mrs"}        # AI 杂项
+
   # ── GitHub ──
-  R-github:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/github.yaml"}                              # GitHub / VSCode
-  R-github1s:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github1s.mrs"}                       # GitHub在线VSCode
-  R-github-copilot:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github-copilot.mrs"}                 # GitHub Copilot
-  
+  R-github:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/github.mrs"}                      # GitHub（含 Copilot、npm）
+  R-vscode:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/vscode.mrs"}                      # VSCode
+
   # ── Telegram ──
-  R-telegram:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/telegram.yaml"}                            # Telegram
-  R-telegram-ip:        {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/telegram-ip.yaml"}                         # Telegram IP
-  
-  # ── Elon Musk ──
-  R-x-ads:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/x@ads.mrs"}                          # X广告 → REJECT
-  R-twitter-ads:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitter@ads.mrs"}                    # Twitter广告 → REJECT
-  R-x:                  {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/x.mrs"}                              # X补充域名
-  R-twitter:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitter.mrs"}                        # Twitter/X
-  R-twitter-ip:         {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/twitter.mrs"}                          # Twitter IP
-  R-xai:                {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xai.mrs"}                            # xAI / Grok
+  R-telegram:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/telegram.mrs"}                    # Telegram
+  R-telegram-ip:          {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/telegram.mrs"}                      # Telegram IP
 
-  # ── TikTok / 字节跳动 ──
-  R-tiktok:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/tiktok.yaml"}                              # TikTok → 代理
-  
-  R-bytedance-ai-!cn:   {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bytedance-ai-!cn.mrs"}               # 字节AI海外(豆包/Coze国际版) → 代理
-  R-bytedance-!cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bytedance@!cn.mrs"}                  # 字节海外域名 → 代理
+  # ── X ──
+  R-x:                    {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/x.mrs"}                           # X（含 Grok）
+  R-twitter-ip:           {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/twitter.mrs"}                       # 推特 IP
 
-  R-douyin:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/douyin.yaml"} 
-  R-douyin-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/douyin-ip.yaml"}
-
-  R-bytedance:          {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/bytedance.yaml"}                           # 字节全量兜底(抖音/飞书/头条) → DIRECT
+  # ── 字节跳动 ──
+  R-bytedance@!cn:        {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/bytedance@!cn.mrs"}               # 字节国外（TikTok 等）
+  R-bytedance@cn:         {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/bytedance@cn.mrs"}                # 字节国内（抖音、飞书等）
+  R-douyin-ip:            {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/douyin.mrs"}                        # 抖音 IP
 
   # ── Netflix ──
-  R-netflix:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"}                        # Netflix
-  R-netflix-ip:         {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs"}                          # Netflix IP
-  
+  R-netflix:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/netflix.mrs"}                     # Netflix
+  R-netflix-ip:           {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/netflix.mrs"}                       # Netflix IP
+
   # ── Spotify ──
-  R-spotify:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs"}                        # Spotify
-  R-spotify-ads:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify@ads.mrs"}                    # Spotify广告 → REJECT
+  R-spotify:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/spotify.mrs"}                     # Spotify
 
   # ── Steam ──
-  R-steam:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.mrs"}                          # Steam
-  R-steam-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam@cn.mrs"}                       # Steam国内节点 → DIRECT
+  R-steam@!cn:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/steam@!cn.mrs"}                   # Steam 国外
+  R-steam@cn:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/steam@cn.mrs"}                    # Steam 国内 CDN
 
-  R-steamunlocked:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steamunlocked.mrs"}                  # SteamUnlocked游戏资源
-  R-steaminventory:     {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steaminventoryhelper.mrs"}           # Steam库存助手
-  
+  # ── YouTube ──
+  R-youtube:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/youtube.mrs"}                     # YouTube
+
+  # ── Google ──
+  R-google:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/google.mrs"}                      # Google 全家
+  R-google-ip:            {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/google.mrs"}                        # Google IP
+
   # ── Microsoft ──
-  R-microsoft:          {<<: *yaml,   url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.yaml"}                     # Microsoft全家桶
-  R-microsoft-cn:       {<<: *yaml,   url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft@cn.yaml"}                  # Microsoft国内节点 → DIRECT
+  R-microsoft:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/microsoft.mrs"}                   # 微软全家
 
   # ── Apple ──
-  R-icloud:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/icloud.mrs"}                         # iCloud
-  R-icloud-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/icloud@cn.mrs"}                      # iCloud国内节点(云上贵州) → DIRECT
-  R-itunes:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/itunes.mrs"}                         # iTunes
-  R-itunes-cn:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/itunes@cn.mrs"}                      # iTunes国内节点 → DIRECT
-  R-apple-pki:          {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-pki.mrs"}                      # Apple证书服务(国际)
-  R-apple:              {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/apple.yaml"}                               # Apple全家桶
-  R-apple-ip:           {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/apple-ip.yaml"}                            # Apple IP段
-  R-apple-update:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-update.mrs"}                   # iOS/macOS系统更新 → DIRECT
-  R-apple-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"}                       # Apple中国专属域名 → DIRECT
-  R-apple-at-cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple@cn.mrs"}                       # Apple国内服务补充 → DIRECT
-  R-apple-dev-cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-dev@cn.mrs"}                   # Apple开发者国内节点 → DIRECT
-  R-appleakamai:        {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/appleakamai.yaml"}                         # Apple akamai节点
-  
-  # ── CN App ──
-  R-wechat:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/wechat.yaml"}
-  R-wechat-ip:          {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/wechat-ip.yaml"}
-  
-  R-alipay:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/alipay.yaml"}
-  
-  R-netease:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/netease.yaml"}
-  R-meituan:            {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/meituan.yaml"}  
+  R-apple:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/apple.mrs"}                       # 苹果全家
+  R-appleakamai:          {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/appleakamai.mrs"}                 # 苹果 Akamai 地址
+  R-apple-ip:             {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/apple.mrs"}                         # 苹果 IP
 
-  R-jingdong:           {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/jingdong.yaml"}
-  R-jingdongcloud-ip:   {<<: *yaml-ip,url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/jingdongcloud-ip.yaml"}
-  R-cn-add:             {<<: *yaml,   url: "https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/Rules/cn-add.yaml"}                            # 国内服务补充（阿里、百度、小红书、腾讯）
-  
   # ══════════════════════════════════════════
-  # 4.Final
+  # 4. 国内商家（全部走 CN 直连）
   # ══════════════════════════════════════════
 
-  # ── Category ──
-  R-cdn-cn:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-cdn-cn.mrs"}                # 国内CDN → DIRECT
-  R-bank-cn:            {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-bank-cn.mrs"}               # 国内银行 → DIRECT
-  R-securities-cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-securities-cn.mrs"}         # 国内证券 → DIRECT
-  R-finance-cn:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-finance@cn.mrs"}            # 国内金融 → DIRECT
-  R-ntp-cn:             {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ntp-cn.mrs"}                # 国内NTP时间服务 → DIRECT
-  R-netdisk-cn:         {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-netdisk-cn.mrs"}            # 国内网盘 → DIRECT
-  R-games-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-games-cn.mrs"}              # 国内游戏 → DIRECT
-  R-getui:              {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/getui.mrs"}                          # 国内个推推送服务 → DIRECT
-  R-globalsign@cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/globalsign@cn.mrs"}                  # Globalsign国内节点 → DIRECT
-  R-digicert@cn:        {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/digicert@cn.mrs"}                    # Digicert国内节点 → DIRECT
-  
-  # ── Final ──
-  geolocation-!cn:      {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}                # 非中国域名兜底 → 代理
-  geosite-cn:           {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}                             # 中国域名兜底 → DIRECT
-  geolocation-cn:       {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-cn.mrs"}                 # 中国域名补充（geosite-cn 没收全的）→ DIRECT
-  geoip-cn:             {<<: *ip,     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}                               # 中国IP兜底 → DIRECT
+  # ── 微信 ──
+  R-wechat:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/wechat.mrs"}                      # 微信
+  R-wechat-ip:            {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/wechat.mrs"}                        # 微信 IP
 
+  # ── 阿里 ──
+  R-alibaba@cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/alibaba@cn.mrs"}                  # 阿里国内
+
+  # ── 京东 ──
+  R-jd@cn:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/jd@cn.mrs"}                       # 京东国内
+  R-jingdongcloud-ip:     {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/jingdongcloud.mrs"}                 # 京东云 IP
+
+  # ── 美团 ──
+  R-meituan:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/meituan.mrs"}                     # 美团
+
+  # ── 网易 ──
+  R-netease@cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/netease@cn.mrs"}                  # 网易国内
+
+  # ══════════════════════════════════════════
+  # 5. 通用服务
+  # ══════════════════════════════════════════
+
+  # ── 推送 ──
+  R-getui:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/getui.mrs"}                       # 个推
+
+  # ── 证书 ──
+  R-cas@cn:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-cas@cn.mrs"}             # 证书机构国内
+
+  # ── STUN ──
+  R-stun@cn:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/stun@cn.mrs"}                     # 国内 STUN
+
+  # ── 国内分类 ──
+  R-cdn-cn:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-cdn-cn.mrs"}             # 国内 CDN
+  R-bank-cn:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-bank-cn.mrs"}            # 国内银行
+  R-securities-cn:        {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-securities-cn.mrs"}      # 国内证券
+  R-finance-cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-finance@cn.mrs"}         # 国内金融
+  R-ntp@cn:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-ntp@cn.mrs"}             # 国内 NTP
+  R-netdisk-cn:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-netdisk-cn.mrs"}         # 国内网盘
+  R-games-cn:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-games-cn.mrs"}           # 国内游戏
+
+  # ── 国内杂项 ──
+  R-cn-misc:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/cn-misc.mrs"}                     # 国内杂项
+  R-cn-misc-ip:           {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/cn-misc.mrs"}                       # 国内杂项 IP
+  R-cn-misc-realip:       {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/cn-misc-realip.mrs"}              # 国内真实 IP 杂项
+
+  # ══════════════════════════════════════════
+  # 6. 兜底
+  # ══════════════════════════════════════════
+  geolocation-!cn:        {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/geolocation-!cn.mrs"}             # 国外网站兜底
+  geosite-cn:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/cn.mrs"}                          # 国内网站兜底
+  geolocation-cn:         {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/geolocation-cn.mrs"}              # 国内网站补充
+  geoip-cn:               {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/cn.mrs"}                            # 国内 IP 兜底
 
 # =======================================================
 # 8. 分流规则 Rules
@@ -397,133 +377,135 @@ rule-providers:
 rules:
 
   # ══════════════════════════════════════════
-  # 1.REJECT
+  # 1. 拦截（排在最前面）
   # ══════════════════════════════════════════
-  - RULE-SET,R-icloudprivaterelay,REJECT-DROP                      # iCloud 私有中继
-  - RULE-SET,R-ads,REJECT-DROP                                     # 全量广告拦截
-  - RULE-SET,R-httpdns-cn,REJECT-DROP                              # 国内 HTTPDNS 劫持
-  - RULE-SET,R-win-spy,REJECT-DROP                                 # Windows 隐私追踪
+  - RULE-SET,R-icloudprivaterelay,REJECT-DROP       # iCloud 专用代理
+  - RULE-SET,R-ads,REJECT-DROP                      # 广告（AWAvenue）
+  - RULE-SET,R-httpdns-cn,REJECT-DROP               # 国内 HTTPDNS
+  - RULE-SET,R-win-spy,REJECT-DROP                  # Windows 隐私追踪
 
   # ══════════════════════════════════════════
-  # 2.LAN
+  # 2. 局域网和必须直连的
   # ══════════════════════════════════════════
-  - RULE-SET,R-private-ip,DIRECT,no-resolve                        # 内网 IP 地址  
-  - RULE-SET,R-private,DIRECT                                      # 内网域名
-  - RULE-SET,R-fakeipfilter,DIRECT                                 # FakeIP 过滤
-  - RULE-SET,R-connectivity,DIRECT                                 # 网络连通性检测
+  - RULE-SET,R-private-ip,DIRECT,no-resolve         # 内网 IP
+  - RULE-SET,R-private,DIRECT                       # 内网域名
+  - RULE-SET,R-connectivity,DIRECT                  # 连通性检测
 
   # ══════════════════════════════════════════
-  # 3.Proxy
+  # 3. 海外商家
   # ══════════════════════════════════════════
-
-  # ── OpenAI ──
-  - RULE-SET,R-openai,OpenAI                                       # OpenAI
 
   # ── Anthropic ──
-  - RULE-SET,R-anthropic,Anthropic                                 # Anthropic / Claude
-  - RULE-SET,R-anthropic-ip,Anthropic,no-resolve
+  - RULE-SET,R-anthropic,Anthropic                  # Anthropic / Claude
+  - RULE-SET,R-anthropic-ip,Anthropic,no-resolve    # Anthropic IP
+
+  # ── OpenAI ──
+  - RULE-SET,R-openai,OpenAI                        # OpenAI / ChatGPT
 
   # ── AI ──
-  - RULE-SET,R-perplexity,AI                                       # Perplexity AI 搜索
-  - RULE-SET,R-ai,AI                                               # AI 聊天服务兜底
-  
+  - RULE-SET,R-perplexity,AI                        # Perplexity
+  - RULE-SET,R-ai,AI                                # AI 杂项
+
   # ── GitHub ──
-  - RULE-SET,R-github,GitHub                                       # GitHub
-  - RULE-SET,R-github1s,GitHub                                     # GitHub 在线 VSCode
-  - RULE-SET,R-github-copilot,GitHub                               # GitHub Copilot
+  # 排在 Microsoft 前面：VSCode 插件市场的地址被微软后缀盖住
+  - RULE-SET,R-github,GitHub                        # GitHub（含 Copilot、npm）
+  - RULE-SET,R-vscode,GitHub                        # VSCode
 
   # ── Telegram ──
-  - RULE-SET,R-telegram,Telegram                                   # Telegram
-  - RULE-SET,R-telegram-ip,Telegram,no-resolve                     # Telegram IP
+  - RULE-SET,R-telegram,Telegram                    # Telegram
+  - RULE-SET,R-telegram-ip,Telegram,no-resolve      # Telegram IP
 
-  # ── Elon Musk ──
-  - RULE-SET,R-x-ads,REJECT-DROP                                   # X 广告
-  - RULE-SET,R-twitter-ads,REJECT-DROP                             # Twitter 广告
-  - RULE-SET,R-xai,X                                               # xAI / Grok
-  - RULE-SET,R-x,X                                                 # X 补充域名
-  - RULE-SET,R-twitter,X                                           # Twitter/X
-  - RULE-SET,R-twitter-ip,X,no-resolve                             # Twitter IP
+  # ── X ──
+  - RULE-SET,R-x,X                                  # X（含 Grok）
+  - RULE-SET,R-twitter-ip,X,no-resolve              # 推特 IP
 
-  # ── TikTok / 字节跳动 ──
-  - RULE-SET,R-tiktok,TikTok                                       # TikTok
-  - RULE-SET,R-bytedance-ai-!cn,TikTok                             # 字节 AI 海外（豆包/Coze 国际版）
-  - RULE-SET,R-bytedance-!cn,TikTok                                # 字节海外域名
-  - RULE-SET,R-douyin,CN
-  - RULE-SET,R-douyin-ip,CN,no-resolve
-  - RULE-SET,R-bytedance,CN                                        # 字节全量兜底（抖音/飞书/头条）
+  # ── 字节跳动 ──
+  - RULE-SET,R-bytedance@!cn,TikTok                 # 字节国外（TikTok 等）
+  - RULE-SET,R-douyin-ip,CN,no-resolve              # 抖音 IP
+  - RULE-SET,R-bytedance@cn,CN                      # 字节国内（抖音、飞书等）
 
   # ── Netflix ──
-  - RULE-SET,R-netflix,Netflix                                     # Netflix
-  - RULE-SET,R-netflix-ip,Netflix,no-resolve                       # Netflix IP
-  
+  - RULE-SET,R-netflix,Netflix                      # Netflix
+  - RULE-SET,R-netflix-ip,Netflix,no-resolve        # Netflix IP
+
   # ── Spotify ──
-  - RULE-SET,R-spotify-ads,REJECT-DROP                             # Spotify 广告
-  - RULE-SET,R-spotify,Spotify                                     # Spotify
+  - RULE-SET,R-spotify,Spotify                      # Spotify
 
   # ── Steam ──
-  - RULE-SET,R-steam-cn,Steam                                      # Steam 国内节点
-  - RULE-SET,R-steam,Steam                                         # Steam
-  - RULE-SET,R-steamunlocked,Steam                                 # SteamUnlocked
-  - RULE-SET,R-steaminventory,Steam                                # Steam 库存助手
-  
+  - RULE-SET,R-steam@!cn,Steam                      # Steam 国外
+  - RULE-SET,R-steam@cn,Steam                       # Steam 国内 CDN
+
   # ── YouTube ──
-  - RULE-SET,R-youtube,YouTube                                     # YouTube
-  
+  - RULE-SET,R-youtube,YouTube                      # YouTube
+
   # ── Google ──
-  - RULE-SET,R-gemini,Google                                       # Gemini AI
-  - RULE-SET,R-google,Google                                       # Google 全家桶
-  - RULE-SET,R-google-ip,Google,no-resolve                         # Google IP
-  - RULE-SET,R-FCM,Google                                          # Firebase 推送
-  - RULE-SET,R-google-play,Google                                  # Google Play
-  - RULE-SET,R-google-play-cn,Google                               # Google Play 国内节点
-  
+  - RULE-SET,R-google,Google                        # Google 全家
+  - RULE-SET,R-google-ip,Google,no-resolve          # Google IP
+
   # ── Microsoft ──
-  - RULE-SET,R-microsoft-cn,Microsoft                              # Microsoft 国内节点
-  - RULE-SET,R-microsoft,Microsoft                                 # Microsoft 全家桶
+  - RULE-SET,R-microsoft,Microsoft                  # 微软全家
 
   # ── Apple ──
-  - RULE-SET,R-icloud-cn,Apple                                     # iCloud 国内节点（云上贵州）
-  - RULE-SET,R-itunes-cn,Apple                                     # iTunes 国内节点
-  - RULE-SET,R-apple-pki,Apple                                     # Apple 证书服务
-  - RULE-SET,R-apple-update,Apple                                  # iOS/macOS 系统更新
-  - RULE-SET,R-apple-cn,Apple                                      # Apple 中国专属域名
-  - RULE-SET,R-apple-at-cn,Apple                                   # Apple 国内服务补充
-  - RULE-SET,R-apple-dev-cn,Apple                                  # Apple 开发者国内节点
-  - RULE-SET,R-icloud,Apple                                        # iCloud
-  - RULE-SET,R-itunes,Apple                                        # iTunes
-  - RULE-SET,R-apple,Apple                                         # Apple 全家桶
-  - RULE-SET,R-appleakamai,Apple                                   # Apple akamai节点
-  - RULE-SET,R-apple-ip,Apple,no-resolve                           # Apple IP 段
-  
-  # ── CN App ──
-  - RULE-SET,R-wechat,CN
-  - RULE-SET,R-wechat-ip,CN,no-resolve
-  - RULE-SET,R-alipay,CN
-  - RULE-SET,R-netease,CN
-  - RULE-SET,R-meituan,CN
-  - RULE-SET,R-jingdong,CN
-  - RULE-SET,R-jingdongcloud-ip,CN,no-resolve
-  - RULE-SET,R-cn-add,CN                                           # 国内服务补充（阿里、百度、小红书、腾讯）
+  - RULE-SET,R-apple,Apple                          # 苹果全家
+  - RULE-SET,R-appleakamai,Apple                    # 苹果 Akamai 地址
+  - RULE-SET,R-apple-ip,Apple,no-resolve            # 苹果 IP
 
   # ══════════════════════════════════════════
-  # 6.Final
+  # 4. 国内商家（全部走 CN 直连）
   # ══════════════════════════════════════════
-  - RULE-SET,R-cdn-cn,DIRECT                                       # 国内 CDN
-  - RULE-SET,R-bank-cn,DIRECT                                      # 国内银行
-  - RULE-SET,R-securities-cn,DIRECT                                # 国内证券
-  - RULE-SET,R-finance-cn,DIRECT                                   # 国内金融
-  - RULE-SET,R-ntp-cn,DIRECT                                       # 国内 NTP 时间服务
-  - RULE-SET,R-netdisk-cn,DIRECT                                   # 国内网盘
-  - RULE-SET,R-games-cn,DIRECT                                     # 国内游戏
-  - RULE-SET,R-getui,DIRECT                                        # 国内个推推送服务
-  - RULE-SET,R-globalsign@cn,DIRECT                                # Globalsign 国内节点
-  - RULE-SET,R-digicert@cn,DIRECT                                  # Digicert 国内节点
- 
-  # ── GEO Final ──
-  - RULE-SET,geolocation-!cn,Final                                 # 非中国域名兜底
-  - RULE-SET,geosite-cn,DIRECT                                     # 中国域名兜底
-  - RULE-SET,geolocation-cn,DIRECT                                 # 中国域名补充
-  - RULE-SET,geoip-cn,DIRECT,no-resolve                            # 中国 IP 兜底
 
-  # ── Final ──
+  # ── 微信 ──
+  - RULE-SET,R-wechat,CN                            # 微信
+  - RULE-SET,R-wechat-ip,CN,no-resolve              # 微信 IP
+
+  # ── 阿里 ──
+  - RULE-SET,R-alibaba@cn,CN                        # 阿里国内
+
+  # ── 京东 ──
+  - RULE-SET,R-jingdongcloud-ip,CN,no-resolve       # 京东云 IP
+  - RULE-SET,R-jd@cn,CN                             # 京东国内
+
+  # ── 美团 ──
+  - RULE-SET,R-meituan,CN                           # 美团
+
+  # ── 网易 ──
+  - RULE-SET,R-netease@cn,CN                        # 网易国内
+
+  # ══════════════════════════════════════════
+  # 5. 通用服务
+  # 不属于某一家的，排在所有商家后面
+  # ══════════════════════════════════════════
+
+  # ── 推送 ──
+  - RULE-SET,R-getui,CN                             # 个推
+
+  # ── 证书 ──
+  - RULE-SET,R-cas@cn,DIRECT                        # 证书机构国内
+
+  # ── STUN ──
+  - RULE-SET,R-stun@cn,CN                           # 国内 STUN
+
+  # ── 国内分类 ──
+  - RULE-SET,R-cdn-cn,CN                            # 国内 CDN
+  - RULE-SET,R-bank-cn,CN                           # 国内银行
+  - RULE-SET,R-securities-cn,CN                     # 国内证券
+  - RULE-SET,R-finance-cn,CN                        # 国内金融
+  - RULE-SET,R-netdisk-cn,CN                        # 国内网盘
+  - RULE-SET,R-games-cn,CN                          # 国内游戏
+  - RULE-SET,R-ntp@cn,CN                            # 国内 NTP
+
+  # ── 国内杂项 ──
+  - RULE-SET,R-cn-misc,CN                           # 国内杂项
+  - RULE-SET,R-cn-misc-ip,CN,no-resolve             # 国内杂项 IP
+  - RULE-SET,R-cn-misc-realip,CN                    # 国内真实 IP 杂项
+
+  # ══════════════════════════════════════════
+  # 6. 兜底
+  # ══════════════════════════════════════════
+  - RULE-SET,geolocation-!cn,Final                  # 国外网站兜底
+  - RULE-SET,geosite-cn,DIRECT                      # 国内网站兜底
+  - RULE-SET,geolocation-cn,DIRECT                  # 国内网站补充
+  - RULE-SET,geoip-cn,DIRECT,no-resolve             # 国内 IP 兜底
+
+  # ── 最后：前面全没命中的 ──
   - MATCH,Final
