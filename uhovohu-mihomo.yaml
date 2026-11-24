@@ -1129,7 +1129,7 @@ rules:
   - RULE-SET,R-stun@cn,CN                           # 国内 STUN
 
   # ── 国内分类 ──
-  - RULE-SET,R-ntp@!cn,Final                        # 国外 NTP（走代理）
+  - RULE-SET,R-ntp@!cn,Proxy                        # 国外 NTP（走代理）
   - RULE-SET,R-cdn-cn,CN                            # 国内 CDN
   - RULE-SET,R-bank-cn,CN                           # 国内银行
   - RULE-SET,R-securities-cn,CN                     # 国内证券
