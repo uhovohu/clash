@@ -414,7 +414,6 @@ rule-providers:
   # ── 字节跳动 ──
   R-bytedance@!cn:        {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/bytedance@!cn.mrs"}               # 字节国外（TikTok 等）
   R-bytedance@cn:         {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/bytedance@cn.mrs"}                # 字节国内（抖音、飞书等）
-  R-douyin-ip:            {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/douyin.mrs"}                        # 抖音 IP
 
   # ── Netflix ──
   R-netflix:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/netflix.mrs"}                     # Netflix
@@ -839,7 +838,6 @@ rules:
 
   # ── 字节跳动 ──
   - RULE-SET,R-bytedance@!cn,TikTok                 # 字节国外（TikTok 等）
-  - RULE-SET,R-douyin-ip,CN,no-resolve              # 抖音 IP
   - RULE-SET,R-bytedance@cn,CN                      # 字节国内（抖音、飞书等）
 
   # ── Netflix ──
