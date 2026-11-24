@@ -1,96 +1,100 @@
-# 使用说明
+# uhovohu mihomo 配置
 
-本配置已针对 **DNS 泄漏** 与 **UDP 泄漏** 进行防护设计。
+适用于 mihomo 内核的分流配置,已针对 DNS 泄漏与 UDP 泄漏进行防护设计。内核版本要求 **v1.19.19** 及以上。
 
-## DNS 说明
+## 配置文件
 
-- 兜底 `nameserver` 使用明文 53 端口的 `8.8.8.8`,目的是最大限度兼容家庭宽带环境——部分家宽运营商会拦截或劣化加密 DNS。
-- 兜底 `nameserver` 附带参数 `&disable-qtype-65=true`,用于禁止经此 DNS 查询 HTTPS 记录(类型 65)。该参数自 mihomo 内核 **v1.19.19** 起支持;更早版本的内核会直接忽略它(不会报错,但也不会生效),请尽量升级到 v1.19.19 及以上版本。
-- 若在 Windows 平台使用本配置后仍检测到 DNS 泄漏,请参考以下教程关闭「多宿主名称解析策略」(Smart Multi-Homed Name Resolution):
-  https://wildprobe.com/soft-technical/dnsleak/
+| 文件名 | 链式代理 | 版本 |
+|---|:---:|:---:|
+| `uhovohu-mihomo.yaml` | ✅ | 完整版 |
+| `uhovohu-mihomo-lite.yaml` | ✅ | 精简版 |
+| `uhovohu-mihomo-nolink.yaml` | ❌ | 完整版 |
+| `uhovohu-mihomo-nolink-lite.yaml` | ❌ | 精简版 |
 
-## IPv6 说明
+- **完整版**:按服务细分策略组,并提供地区节点分组。
+- **精简版**:仅保留常用服务;其余海外流量由 Final 组承接,国内流量由兜底规则直连。
 
-- 全局 `ipv6: true`:允许内核处理 IPv6。TUN 会接管设备发出的 IPv6 流量,不会让它绕过代理直接走本地网络;同时也能使用只有 IPv6 地址的节点。iOS 上尤其需要:全局 IPv6 关闭时,隧道不接管 IPv6,手机在 5G 等有 IPv6 的网络下,IPv6 流量会直接走真实网络。
-- `dns.ipv6: false`:不向设备返回 IPv6 地址(AAAA 记录),App 只拿到 IPv4 地址,减少 App 自行用 IPv6 绕过代理的可能。**请保持关闭。**
-- 走直连的国内流量可能会改用 IPv6 发出,国内网站看到的是你的真实 IPv6,这与直连时看到真实 IPv4 是同一回事,不属于泄漏。
-- iOS 上若连接时所在网络没有 IPv6,之后切换到有 IPv6 的网络(如从 Wi-Fi 切到 5G),需要断开重连一次,隧道才会接管 IPv6。
+规则集均引用自 [uhovohu/mihomo-rules](https://github.com/uhovohu/mihomo-rules),每日自动更新。本仓库 `Rules/` 目录已停止维护,仅为兼容旧链接保留。
 
-## 客户端通用设置
+## 客户端设置
 
-**mihomo 内核类 App:**
+**mihomo 内核类应用**
 
 | 设置项 | 推荐值 |
 |---|---|
 | IPv6 | 开启 |
-| DNS 覆写 | 关闭 |
 | TUN 模式 | 开启 |
 | DNS 模式 | fake-ip |
+| DNS 覆写 | 关闭 |
 
-
-**OpenClash / Nikki 等路由器插件:**
+**OpenClash / Nikki 等路由器插件**
 
 | 设置项 | 推荐值 |
 |---|---|
-| IPv6 代理 | 局域网分配了 IPv6 时必须开启,否则设备的 IPv6 流量会绕过插件直接出去;未分配时开不开均可 |
-| DNS 覆写 | 关闭 |
+| IPv6 代理 | 局域网已分配 IPv6 时开启 |
 | DNS 模式 | fake-ip |
+| DNS 覆写 | 关闭 |
 | TCP 代理模式 | TPROXY |
 | UDP 代理模式 | TUN |
 
-开启 IPv6 代理后,请在插件日志中确认启动无报错;部分固件缺少 IPv6 透明代理所需的内核模块,会导致插件启动失败。
+- Windows 平台如仍检测到 DNS 泄漏,请关闭「多宿主名称解析策略」,参见 [教程](https://wildprobe.com/soft-technical/dnsleak/)。
 
-# 链式代理说明
+## IPv6
 
-链式代理由配置文件起始部分的 `proxy-providers` 模块(机场订阅)定义:
+本配置支持 IPv6 连接,但不进行 IPv6 DNS 解析:
 
-> **provider1 / provider2 —— 入口(IN 组)**
-> 建议填入线路机(中转)节点或机场节点的订阅。
->
-> **Link-OUT —— 出口(OUT 组)**
-> 建议填入家宽节点或落地机节点的订阅,作为最终落地出口。
+- `ipv6: true`:接管设备的 IPv6 流量,防止其绕过代理,并可连接 IPv6 节点。
+- `dns.ipv6: false`:不向设备返回 IPv6 地址,应用通过 IPv4 访问网站。
 
-注意事项:
+以上两项请保持不变。iOS 设备由无 IPv6 网络切换至有 IPv6 网络后,需重新连接一次。
 
-- 订阅链接请尽量使用仅含节点信息的「纯节点订阅」。
-- 请尽量使用最新版 mihomo 内核;链式代理配置理论上要求内核版本不低于 **v1.18.6**。
+## 链式代理
+
+在配置文件开头的 `proxy-providers` 中填入订阅:
+
+- **provider1 / provider2**:入口(IN 组),填入中转节点或机场节点订阅。
+- **Link-OUT**:出口(OUT 组),填入家宽节点或落地节点订阅。
+
+建议使用仅包含节点信息的纯节点订阅。
 
 <img src="https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/link-preview.png" width="100%">
 
-## 配置文件说明
+## 策略组
 
-| 文件名 | 链式代理 | 策略分组 |
-|---|:---:|:---:|
-| `uhovohu-mihomo.yaml` | ✅ | 完整 |
-| `uhovohu-mihomo-lite.yaml` | ✅ | 精简 |
-| `uhovohu-mihomo-nolink.yaml` | ❌ | 完整 |
-| `uhovohu-mihomo-nolink-lite.yaml` | ❌ | 精简 |
+各服务策略组默认指向 Proxy 组;Microsoft、Apple、Bilibili、Steam、Epic、TapTap、CN 默认直连。
 
-# 策略组说明
+**完整版**
 
-- 各应用分组默认指向 **Proxy** 组。
-- 出口链路示例:`apple 组 → Proxy 组 → OUT 组`,即当 apple 组选择 Proxy、Proxy 组选择 OUT 时,apple 组的最终出口为 OUT 组内所选节点。
+| 类别 | 策略组 |
+|---|---|
+| 入口 | Proxy(链式版另含 IN、OUT) |
+| AI | OpenAI、Anthropic、AI |
+| 海外服务 | YouTube、Google、GitHub、Microsoft、Adobe、Apple、Android |
+| 社交 | X、Meta、Telegram、Discord、Social |
+| 影音 | TikTok、Netflix、Spotify、Media、Emby、Bilibili |
+| 游戏 | Steam、Epic、TapTap |
+| 加密货币 | Crypto(含各交易所及行情工具) |
+| 支付 | PayPal、Wise、Pay |
+| 托管与 CDN | Cloudflare、Amazon、Akamai |
+| 工具 | IPtest、Speedtest、ProxyMisc |
+| 兜底 | CN、Final |
+| 地区节点 | HK、TW、JP、KR、SG、US、OTHERS1、OTHERS2 |
 
-## 支付分组(仅完整版)
+**精简版**
 
-完整版新增 **PayPal**、**Wise**、**Pay** 三个分组,默认均指向 **Proxy** 组;精简版不含这三组,相关流量走 Final。
+Proxy(链式版另含 IN、OUT)、OpenAI、Anthropic、AI、YouTube、Google、GitHub、Microsoft、Apple、X、Telegram、TikTok、Netflix、Spotify、Steam、CN、Final。
 
-- **PayPal**:PayPal 及旗下 Braintree、Venmo、Xoom。
-- **Wise**:Wise(原 TransferWise)。
-- **Pay**:通用的支付网关、收银台、3D 验证、风控与设备指纹、人机验证、身份认证(KYC)服务,如 Stripe、Adyen、Paddle、Sift、Forter、hCaptcha、Sumsub、Onfido 等。
+**支付分组(仅完整版)**
 
-规则顺序上,这三组排在所有应用规则之后、Final 兜底之前,相当于支付风控类流量的兜底:
+- **PayPal**:PayPal、Braintree、Venmo、Xoom。
+- **Wise**:Wise。
+- **Pay**:通用支付网关、风控、人机验证与身份认证(KYC)服务,如 Stripe、Adyen、Sift、Forter、hCaptcha、Sumsub。各服务专属的风控域名归属该服务的分组,Pay 仅承接通用部分。
 
-- 某个应用专属的风控 / 验证域名写在该应用自己的规则里(如 GitHub、PayPal 专用的 Arkose 验证接口),跟随该应用的分组;
-- 不属于任何应用的通用风控、支付服务,才落到 Pay。
+在某一服务中付款或实名认证时,如该服务的分组未选择 Proxy,建议将 Pay 临时切换至同一节点,避免因 IP 不一致触发风控。
 
-使用建议:网站会比对「访问网站的 IP」与「风控 / 支付脚本看到的 IP」,两者不一致容易触发风控。在某个应用里付款、做实名认证时,若该应用分组选的不是 Proxy,可临时把 Pay 切到同一节点,完成后再切回。Cloudflare Turnstile 跟随 Cloudflare 组,Google reCAPTCHA / Google Pay 跟随 Google 组,Apple Pay 跟随 Apple 组,不在 Pay 内。
+## 面板
 
-## 面板与图标
-
-策略组图标已更新,建议配合 **zashboard** 面板使用以获得最佳显示效果。
-
-推荐外观设置:`设置 → 外观 → 策略组图标尺寸 24 / 策略组图标间距 6`
+推荐使用 **zashboard** 面板,外观设置:`策略组图标尺寸 24 / 策略组图标间距 6`。
 
 | <img src="https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/zashboard-phone-dark.png" width="100%"> | <img src="https://raw.githubusercontent.com/uhovohu-glitch/clash/main/icons/zashboard-phone-light.png" width="100%"> |
 |:---:|:---:|
@@ -100,31 +104,11 @@
 |:---:|:---:|
 | Dark | Light |
 
-# 未默认引用的规则
+## 问题反馈
 
-以下规则集已包含在仓库中,但未在配置文件内默认引用,如有需要请自行添加:
-
-`binance` · `bitget` · `bookmap` · `bybit` · `htx` · `okx` · `coinpoker` · `natural8` · `tradingview` · `truthsocial`
-
-# 仓库地址变更
-
-GitHub 用户名已由 `uhovohu-glitch` 变更为 `uhovohu`,原始文件(raw)链接随之变化:
-
-> 变更前:`https://raw.githubusercontent.com/uhovohu-glitch/clash/refs/heads/main/uhovohu-mihomo-nolink.yaml`
->
-> 变更后:`https://raw.githubusercontent.com/uhovohu/clash/refs/heads/main/uhovohu-mihomo-nolink.yaml`
-
-如订阅或规则链接失效,请将链接中的 `uhovohu-glitch` 替换为 `uhovohu`。
-
-# 问题反馈
-
-各应用分流规则如有遗漏或误分流,欢迎提交 Issue。
+如发现规则遗漏或误分流,请提交 Issue。
 
 > [!WARNING]
-> ## ⚠️ 免责声明 / Disclaimer
+> **免责声明 / Disclaimer**
 >
-> 本仓库及其包含的所有分流规则、DNS 配置与代码片段**仅供个人技术学习与研究使用**。
->
-> 🚫 **严禁**在**中国大陆地区**以任何形式公开传播、转载分享本库内容与配置文件,或将其用于任何商业用途。
->
-> 请严格遵守您所在地区的法律法规,合理合法使用网络工具。因滥用本仓库内容造成的一切后果,由使用者自行承担。
+> 本仓库内容**仅供个人技术学习与研究使用**。**严禁**在**中国大陆地区**以任何形式公开传播、转载本仓库内容与配置文件,或将其用于任何商业用途。请遵守所在地区的法律法规,因滥用本仓库内容造成的一切后果由使用者自行承担。
