@@ -391,6 +391,9 @@ rules:
   - RULE-SET,R-private-ip,DIRECT,no-resolve         # 内网 IP
   - RULE-SET,R-private,DIRECT                       # 内网域名
   - RULE-SET,R-connectivity,DIRECT                  # 连通性检测
+  # 拒绝 App 自行发起的 IPv6 连接，App 随即改用 IPv4 并按后续规则分流，防止 IPv6 绕过分流。
+  # 代理连接 IPv6 节点、规则判为直连后由内核发起的 IPv6 连接不受影响。
+  # 如需设备通过 IPv6 直连（如 IPv6 远程访问、IPv6 联机），请在本条之前添加相应的直连规则。
   - RULE-SET,R-ipv6-all,REJECT,no-resolve           # 拒绝 App 自己发出的 IPv6，让它退回 v4
 
   # ══════════════════════════════════════════
