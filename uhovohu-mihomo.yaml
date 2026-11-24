@@ -790,7 +790,6 @@ rules:
   # ── 交易所 / 行情 ──
   - RULE-SET,R-bybit,Crypto                         # Bybit
   - RULE-SET,R-bybit-ip,Crypto,no-resolve           # Bybit IP
-  - DST-PORT,41001-41002,Crypto                     # Bybit 线路测速（各地 AWS，IP 会变）
   - RULE-SET,R-binance,Crypto                       # 币安
   - RULE-SET,R-binance-ip,Crypto,no-resolve         # 币安 IP
   - RULE-SET,R-coinbase,Crypto                      # Coinbase
