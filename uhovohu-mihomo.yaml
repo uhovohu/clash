@@ -291,7 +291,7 @@ proxy-groups:
   - {name: PayPal,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/paypal.png"}           # PayPal / Braintree / Venmo / Xoom
   - {name: Wise,        type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/wise.png"}           # Wise 跨境汇款
   - {name: Pay,         type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/pay.png"}           # 支付 / 通用风控 / 人机验证
-  - {name: SaaS,        type: select, proxies: [Final, Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/final.png"}  # 多个 App 共用的海外第三方服务
+  - {name: SaaS,        type: select, proxies: [Final, Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/saas.png"}  # 多个 App 共用的海外第三方服务
 
   - {name: TikTok,      type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/tiktok.png"}       # TikTok / 字节跳动海外
   - {name: Netflix,     type: select, proxies: [Proxy, DIRECT, REJECT, OUT, HK, TW, JP, KR, SG, US, OTHERS1, OTHERS2], icon: "https://raw.githubusercontent.com/uhovohu/clash/main/icons/netflix.png"}      # Netflix
