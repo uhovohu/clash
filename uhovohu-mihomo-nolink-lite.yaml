@@ -349,6 +349,7 @@ rule-providers:
   R-stun@cn:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/stun@cn.mrs"}                     # 国内 STUN
 
   # ── 国内分类 ──
+  R-ntp@!cn:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-ntp@!cn.mrs"}            # 国外 NTP
   R-cdn-cn:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-cdn-cn.mrs"}             # 国内 CDN
   R-bank-cn:              {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-bank-cn.mrs"}            # 国内银行
   R-securities-cn:        {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-securities-cn.mrs"}      # 国内证券
@@ -484,6 +485,7 @@ rules:
   - RULE-SET,R-stun@cn,CN                           # 国内 STUN
 
   # ── 国内分类 ──
+  - RULE-SET,R-ntp@!cn,Proxy                        # 国外 NTP（走代理）
   - RULE-SET,R-cdn-cn,CN                            # 国内 CDN
   - RULE-SET,R-bank-cn,CN                           # 国内银行
   - RULE-SET,R-securities-cn,CN                     # 国内证券
