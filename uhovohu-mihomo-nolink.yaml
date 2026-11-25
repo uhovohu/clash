@@ -377,7 +377,6 @@ rule-providers:
   R-cursor:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/cursor.mrs"}                      # Cursor
   R-elevenlabs:           {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/elevenlabs.mrs"}                  # ElevenLabs
   R-comfy:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/comfy.mrs"}                       # ComfyUI
-  R-comfy-ui-launcher:    {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/comfy-ui-launcher.mrs"}           # ComfyUI 启动器
   R-windsurf:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/windsurf.mrs"}                    # Windsurf
   R-poe:                  {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/poe.mrs"}                         # Poe
   R-manus:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/manus.mrs"}                       # Manus
@@ -499,7 +498,6 @@ rule-providers:
 
   # ── Apple ──
   R-apple:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/apple.mrs"}                       # 苹果全家
-  R-apple-intelligence:   {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/apple-intelligence.mrs"}          # Apple 智能
   R-appleakamai:          {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/appleakamai.mrs"}                 # 苹果 Akamai 地址
   R-apple-ip:             {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/apple.mrs"}                         # 苹果 IP
 
@@ -811,7 +809,6 @@ rules:
   - RULE-SET,R-cursor,AI                            # Cursor
   - RULE-SET,R-elevenlabs,AI                        # ElevenLabs
   - RULE-SET,R-comfy,AI                             # ComfyUI
-  - RULE-SET,R-comfy-ui-launcher,AI                 # ComfyUI 启动器
   - RULE-SET,R-windsurf,AI                          # Windsurf
   - RULE-SET,R-poe,AI                               # Poe
   - RULE-SET,R-manus,AI                             # Manus
@@ -934,7 +931,6 @@ rules:
 
   # ── Apple ──
   - RULE-SET,R-apple,Apple                          # 苹果全家
-  - RULE-SET,R-apple-intelligence,Apple             # Apple 智能
   - RULE-SET,R-appleakamai,Apple                    # 苹果 Akamai 地址
   - RULE-SET,R-apple-ip,Apple,no-resolve            # 苹果 IP
 
