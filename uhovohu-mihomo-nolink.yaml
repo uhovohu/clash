@@ -959,6 +959,9 @@ rules:
   - RULE-SET,R-wechat-ip,CN,no-resolve              # 微信 IP
   - RULE-SET,R-tencent@cn,CN                        # 腾讯国内
 
+  # ── 美团 ──
+  - RULE-SET,R-meituan,CN                           # 美团
+
   # ── 阿里 ──
   - RULE-SET,R-alibaba@!cn,CN                       # 阿里海外
   - RULE-SET,R-alibaba@cn,CN                        # 阿里国内
@@ -979,9 +982,6 @@ rules:
   - RULE-SET,R-jd@!cn,CN                            # 京东海外
   - RULE-SET,R-jingdongcloud-ip,CN,no-resolve       # 京东云 IP
   - RULE-SET,R-jd@cn,CN                             # 京东国内
-
-  # ── 美团 ──
-  - RULE-SET,R-meituan,CN                           # 美团
 
   # ── 网易 ──
   - RULE-SET,R-netease@!cn,CN                       # 网易海外
