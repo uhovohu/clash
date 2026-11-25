@@ -90,11 +90,11 @@ Proxy(链式版另含 IN、OUT)、OpenAI、Anthropic、AI、YouTube、Google、G
 - **Wise**:Wise。
 - **Pay**:通用支付网关、风控、人机验证与身份认证(KYC)服务,如 Stripe、Adyen、Sift、Forter、hCaptcha、Sumsub。各服务专属的风控域名归属该服务的分组,Pay 仅承接通用部分。
 
-Pay 日常建议跟随 Proxy。在某一服务中付款或实名认证时,如该服务的分组未选择 Proxy,建议将 Pay 临时切换至同一节点,避免因 IP 不一致触发风控。
+**公共分组(仅完整版)**
 
-**SaaS 分组(仅完整版)**
+Pay、SaaS、Cloudflare、Amazon、Akamai 为多个服务共用的公共分组,承接支付风控、第三方组件、托管与 CDN 等附属请求,建议日常跟随 Proxy,使同一服务的主请求与附属请求出口一致,避免因 IP 不一致触发风控。
 
-承接海外应用内嵌的第三方服务,如 Sentry、RevenueCat、OneTrust;国内部分由 CN 组承接。这些服务为多个应用共用,建议日常跟随 Proxy。
+在某一服务中付款或实名认证时,如该服务的分组未选择 Proxy,建议将 Pay 临时切换至同一节点。
 
 ## 面板
 
