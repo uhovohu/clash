@@ -571,6 +571,7 @@ rule-providers:
   R-zhihu:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/zhihu.mrs"}                       # 知乎
   R-pinduoduo:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/pinduoduo.mrs"}                   # 拼多多
   R-deepseek:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/deepseek.mrs"}                    # DeepSeek
+  R-ai-cn:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-ai-cn.mrs"}              # 国内 AI
   R-yy:                   {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/yy.mrs"}                          # YY 语音
   R-smzdm:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/smzdm.mrs"}                       # 什么值得买
   R-tendcloud:            {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/tendcloud.mrs"}                   # TalkingData
@@ -1006,6 +1007,7 @@ rules:
   - RULE-SET,R-zhihu,CN                             # 知乎
   - RULE-SET,R-pinduoduo,CN                         # 拼多多
   - RULE-SET,R-deepseek,CN                          # DeepSeek
+  - RULE-SET,R-ai-cn,CN                             # 国内 AI
   - RULE-SET,R-yy,CN                                # YY 语音
   - RULE-SET,R-smzdm,CN                             # 什么值得买
   - RULE-SET,R-tendcloud,CN                         # TalkingData
