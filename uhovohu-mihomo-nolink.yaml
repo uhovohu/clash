@@ -402,6 +402,7 @@ rule-providers:
 
   # ── Social ──
   R-reddit:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/reddit.mrs"}                      # Reddit
+  R-imgur:                {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/imgur.mrs"}                       # Imgur 图床
   R-tumblr:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/tumblr.mrs"}                      # Tumblr
   R-line:                 {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/line.mrs"}                        # LINE
   R-truthsocial:          {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/truthsocial.mrs"}                 # Truth Social
@@ -841,6 +842,7 @@ rules:
 
   # ── Social ──
   - RULE-SET,R-reddit,Social                        # Reddit
+  - RULE-SET,R-imgur,ProxyMisc                      # Imgur 图床
   - RULE-SET,R-tumblr,Social                        # Tumblr
   - RULE-SET,R-line,Social                          # LINE
   - RULE-SET,R-truthsocial,Social                   # Truth Social
