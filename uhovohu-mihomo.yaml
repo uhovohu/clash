@@ -674,6 +674,7 @@ rule-providers:
   R-pay:                  {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/pay.mrs"}                         # 支付 / 风控 / 人机验证
 
   # ── SaaS ──
+  R-notion:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/notion.mrs"}                      # Notion
   R-saas@!cn:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/saas@!cn.mrs"}                    # 海外第三方服务
 
   # ══════════════════════════════════════════
@@ -1196,6 +1197,7 @@ rules:
   - RULE-SET,R-pay,Pay                              # 支付 / 风控 / 人机验证
 
   # ── SaaS ──
+  - RULE-SET,R-notion,SaaS                          # Notion
   - RULE-SET,R-saas@!cn,SaaS                        # 海外第三方服务（Sentry / RevenueCat / OneTrust 等）
 
   # ══════════════════════════════════════════
