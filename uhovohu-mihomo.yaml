@@ -415,6 +415,7 @@ rule-providers:
 
   # ── GitHub ──
   R-github:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/github.mrs"}                      # GitHub（含 Copilot、npm）
+  R-github-ip:            {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/github.mrs"}                     # GitHub IP（git SSH）
   R-github1s:             {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/github1s.mrs"}                    # github1s
   R-python:               {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/python.mrs"}                      # Python / PyPI 包仓库
   R-dev:                  {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/category-dev.mrs"}                # 开发者网站（合集）
@@ -438,6 +439,7 @@ rule-providers:
 
   # ── Meta ──
   R-meta:                 {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/meta.mrs"}                        # Meta 全家
+  R-meta-ip:              {<<: *ip,           url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geoip/facebook.mrs"}                   # Meta IP
 
   # ── 马斯克系 ──
   R-x:                    {<<: *domain,       url: "https://raw.githubusercontent.com/uhovohu/mihomo-rules/meta/geo/geosite/x.mrs"}                           # X（含 Grok）
@@ -856,6 +858,7 @@ rules:
   # ── GitHub ──
   # 排在 Microsoft 前面：VSCode 插件市场的地址被微软后缀盖住
   - RULE-SET,R-github,GitHub                        # GitHub（含 Copilot、npm）
+  - RULE-SET,R-github-ip,GitHub,no-resolve          # GitHub IP（git SSH）
   - RULE-SET,R-github1s,GitHub                      # github1s
   - RULE-SET,R-python,GitHub                        # Python / PyPI 包仓库
   - RULE-SET,R-vscode,GitHub                        # VSCode
@@ -879,6 +882,7 @@ rules:
 
   # ── Meta ──
   - RULE-SET,R-meta,Meta                            # Meta 全家
+  - RULE-SET,R-meta-ip,Meta,no-resolve              # Meta IP
 
   # ── 马斯克系 ──
   - RULE-SET,R-x,X                                  # X（含 Grok）
